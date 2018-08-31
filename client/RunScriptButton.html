@@ -1,0 +1,10 @@
+<template name="RunScriptButton">
+    <div class="row">
+        <div class="col-sm-2">
+            <a href="#" class="btn btn-default " title="Run this Gremlin script on the selected  server and graph"><span class="glyphicon glyphicon-arrow-down script-run">Run Script</span></a>
+        </div>
+        <div class="col-sm-2"><label>Results JSON: </label><input type="checkbox" class="showJSONResult vis-options-checkbox"></div>
+        <div class="col-sm-2"><label>Status: </label> {{runStatus}}</div>
+        <div class="col-sm-3"><label>Elapsed: </label> {{elapsedTime}}</div>
+    </div>
+</template>

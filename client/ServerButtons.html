@@ -1,0 +1,8 @@
+<template name="ServerButtons">
+        <a href="#" class="btn btn-default" title="Add a new server URL"><span
+                class="glyphicon glyphicon-plus server-addURL"></span></a>
+        {{#if serverSelected}}
+            {{> OtherServerButtons}}
+            {{> OtherGraphButtons}}
+        {{/if}}
+</template>

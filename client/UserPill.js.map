@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "UserPill.js",
+  "sourceRoot": "",
+  "sources": [
+    "UserPill.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;EAAA,QAAQ,CAAC,QAAQ,CAAC,OAAlB,CACE;IAAA,UAAA,EAAY,SAAA;MACV,IAAI,IAAI,CAAC,MAAM,CAAC,IAAhB;AACE,eAAO,gBADT;OAAA,MAEK,IAAI,IAAI,CAAC,MAAM,CAAC,MAAhB;AACH,eAAO,gBADJ;OAAA,MAAA;AAGH,eAAO,gBAHJ;;IAHK,CAAZ;GADF;AAAA"
+}

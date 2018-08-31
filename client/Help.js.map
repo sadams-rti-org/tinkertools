@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "Help.js",
+  "sourceRoot": "",
+  "sources": [
+    "Help.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;EAAA,QAAQ,CAAC,IAAI,CAAC,QAAd,GAAyB,SAAA;IACvB,CAAA,CAAE,cAAF,CAAiB,CAAC,KAAlB,CAAwB,SAAA;aACtB,IAAA,CAAK,OAAO,CAAC,GAAR,CAAY,WAAZ,CAAL;IADsB,CAAxB;WAGA,CAAA,CAAE,qBAAF,CAAwB,CAAC,KAAzB,CAA+B,SAAA;aAC7B,IAAA,CAAK,OAAO,CAAC,GAAR,CAAY,iBAAZ,CAAL;IAD6B,CAA/B;EAJuB;AAAzB"
+}

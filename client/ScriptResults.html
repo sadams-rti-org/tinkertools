@@ -1,0 +1,21 @@
+<template name="ScriptResults">
+    <div class="row" >
+        <fieldset style="height: 400px;">
+            <legend>
+                Last Result
+            </legend>
+            <div class="inside-fieldset col-sm-6">
+            {{#if elementsFoundInResults}}
+                {{elementsInResults}}
+            {{else}}
+                No vertices or edges found in results, so no visualization is available.
+            {{/if}}
+            </div>
+            <div class="col-sm-3"></div>
+            <div class="col-sm-1"><a href="#" class="btn btn-default pull-right" title="Open a dedicated browser window on these results"><span class="glyphicon glyphicon-new-window script-spawn"> Spawn</span></a></div>
+            <div class="col-sm-1"><a href="#" class="btn btn-default pull-right" title="Download CSV of results and open in Excel.  Note this only works for homogenous results or either vertices or edges but not mixed results."><span class="glyphicon glyphicon-download results2csv">CSV:Excel</span></a></div>
+
+            <div id="gremlinResultEditor" style="width: auto; height: 330px;"></div>
+        </fieldset>
+    </div>
+</template>

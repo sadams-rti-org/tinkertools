@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "MigrationSplash.js",
+  "sourceRoot": "",
+  "sources": [
+    "MigrationSplash.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;EAAA,QAAQ,CAAC,eAAe,CAAC,QAAzB,GAAoC,SAAA;WAClC,CAAA,CAAE,oBAAF,CAAuB,CAAC,KAAxB,CAA8B,SAAA;MAC5B,KAAA,CAAA;aACA,IAAA,CAAK,OAAL;IAF4B,CAA9B;EADkC;AAApC"
+}

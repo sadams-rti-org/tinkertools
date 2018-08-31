@@ -1,0 +1,15 @@
+<template name="QuikVisIFrameOnlyMinimal">
+    <div class="container" style="width: 95%;height: 95%;">
+
+        {{#if scriptSelected}}
+            {{#if scriptResult}}
+                {{#if graphToShow}}
+                    {{#if drawingGraph}}
+                        {{> ResultsVisMinimal}}
+                    {{/if}}
+                {{/if}}
+            {{/if}}
+        {{/if}}
+    </div>
+
+</template>

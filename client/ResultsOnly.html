@@ -1,0 +1,26 @@
+<template name="ResultsOnly">
+    <div class="row">
+            <div class="col-sm-2 logo-only">
+            <div class="row">
+                <div class="col-sm-12">
+                    <img src="tinkertools-logo.png" height="80px"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-9">
+
+            <fieldset>
+                <legend>
+                    Last Script
+                </legend>
+                <textarea id="currentScript" rows="2">{{lastScript}}</textarea>
+            </fieldset>
+        </div>
+        </div>
+        <fieldset>
+            <legend>
+                Last Result
+            </legend>
+            <div id="gremlinResultEditor" style="width: auto;"></div>
+        </fieldset>
+</template>

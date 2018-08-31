@@ -1,0 +1,28 @@
+<template name="LoginOnly">
+    <div class="row">
+        {{> TopRowEmbedded}}
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            <a href="/">
+                <img src="tinkertools-logo.png" height="80px" class="logo"/>
+            </a>
+            <p>Version 3.1.8</p>
+        </div>
+        <div class="col-sm-7">
+            {{#if userLoggedIn}}
+                <p>This is the embedded version of Tinkertools. It is pre-bound to a particular graph on a particular
+                    server. </p>
+                <p>For the open version of tinkertools click <a href="http://tinkertools.rlse.cloud9.ibm.com">here.</a>
+                </p>
+                <p><b>Server:</b> {{serverURL}}      </p>
+                <p><b>Graph:</b> {{graphName}}  {{> OtherGraphButtons}}</p>
+
+            {{else}}
+                <h1>Welcome to Tinkertools 3.0</h1>
+                <h2><em>8 simple steps to graphie goodness!!</em></h2>
+                <img class="splash-graphic" src="tinkertools-splash.png"/>
+            {{/if}}
+        </div>
+    </div>
+</template>

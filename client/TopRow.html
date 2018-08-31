@@ -1,0 +1,38 @@
+<template name="TopRow">
+    <div class="row">
+        <div class="col-sm-3">    <p id="ws-status">Nothing connected yet....</p>
+            </div>
+            <div class="col-sm-3 ">
+            {{> loginButtons}}
+                </div>
+        <div class="col-sm-1 ">
+        {{#if isUserLoggedIn}}
+        <a href="#" class="btn btn-default" title="Export all scripts for this user"><span
+                        class="glyphicon glyphicon-cloud-download user-file-export"></span></a>
+                <a href="#" class="btn btn-default" title="Import all scripts for this user"><span
+                        class="glyphicon glyphicon-cloud-upload user-file-import"></span></a>
+        {{/if}}
+            </div>
+        <div class="col-sm-1 ">
+        <a href="/" tital="Take me to the tools!"> Tools</a>
+        </div>
+
+        <div class="col-sm-1 ">
+            <a href="#" class=" goto-help toprow "
+               title="Show the help page">Docs</a>
+        </div>
+
+        <div class="col-sm-1 ">
+            <a href="#" class="goto-demo-video toprow"
+               title="Show the demo video">Demo</a>
+        </div>
+        <div class="col-sm-1  ">
+            <a href="#" class=" goto-github-issues toprow "
+               title="Raise an issue at github.ibm.com">Issues?</a>
+        </div>
+        <div class="col-sm-1  ">
+            <a href="#" class=" goto-github toprow"
+               title="See this project at github.ibm.com">@github.ibm.com</a>
+        </div>
+    </div>
+</template>

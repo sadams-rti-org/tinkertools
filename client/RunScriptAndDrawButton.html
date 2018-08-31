@@ -1,0 +1,15 @@
+<template name="RunScriptAndDrawButton">
+    <div class="row">
+        <div class="col-sm-1">WS<input type="checkbox" class="usingWebSockets vis-options-checkbox"></div>
+        <div class="col-sm-2">
+            <a href="#" class="btn btn-default " title="Run this Gremlin script on the selected server and graph"><span class="glyphicon glyphicon-arrow-down script-run">Run Script</span></a>
+        </div>
+        <div class="col-sm-2"><label>Status: </label> {{runStatus}}</div>
+        <div class="col-sm-2"><label>Query: </label> {{queryTime}}</div>
+        <div class="col-sm-3"><label>Ran in: </label> {{elapsedTime}}</div>
+        {{#if scriptResult}}
+            <div class="col-sm-1"><a href="#" class="btn btn-default pull-right" title="Download CSV of results and open in Excel.  Note this only works for homogenous results or either vertices or edges but not mixed results."><span class="glyphicon glyphicon-download results2csv">CSV:Excel</span></a></div>
+            <div class="col-sm-1"><a href="#" class="btn btn-default pull-right" title="Open a dedicated browser window on these results"><span class="glyphicon glyphicon-new-window script-spawn"> Spawn</span></a></div>
+        {{/if}}
+    </div>
+</template>

@@ -1,0 +1,15 @@
+<p>Add a way to store selection or all local graph with layout and styles to Mongo under the userID and serverURL  all select to all reload/replace and append to existing local graph.
+Leads to using visresults as standalone graph editor but will allows connections to and sync with backing graph db
+
+Consider a UI that starts as standalone and then allows conections to graph DB(s).  executing gremin to draw in more content or replace existing.
+Also consider standalone created graph getting pushed into a target graphdb.
+
+Go ahead and OSS tinkertools and do all future TT dev in opensource.  Have internal version if needed.
+
+Test JanusGraph logprocessor scripts in local Janus from TT via Gremlin, fix sandbox if needed
+
+Add afordances in style editor for new Vis features including icon styles
+
+Add cluster support based on local JS function, sorta like search.
+
+    May also want to add a code driven styler</p>

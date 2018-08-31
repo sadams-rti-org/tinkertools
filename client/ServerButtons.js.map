@@ -1,0 +1,13 @@
+{
+  "version": 3,
+  "file": "ServerButtons.js",
+  "sourceRoot": "",
+  "sources": [
+    "ServerButtons.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,MAAA;;EAAA,QAAQ,CAAC,aAAa,CAAC,QAAvB,GAAkC,QAAA,CAAA,CAAA;WAChC,CAAA,CAAE,gBAAF,CAAmB,CAAC,KAApB,CAA0B,QAAA,CAAA,CAAA;aACxB,OAAO,CAAC,MAAR,CACE;QAAA,KAAA,EAAO,iFAAP;QACA,KAAA,EAAO,oCADP;QAEA,QAAA,EAAU,QAAA,CAAC,MAAD,CAAA;UACR,IAAG,MAAH;YACE,OAAO,CAAC,GAAR,CAAY,YAAZ,EAA0B,EAA1B;YACA,OAAO,CAAC,GAAR,CAAY,kBAAZ,EAAgC,MAAhC;mBACA,0BAAA,CAA2B,MAA3B,EAAmC,QAAA,CAAC,GAAD,CAAA;AACjC,kBAAA;cAAA,SAAA,GAAY,GAAI,CAAA,CAAA;cAChB,IAAG,SAAA,KAAa,GAAhB;uBACE,KAAA,CAAM,mCAAA,GAAoC,MAA1C,EADF;eAAA,MAAA;gBAGE,OAAO,CAAC,MAAR,CACE;kBAAA,MAAA,EAAQ,OAAO,CAAC,GAAR,CAAY,QAAZ,CAAR;kBACA,SAAA,EAAW,MADX;kBAEA,gBAAA,EAAkB;gBAFlB,CADF;gBAIA,OAAO,CAAC,GAAR,CAAY,WAAZ,EAAyB,MAAzB;gBACA,OAAO,CAAC,GAAR,CAAY,kBAAZ,EAAgC,SAAhC;uBACA,UAAA,CAAY,QAAA,CAAA,CAAA;kBACV,QAAQ,CAAC,cAAT,CAAwB,gBAAxB,CAAyC,CAAC,KAA1C,GAAgD;yBAChD,CAAA,CAAE,iBAAF,CAAoB,CAAC,MAArB,CAAA;gBAFU,CAAZ,EAGC,GAHD,EATF;;YAFiC,CAAnC,EAHF;;QADQ;MAFV,CADF;IADwB,CAA1B;EADgC;;EAyBlC,QAAQ,CAAC,aAAa,CAAC,OAAvB,CACE;IAAA,cAAA,EAAgB,QAAA,CAAA,CAAA;aACd,CAAC,OAAO,CAAC,GAAR,CAAY,WAAZ,CAAD,CAAA,KAA6B;IADf;EAAhB,CADF;;EAKA,0BAAA,GAA6B,QAAA,CAAC,GAAD,EAAM,QAAN,CAAA;WAC3B,QAAA,CAAS,CAAC,CAAD,EAAG,CAAH,CAAT;EAD2B;;EA9B7B;;AAAA",
+  "sourcesContent": [
+    "Template.ServerButtons.rendered = ->\n  $(\".server-addURL\").click ->\n    bootbox.prompt\n      title: \"Enter the URL for a graph server (http: or ws: depending on your server config)\"\n      value: 'ws://graph.server.domain.name:8182'\n      callback: (newURL)->\n        if newURL\n          Session.set 'graphNames', []\n          Session.set 'tinkerPopVersion', undefined\n          discoverTinkerPopVersionAt newURL, (dat)->\n            tpVersion = dat[1]\n            if tpVersion == '0'\n              alert 'No Tinkerpop-compliant server at '+newURL\n            else\n              Scripts.insert\n                userID: Session.get 'userID'\n                serverURL: newURL\n                tinkerPopVersion: tpVersion\n              Session.set 'serverURL', newURL\n              Session.set 'tinkerPopVersion', tpVersion\n              setTimeout( ->\n                document.getElementById('serverSelector').value=newURL\n                $(\"#serverSelector\").change()\n              ,500)\n\nTemplate.ServerButtons.helpers\n  serverSelected: ->\n    (Session.get 'serverURL') != null\n\n\ndiscoverTinkerPopVersionAt = (url, callback)->\n  callback([0,3])\n  #Meteor.call 'discoverTinkerPopVersionAt', url, (err,res)->\n  #  callback(res)"
+  ]
+}

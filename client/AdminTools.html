@@ -1,0 +1,97 @@
+<template name="AdminTools">
+    <div class="row">
+        {{> TopRow}}
+    </div>
+    <div class="row">
+        <div class="col-sm-2 login-logo">
+            <div class="row">
+                <div class="col-sm-12">
+                    <img src="tinkertools-logo.png" height="80px"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-9">
+            <p>This is the admin screen for Tinkertools.</p>
+            <p>To change the examples, login to examples@tinkertools.com, password examples.</p>
+        </div>
+    </div>
+    <div class="row top-margin-10">
+        <div class="col-sm-8">
+            <div class="row top-margin-10">
+                <h2>Users Online</h2>
+                <label for="userOnlineSelector">Users:</label>
+                <select id="userOnlineSelector" data-placeholder="Select a user...">
+                    {{#each usersOnline}}
+                        <option value="{{userOnline}}">{{userOnline}}</option>
+                    {{/each}}
+                </select>
+                <p></p>
+                <ul>
+                    {{#each usersOnline}}
+                        <li>{{userOnline}}</li>
+                    {{/each}}
+                </ul>
+
+            </div>
+            <div class="row top-margin-10">
+                <h2>Users with server/graph/scripts defined</h2>
+                <label for="userSelector">Users:</label>
+                <select id="userSelector" data-placeholder="Select a user...">
+                    {{#each userNames}}
+                        <option value="{{userName}}">{{userName}}</option>
+                    {{/each}}
+                </select>
+                <p></p>
+                <ul>
+                    {{#each userNames}}
+                        <li>{{userName}}</li>
+                    {{/each}}
+                </ul>
+                <a href="#" class="btn btn-default all-user-file-export" title="Export all scripts for ALL USERS"><span
+                        class="glyphicon glyphicon-cloud-download "></span> Download User Script
+                    Database</a>
+                <a href="#" class="btn btn-default all-user-file-import" title="Import all scripts for ALL USERS"><span
+                        class="glyphicon glyphicon-cloud-upload "></span> Upload User Script Database</a>
+
+            </div>
+            <div class="row top-margin-10">
+                <h2>All User Accounts</h2>
+                <label for="userAccount">User Account:</label>
+                <select id="userAccount" data-placeholder="Select a user account...">
+                    {{#each userAccountNames}}
+                        <option value="{{userAccountName}}">{{userAccountName}}</option>
+                    {{/each}}
+                </select>
+                <p></p>
+                <ul>
+                    {{#each userAccountNames}}
+                        <li>{{userAccountName}}</li>
+                    {{/each}}
+                </ul>
+
+            </div>
+            <div class="row top-margin-10">
+                <h2>Graph DB Servers Referenced</h2>
+
+                <label for="serverSelector">ServerURLs:</label>
+                <select id="serverSelector" data-placeholder="Select a server...">
+                    {{#each serverURLs}}
+                        <option value="{{serverURL}}">{{serverURL}}</option>
+                    {{/each}}
+                </select>
+                <p></p>
+                <ul>
+                    {{#each serverURLs}}
+                        <li>{{serverURL}}</li>
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row top-margin-10">
+        <h2>MongoDB Backup and Restore</h2>
+    {{> appDumpUI}}
+        </div>
+
+</template>

@@ -1,0 +1,13 @@
+{
+  "version": 3,
+  "file": "TestTinkerPopVersionDiscovery.js",
+  "sourceRoot": "",
+  "sources": [
+    "TestTinkerPopVersionDiscovery.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,MAAA,CAAA,EAAA,GAAA,EAAA,IAAA,EAAA;;EAAA,KAAA,GAAQ;IACN;MAAC,GAAA,EAAI,uBAAL;MAA8B,eAAA,EAAiB,CAA/C;MAAkD,iBAAA,EAAmB;IAArE,CADM;;;EAGR,KAAA,uCAAA;;IACE,OAAO,CAAC,GAAR,CAAY,IAAI,CAAC,GAAjB,EAAsB,IAAtB;EADF;;EAGA,QAAQ,CAAC,6BAA6B,CAAC,QAAvC,GAAkD,QAAA,CAAA,CAAA;AAChD,QAAA,CAAA,EAAA,IAAA,EAAA;AAOI;IAAA,KAAA,yCAAA;;mBAPH,MAAM,CAAC,IAAP,CAAY,4BAAZ,EAA0C,IAAI,CAAC,GAA/C,EAAoD,QAAA,CAAC,GAAD,EAAK,GAAL,CAAA;AACnD,YAAA,GAAA,EAAA,GAAA,EAAA;QAAA,IAAG,CAAI,GAAP;UACE,GAAA,GAAM,GAAI,CAAA,CAAA;UACV,OAAA,GAAU,GAAI,CAAA,CAAA;UACd,GAAA,GAAM,OAAO,CAAC,GAAR,CAAY,GAAZ;UACN,GAAG,CAAC,iBAAJ,GAAwB;iBACxB,OAAO,CAAC,GAAR,CAAY,GAAZ,EAAgB,GAAhB,EALF;;MADmD,CAApD;IAOG,CAAA;;EAR4C;;EAUlD,QAAQ,CAAC,6BAA6B,CAAC,OAAvC,CACE;IAAA,OAAA,EAAS,QAAA,CAAA,CAAA;aACP,IAAI,CAAC,SAAL;;AAAqC;QAAA,KAAA,yCAAA;;uBAAtB,OAAO,CAAC,GAAR,CAAY,IAAI,CAAC,GAAjB;QAAsB,CAAA;;UAArC;IADO;EAAT,CADF;AAhBA",
+  "sourcesContent": [
+    "tests = [\n  {url:'http://localhost:8182', expectedVersion: 0, discoveredVersion: null}\n]\nfor test in tests\n  Session.set test.url, test\n\nTemplate.TestTinkerPopVersionDiscovery.rendered = ->\n  (Meteor.call 'discoverTinkerPopVersionAt', test.url, (err,dat)->\n    if not err\n      url = dat[0]\n      version = dat[1]\n      tst = Session.get url\n      tst.discoveredVersion = version\n      Session.set url,tst\n    ) for test in tests\n\nTemplate.TestTinkerPopVersionDiscovery.helpers\n  results: ->\n    JSON.stringify(Session.get(test.url) for test in tests)\n\n"
+  ]
+}

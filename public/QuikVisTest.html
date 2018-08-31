@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Using Tinkertools/quikvis API</title>
+</head>
+
+<body>
+<a href="http://tinkertools.rlse.cloud9.ibm.com">
+    <img src="powered-by-tinkertools.png"  style="display:block;margin-left:auto;margin-right:auto"/>
+</a>
+
+<h1>Using the tinkertools/quikvis API </h1>
+<a href="http://localhost:3000/quikvis?serverURL=http://kr-adams2.sl.cloud9.ibm.com:8182&scripts=[{%22title%22:%22Get 10 Edges%22,%22script%22:%22g.E().next(10)%22},{%22title%22:%22Get 100 Edges%22,%22script%22:%22g.E().next(100)%22}]&renderingOptions=[{%22type%22:%22vertex%22,%22renderings%22:[{%22selectUsing%22:%22true%22,%22directives%22:[{%22color%22:%22%27blue%27%22}]}]},{%22type%22:%22vertex%22,%22renderings%22:[{%22selectUsing%22:%22vertex.namespaceType%20%3D%3D%20%27ibmnext.codeAsset%27%22,%22directives%22:[{%22color%22:%22%27red%27%22}]}]},{%22type%22:%22edge%22,%22renderings%22:[{%22selectUsing%22:%22edge.label%20%3D%3D%20%27is%20a%27%22,%22directives%22:[{%22color%22:%22{color:%27red%27}%22}]},{%22selectUsing%22:%22edge._label%20%3D%3D%20%27hasContact%27%22,%22directives%22:[{%22width%22:%2220%22}]}]}]"
+        >This link reopens this multi-script example</a>
+<br>
+<a href="http://localhost:3000/quikvis?serverURL=http://kr-adams2.sl.cloud9.ibm.com:8182&scripts=[{%22title%22:%22Get 100 Edges%22,%22script%22:%22g.E().next(100)%22}]&renderingOptions=[{%22type%22:%22vertex%22,%22renderings%22:[{%22selectUsing%22:%22true%22,%22directives%22:[{%22color%22:%22%27blue%27%22}]}]},{%22type%22:%22vertex%22,%22renderings%22:[{%22selectUsing%22:%22vertex.namespaceType%20%3D%3D%20%27ibmnext.codeAsset%27%22,%22directives%22:[{%22color%22:%22%27red%27%22}]}]},{%22type%22:%22edge%22,%22renderings%22:[{%22selectUsing%22:%22edge.label%20%3D%3D%20%27is%20a%27%22,%22directives%22:[{%22color%22:%22{color:%27red%27}%22}]},{%22selectUsing%22:%22edge._label%20%3D%3D%20%27hasContact%27%22,%22directives%22:[{%22width%22:%2220%22}]}]}]"
+        >This link opens a single script example</a>
+
+<br>
+<a href="http://localhost:3000/quikvis?serverURL=http://kr-adams2.sl.cloud9.ibm.com:8182&graphName=%22graph%22&visOptions={&#34;nodes&#34;:{&#34;color&#34;:{&#34;border&#34;:&#34;rgba(233,24,224,1)&#34;,&#34;background&#34;:&#34;rgba(252,147,31,1)&#34;,&#34;highlight&#34;:{&#34;border&#34;:&#34;rgba(29,255,58,1)&#34;,&#34;background&#34;:&#34;rgba(43,33,255,1)&#34;},&#34;hover&#34;:{&#34;border&#34;:&#34;rgba(255,28,50,1)&#34;,&#34;background&#34;:&#34;rgba(255,236,24,1)&#34;}},&#34;font&#34;:{&#34;size&#34;:42,&#34;face&#34;:&#34;verdana&#34;,&#34;strokeColor&#34;:&#34;rgba(255,44,241,1)&#34;},&#34;shape&#34;:&#34;database&#34;},&#34;edges&#34;:{&#34;arrows&#34;:{&#34;to&#34;:{&#34;enabled&#34;:true,&#34;scaleFactor&#34;:0.5}},&#34;color&#34;:{&#34;color&#34;:&#34;rgba(24,247,21,1)&#34;,&#34;highlight&#34;:&#34;red&#34;,&#34;hover&#34;:&#34;darkblue&#34;,&#34;inherit&#34;:false},&#34;font&#34;:{&#34;size&#34;:42,&#34;face&#34;:&#34;verdana&#34;,&#34;background&#34;:&#34;rgba(252,62,105,1)&#34;,&#34;align&#34;:&#34;middle&#34;},&#34;smooth&#34;:{&#34;type&#34;:&#34;curvedCCW&#34;,&#34;forceDirection&#34;:&#34;none&#34;}},&#34;interaction&#34;:{&#34;hover&#34;:true,&#34;multiselect&#34;:true,&#34;navigationButtons&#34;:true},&#34;manipulation&#34;:{&#34;enabled&#34;:true},&#34;physics&#34;:{&#34;forceAtlas2Based&#34;:{&#34;gravitationalConstant&#34;:-320,&#34;centralGravity&#34;:0.015,&#34;springLength&#34;:15},&#34;maxVelocity&#34;:94,&#34;solver&#34;:&#34;forceAtlas2Based&#34;}}&serverURL=%22http://kr-adams4.sl.cloud9.ibm.com:8182%22&graphName=%22graph%22&scripts=[{%22title%22:%22Get 100 Edges%22,%22script%22:%22g.E().next(100)%22}]&renderingOptions=[{%22type%22:%22vertex%22,%22renderings%22:[{%22selectUsing%22:%22true%22,%22directives%22:[{%22color%22:%22%27blue%27%22}]}]},{%22type%22:%22vertex%22,%22renderings%22:[{%22selectUsing%22:%22vertex.namespaceType%20%3D%3D%20%27ibmnext.codeAsset%27%22,%22directives%22:[{%22color%22:%22%27red%27%22}]}]},{%22type%22:%22edge%22,%22renderings%22:[{%22selectUsing%22:%22edge.label%20%3D%3D%20%27is%20a%27%22,%22directives%22:[{%22color%22:%22{color:%27red%27}%22}]},{%22selectUsing%22:%22edge._label%20%3D%3D%20%27hasContact%27%22,%22directives%22:[{%22width%22:%2220%22}]}]}]"
+        >This link opens a single script example with custom visOptions</a>
+
+<hr/>
+<p>This is the URL used in the iframe at the bottom of this page</p>
+<code>http://tinkertools.rlse.cloud9.ibm.com/quikvis?serverURL=http://kr-adams4.sl.cloud9.ibm.com:8182&graphName="graph"&scripts=[{"title":"Get 10 Edges","script":"g.E().next(10)"},{"title":"Get 100 Edges","script":"g.E().next(100)"}]&renderingOptions=[{"type":"vertex","renderings":[{"selectUsing":"true","directives":[{"color":"'blue'"}]}]},{"type":"vertex","renderings":[{"selectUsing":"vertex.namespaceType %3D%3D 'ibmnext.codeAsset'","directives":[{"color":"'red'"}]}]},{"type":"edge","renderings":[{"selectUsing":"edge.label %3D%3D 'is a'","directives":[{"color":"{color:'red'}"}]},{"selectUsing":"edge._label %3D%3D 'hasContact'","directives":[{"width":"20"}]}]}]
+</code><hr/>
+The api as follows:
+<ol>
+    <li>tinkertools.rlse.cloud9.ibm.com/quikvis&emsp;&emsp;<em>the REST endpoint</em></li>
+    <ol>Parameters:
+        <li>serverURL=http://kr-adams4.sl.cloud9.ibm.com:8182 &emsp;&emsp;<em>Be sure to provide the full address including the port to your graph server</em></li>
+        <li>(optional) width="auto" or "900px"&emsp;&emsp;Sets the width of the visualization canvas and frame</li>
+        <li>(optional) height="auto" or "900px"&emsp;&emsp;Sets the height of the visualization canvas and frame</li>
+         <li>scripts=[scriptObject, scriptObject,"..."]&emsp;&emsp;<em>An array of objects, each with a title string and a valid gremlin script that returns edges, vertices, or both</em></li>
+        <ol>For each scriptObject
+            <li>title: "Get 10 Edges"</li>
+            <li>script: "g.E().next(10)"</li>
+        </ol>
+        <li>(optional) renderingOptions=[optionsObject, optionsObject, ...]&emsp;&emsp;<em>An array of objects that describe rendering options</em></li>
+        <ol>For each optionsObject
+            <li>type="vertex"&emsp;&emsp;<em>Indicate the graph element type to set options for.  Either "vertex" or "edge"</em></li>
+            <li>renderings=[renderingObject, renderingObject, ...]&emsp;&emsp;<em>An array of rendering objects, described below</em></li>
+            <ol>For each renderingObject:
+                <li>selectUsing: "javascript code evaluating to true or false"&emsp;&emsp;<em>code to determine what edge or vertex.  Example:  "vertex.age > 32",  Example: "true" (to select all vertices)</em></li>
+                <li>directives=[renderingDirective,renderingDirective, ...]&emsp;&emsp;<em>An array of directives for specific rendering options to be applied ot the selected edge or vertex</em></li>
+                <ol>For each renderingDirective
+                    <li>propertyKey: "propertyValueScript"&emsp;&emsp;<em>A key:value pair where the key is a rendering property for the edge or vertex (see bleow) and the value is derived by executing the provided script</em></li>
+                    <ol>Examples:
+                        <li>color: " 'red' "&emsp;&emsp;<em>Make all selected vertices red</em></li>
+                        <li>color: "{color: 'red'}"&emsp;&emsp;<em>Make all selected edges red</em></li>
+                        <li>label: " 'fred' "&emsp;&emsp;<em>Make all selected elements label to be 'fred'</em></li>
+                        <li>width: " edge.weight*10 "&emsp;&emsp;<em>Make all selected edges to have the line width computed thusly</em></li>
+                        <li>See <a href="http://visjs.org/docs/network/nodes.html">Vis.js nodes options</a> for more rendering properties for vertices</li>
+                        <li>See <a href="http://visjs.org/docs/network/edges.html">Vis.js edges options</a> for more rendering properties for edges</li>
+                        </ol>
+                    </ol>
+                </ol>
+            </ol>
+    </ol>
+</ol>
+<hr/>
+<h2>Here is an iframe using the above URL.  You can use this technique to embed visualizers for graph query results in your own web pages.</h2>
+<iframe width=100% height=1000  src="http://localhost:3000/quikvis?serverURL=http://kr-adams2.sl.cloud9.ibm.com:8182&scripts=[{%22title%22:%22Get 10 Edges%22,%22script%22:%22g.E().next(10)%22},{%22title%22:%22Get 100 Edges%22,%22script%22:%22g.E().next(100)%22}]&renderingOptions=[{%22type%22:%22vertex%22,%22renderings%22:[{%22selectUsing%22:%22true%22,%22directives%22:[{%22color%22:%22%27blue%27%22}]}]},{%22type%22:%22vertex%22,%22renderings%22:[{%22selectUsing%22:%22vertex.namespaceType%20%3D%3D%20%27ibmnext.codeAsset%27%22,%22directives%22:[{%22color%22:%22%27red%27%22}]}]},{%22type%22:%22edge%22,%22renderings%22:[{%22selectUsing%22:%22edge.label%20%3D%3D%20%27is%20a%27%22,%22directives%22:[{%22color%22:%22{color:%27red%27}%22}]},{%22selectUsing%22:%22edge._label%20%3D%3D%20%27hasContact%27%22,%22directives%22:[{%22width%22:%2220%22}]}]}]"></iframe>
+</body>
+</html>

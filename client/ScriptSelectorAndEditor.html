@@ -1,0 +1,37 @@
+<template name="ScriptSelectorAndEditor">
+    <div class="row progress-goes-here">
+        <fieldset>
+            <legend>
+                Gremlin Scripts
+            </legend>
+            <div class="col-sm-4">
+                <label for="scriptSelector">Script:</label>
+                <select id="scriptSelector" data-placeholder="Select a script...">
+                    <option value="">Select a script</option>
+                    {{#each scriptNames}}
+                        <option value="{{scriptName}}">{{scriptName}}</option>
+                    {{/each}}
+                </select>
+            </div>
+
+            <div class="col-sm-1">
+                Gremlin{{tinkerPopVersion}}
+            </div>
+
+            <div class="col-sm-7">
+                {{> ScriptButtons}}
+            </div>
+
+            <div id="scriptEditor"></div>
+            {{#if notBluemix}}
+            <div class="scriptURLPlusLabel"><b>Query URL:</b>
+            <input  class="scriptURL" type="text" value="{{scriptURL}}">
+                <a href="#" class="btn btn-default" title="Test the query URL in a new browser"><span
+                        class="glyphicon glyphicon-new-window script-url-test"> Test</span></a>
+
+            </div>
+
+            {{/if}}
+        </fieldset>
+    </div>
+</template>

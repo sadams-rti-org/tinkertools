@@ -1,0 +1,62 @@
+
+
+
+
+
+Install docker
+    wget -qO- https://get.docker.com/ | sh
+    docker run hello-world
+
+meteor build --architecture=os.linux.x86_64 ./
+tinkertools.tar.gz
+
+
+$Mini-meteor
+https://github.com/aedm/minimeteor
+
+Execute this in your project directory and it builds a Docker image. You don't need Meteor to be installed, only Docker.
+$ curl https://aedm.github.io/minimeteor/build.sh | sh -s myDockerTag[s]
+e.g.:
+curl https://aedm.github.io/minimeteor/build.sh | sh -s tinkertools3.1.8
+
+Save the docker image to a file and move the file to the server
+docker save tinkertools3.1.8 -o tinkertools3.1.8.image
+
+Then load it into your server's docker system
+docker load -i tinkertools3.1.8.image
+
+
+MiniMeteor exposes port 3000 by default.
+
+$ docker run -d -e ROOT_URL=... -e MONGO_URL=... -p 80:3000 myDockerTag
+e.g.:
+docker run -d -p 80:3000 --name=tinkertools -e ROOT_URL=http://tinkertools.sl.cloud9.ibm.com -e MONGO_URL=mongodb://tinkertools:tinkertools@9.59.151.106:27017/tinkertools tinkertools3.1.8
+
+
+
+
+
+
+
+-------------------Database--------------
+
+How to create your mongo db with proper authentication turned on:
+0) ensure port 27017 is open on the target server firewwall
+1) create /root/data on the target server
+2) docker run --name mongo -p 27017:27017 -v /root/data:/data/db -e MONGODB_PASS=my_password -d mongo --auth --bind_ip_all
+3) export mongocmd="db.createUser({ user: 'my_user', pwd: 'my_password', roles: [ 'root' ] }); "
+4) docker exec -it mongo bash -c "echo \"$mongocmd\" | mongo admin"
+
+successful response from 4) :
+MongoDB shell version v3.6.0
+connecting to: mongodb://127.0.0.1:27017/admin
+MongoDB server version: 3.6.0
+2018-01-04T15:34:58.122+0000 E -        [main] Error loading history file: FileOpenFailed: Unable to fopen() file /root/.dbshell: No such file or directory
+Successfully added user: { "user" : "my_user", "roles" : [ "root" ] }
+
+5) now user: my_user, password: my_password is set up and authentication is turned on.  Target server will now serve mongodb via port 27017
+
+
+
+
+

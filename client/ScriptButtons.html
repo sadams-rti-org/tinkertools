@@ -1,0 +1,17 @@
+<template name="ScriptButtons">
+    <a href="#" class="btn btn-default groovy-docs pull-right" title="Open Groovy Docs"><img src="groovy-logo.png"
+                                                                                             style="width:40px"/>Groovy</a>
+
+        <a href="#" class="btn btn-default tinkerpop-docs pull-right" title="Open Apache TinkerPop Docs"><img
+                src="gremlin-standing-small.png" style="width:20px"/>Docs</a>
+        <a href="#" class="btn btn-default sql2gremlin pull-right" title="Gremlin analogs for common SQL queries"><img
+                src="gremlin-standing-small.png" style="width:20px"/>SQL?</a>
+        <a href="#" class="btn btn-default getting-started pull-right" title="Getting started with Gremlin"><img
+                src="gremlin-standing-small.png" style="width:20px"/>?</a>
+
+     {{#if scriptSelected}}
+        {{> OtherScriptButtons}}
+    {{/if}}
+    <a href="#" class="btn btn-default pull-right"><span class="glyphicon glyphicon-plus script-add">Add</span></a>
+
+</template>

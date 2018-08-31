@@ -1,0 +1,8 @@
+<template name="GraphButtons">
+    {{#if bluemix}}
+        {{> BluemixGraphButtons}}
+        {{/if}}
+    {{#if graphSelected}}
+        {{> OtherGraphButtons}}
+    {{/if}}
+</template>

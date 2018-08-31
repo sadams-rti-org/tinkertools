@@ -1,0 +1,30 @@
+<template name="HomeEmbedded">
+    <div class="container">
+        {{#if userLoggedIn}}
+        {{#if isAdmin}}
+            {{> AdminTools}}
+        {{else}}
+            {{> LoginOnly}}
+        {{#if graphSelected}}
+            {{> ScriptSelectorAndEditor}}
+            {{/if}}
+            {{#if scriptSelected}}
+                {{> RunScriptButton}}
+                {{#if scriptResult}}
+                    {{> ScriptResults}}
+                {{/if}}
+                {{> DrawGraphButton}}
+
+                {{#if graphToShow}}
+                    {{#if drawingGraph}}
+                        {{> ResultsVis}}
+                    {{/if}}
+                {{/if}}
+            {{/if}}
+        {{/if}}
+        {{else}}
+            {{> LoginOnly}}
+            {{/if}}
+    </div>
+
+</template>

@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "ReturnHostURL.js",
+  "sourceRoot": "",
+  "sources": [
+    "ReturnHostURL.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;EAAA,QAAQ,CAAC,aAAa,CAAC,QAAvB,GAAkC,SAAA,GAAA;;EAElC,QAAQ,CAAC,aAAa,CAAC,OAAvB,CACE;IAAA,OAAA,EAAS,SAAA;aACN,OAAO,CAAC,GAAR,CAAY,SAAZ;IADM,CAAT;GADF;AAFA"
+}

@@ -1,0 +1,2 @@
+meteor add underscore accounts-password accounts-ui arch:ace-editor babel-compiler check dataflows:jsoneditor ejson hitchcott:app-dump http iron:router jquery linto:jquery-ui logging meteorhacks:async mizzao:bootboxjs mizzao:user-status momentjs:moment pfafman:filesaver random reload risul:chance rwatts:uuid sacha:spin session tomi:upload-jquery tomi:upload-server twbs:bootstrap underscorestring:underscore.string
+meteor npm install --save @babel/runtime

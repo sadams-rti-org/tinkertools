@@ -1,0 +1,153 @@
+<template name="ResultsVis">
+    <div class="row results-vis" >
+        <fieldset>
+            <legend>
+                Graph Visualization and Editing
+            </legend>
+            <div class="row vis-options-row">
+                <div class="vis-options-row col-sm-6">
+                    <div class="vis-options-row col-sm-12">
+                        Show Nodes:<input type="checkbox" class="vis-options-node-hideShow vis-options-checkbox">
+                        Edges:<input type="checkbox" class="vis-options-edge-hideShow vis-options-checkbox">
+                    </div>
+                    <div class="vis-options-row col-sm-12">
+                        <b>Label</b><input type="checkbox" class="useLabelPrefix vis-options-checkbox">
+                        <b>+Property:</b>
+                        <select id="nodeLabelProperty" class="vis-options-select"
+                                data-placeholder="Select a property to use as a label...">
+                            <option value="null">None</option>
+                            {{#each vertexPropertyNames}}
+                                <option value="{{vertexPropertyName}}">{{vertexPropertyName}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="vis-options-row col-sm-8">
+                        <b>Select:</b>
+                        <a href="#" class="btn btn-default context-selectAll" id="aaa" title="Select all">All</a>
+                        <a href="#" class="btn btn-default context-selectNone" id="aaa" title="Select none">None</a>
+                        <a href="#" class="btn btn-default context-invertSelections" id="aaa" title="Invert selections">Invert</a>
+                        <a href="#" class="btn btn-default context-expandSelections" id="aaa"
+                           title="Expand the selection one level">Expand</a>
+                        <a href="#" class="btn btn-default context-expandSelections5" id="aaa"
+                           title="Expand the selection 5 levels">Exp5</a>
+                    </div>
+                    <div class="vis-options-row col-sm-4">
+                        <label>All:</label><select id="nodeLabelSelector" class="vis-options-select"
+                                                   data-placeholder="Select a vertex label to search for and highlight">
+                        <option value="null"></option>
+                        <option value="all vertices">All vertices</option>
+                        <option value="all edges">All edges</option>
+                        {{#each vertexLabels}}
+                            <option value="{{vertexLabel}}">{{vertexLabel}}</option>
+                        {{/each}}
+                    </select>
+                    </div>
+                    <div class="vis-options-row col-sm-12">
+                        <input id="elementSelector"
+                               title="Enter JSON query here to select visible graph elements below"
+                               placeholder='JSON query to select: id#,"label",{k1:v1,k2:v2...},[any,any...]'
+                               style="width: 100%;margin-bottom: 6px;" type="text"
+                               oninput="window.updateSelectedElements(this.value)">
+                    </div>
+                </div>
+
+
+                <div class="vis-options-row col-sm-12">
+                    <div class=" vis-options-row">
+
+                        <div class="col-xs-1">
+                            <a href="#" class="btn btn-default context-cloneSelections" id="aaa"
+                               title="Clone selections">Clone</a>
+                            <a href="#" class="btn btn-default context-deleteSelections" id="aaa"
+                               title="Delete selections">Delete</a>
+                        </div>
+                        <div class="col-xs-1">
+                            <a href="#" class="btn btn-default context-growSelections" id="aaa"
+                               title="Include the neighboring vertices for the selections from view">Visit</a>
+                            <a href="#" class="btn btn-default context-dropSelections" id="aaa"
+                               title="Drop selections from view">Drop</a>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="row">
+                                <a href="#" class="btn btn-default context-pinSelections" id="aaa"
+                                   title="Disable phyics for selections">Pin</a>
+                                <a href="#" class="btn btn-default context-unpinSelections" id="aaa"
+                                   title="Enable physics for selections">Unpin</a>
+                            </div>
+                            <div class="row">
+                                Physics:<input type="checkbox" class="vis-options-physics-toggle vis-options-checkbox">
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <a href="#" class="btn btn-default context-hideSelections1" id="aaa"
+                               title="Hide selections from view in buffer 1">Hide1</a>
+                            <a href="#" class="btn btn-default context-unhideSelections1" id="aaa"
+                               title="Unhide hidden selections in buffer 1">Unhide1</a>
+                            <a href="#" class="btn btn-default context-spawnHidden1" id="aaa"
+                               title="Spawn hidden selections of buffer 1">Spawn1</a>
+                        </div>
+                        <div class="col-sm-1">
+                            <a href="#" class="btn btn-default context-hideSelections2" id="aaa"
+                               title="Hide selections from view in buffer 2">Hide2</a>
+                            <a href="#" class="btn btn-default context-unhideSelections2" id="aaa"
+                               title="Unhide hidden selections in buffer 2">Unhide2</a>
+                            <a href="#" class="btn btn-default context-spawnHidden2" id="aaa"
+                               title="Spawn hidden selections of buffer 2">Spawn2</a>
+                        </div>
+                        <div class="col-sm-1">
+                            <a href="#" class="btn btn-default context-hideSelections3" id="aaa"
+                               title="Hide selections from view in buffer 3">Hide3</a>
+                            <a href="#" class="btn btn-default context-unhideSelections3" id="aaa"
+                               title="Unhide hidden selections in buffer 3">Unhide3</a>
+                            <a href="#" class="btn btn-default context-spawnHidden3" id="aaa"
+                               title="Spawn hidden selections of buffer 3">Spawn3</a>
+
+                        </div>
+                        <div class="col-sm-1">
+                            <a href="#" class="btn btn-default context-hideSelections4" id="aaa"
+                               title="Hide selections from view in buffer 4">Hide4</a>
+                            <a href="#" class="btn btn-default context-unhideSelections4" id="aaa"
+                               title="Unhide hidden selections in buffer 4">Unhide4</a>
+                            <a href="#" class="btn btn-default context-spawnHidden4" id="aaa"
+                               title="Spawn hidden selections of buffer 4">Spawn4</a>
+
+                        </div>
+                        <div class="col-sm-1">
+                            <a href="#" class="btn btn-default context-inspectSelections" id="aaa"
+                               title="Inspect each selection in a window">Inspect</a>
+                            <a href="#" class="btn btn-default context-inspectNone" id="aaa"
+                               title="Close all element inspectors">Uninspect</a>
+                        </div>
+                        <div class="col-sm-1">
+                            <a href="#" class="btn btn-default context-spawnToQuikVis" id="aaa"
+                               title="Spawn selections into a separate window">Spawn</a>
+                            <a href="#" class="btn btn-default context-spawnAllToQuikVis" id="aaa"
+                               title="Spawn visible graph into a separate window">Spawn All</a>
+
+                        </div>
+                        <div class="col-sm-2">
+                            <a href="#" class="btn btn-default context-generateJSONBindingsForSelections" id="aaa"
+                               title="JSON bindings for selections to use with standard gremlin">Spawn Selected Bindings</a>
+                            <a href="#" class="btn btn-default context-shareGremlinCodeForIngestion" id="aaa"
+                               title="Use this gremlin code with the bindings JSON to add elements to graph programmatically">Groovy Ingestion Code</a>
+                            <a href="#" class="btn btn-default context-inputGremlinCodeForIngestion" id="aaa"
+                               title="Paste bindings JSON to add elements to graph programmatically">Paste/Ingest Bindings</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="graph-vis-area">
+                <div id="mynetwork" style="width:{{visWidth}}; height:{{visHeight}};"></div>
+            </div>
+        </fieldset>
+        <div class="container graph-vis-area">
+            <div class="row">
+                <div id="vis-config"></div>
+            </div>
+        </div>
+    </div>
+    {{> VisConfig}}
+</template>

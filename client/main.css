@@ -1,0 +1,351 @@
+body {
+    background-color: #ffffff;
+    font-size: 14px;
+    font-family: Lato, sans-serif;
+    margin-top:20px;
+}
+
+ddiv {
+    border: 1px 1px 1px 1px;
+    border-color: deeppink;
+    border-style: solid;
+}
+
+
+
+textarea {
+    width: 100%;
+}
+
+.leftPageMargin {
+    margin-left: 20px;
+}
+
+.rightPageMargin {
+    margin-right: 20px;
+}
+
+div #selectServerAndGraph {
+    margin-top: 20px;
+}
+
+
+.btn {
+    margin: 0px 1px 0px 1px;
+    padding: 0px 2px 0px 2px;
+    border-color:#000000;
+}
+
+
+label {
+    float: left;
+    margin-right: 2px;
+    text-align: right;
+}
+
+
+.row .graphServer .graphName {
+    margin-left: 30px;
+}
+
+.login{
+    padding: 0px 20px 0px 0px;
+}
+
+img {
+    margin: 0px 0px 0px 0px;
+
+}
+
+div.jsoneditor {
+    background-color: white;
+}
+
+select {
+    font-size:1.1em;
+    border-color:#999; /* without this, it won't work */
+    padding: 10px 10px 10px 10px;
+    width: 80%;
+}
+
+textarea#fileContents {
+    width: 100%;
+    height: 300px;
+}
+
+.logo-only {
+    margin-left: 20px;
+}
+
+#results-graph-container {
+    height: 400px;
+    border-style: solid;
+    border-width: 1px;
+    margin: 10px 0px 10px 0px;
+    background-color: white;
+}
+
+.line {
+    clear: both;
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 12px 0 0 0;
+    border-bottom: 1px solid #aac789;
+    background: transparent;
+}
+
+input[type='color'] {
+    width: 18px;
+    height: 18px;
+    border-width: 1px;
+    padding: 0px 0px 0px 0px;
+    margin: 0px 5px 0px 2px;
+}
+
+input[type="checkbox"] {
+    margin: 0px 2px 0px 5px;
+}
+
+
+.short-list {
+    width: 60px;
+}
+
+.med-list {
+    width: 20%;
+}
+
+.top-margin-10 {
+    margin-top: 10px;
+}
+.toprow {
+    font-size: 14px;
+    alignment: center;
+
+}
+
+.logo {
+    margin-left: -40px;
+}
+
+.inside-fieldset {
+    margin-left: 10px;
+}
+
+
+#vis-config {
+    height: 200px;
+    overflow-y:scroll;
+    background-color: #c5d0e0;
+}
+
+
+.label {
+    color: black;
+    text-align: right;
+}
+
+
+.graph-vis-area {
+    background-color: white;
+}
+
+
+.splash-graphic {
+    margin-left: -200px;
+}
+
+.ace_editor {
+    height: 300px;
+    width: 100%;
+}
+
+
+.scriptURLPlusLabel {
+    margin-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.scriptURL {
+    border-width: 1px;
+    width: 80%;
+}
+
+
+.ui-dialog {
+    border-color: black;
+    padding: 0px 0px 0px 0px;
+}
+
+.ui-dialog-titlebar {
+    background: #909BBC;
+}
+.ui-widget-header {
+    border: 1px solid #909BBC;
+    background: #909BBC;
+
+}
+.ui-dialog-titlebar-close {
+    background: black;
+    background-image: initial;
+}
+.ui-dialog-content {
+    background-color: white;
+}
+
+.fit-fit {
+    margin-top:0px;
+}
+
+#nprogress .bar {
+    background: #29d;
+
+    position: fixed;
+    z-index: 1031;
+    top: 60px;
+    left: 0px;
+
+    width: 100%;
+    height: 20px;
+}
+#nprogress .peg {
+    display: block;
+    position: absolute;
+    right: 0px;
+    width: 100px;
+    height: 100%;
+    box-shadow: 0 0 0px #29d, 0 0 0px #29d;
+    opacity: 1.0;
+
+    -webkit-transform: rotate(3deg) translate(0px, 0px);
+    -ms-transform: rotate(3deg) translate(0px, 0px);
+    transform: rotate(3deg) translate(0px, 0px);
+}
+
+.bluemix-creds {
+    width: 400px;
+}
+
+.scriptSelector {
+    margin-bottom: 20px;
+}
+
+td {
+    border-width:0px;
+}
+td.tree {
+    border-width:0px;
+}
+td.separator {
+     border-width:0px;
+ }
+
+input.shortNumber {
+    width: 50px;
+}
+
+div.smallText {
+    font-size: 10px;
+}
+
+#nodeLabelProperty {
+    width: 230px;
+}
+
+
+.graph-styling-area {
+    background-color: white;
+    width: auto;
+
+}
+
+fieldset {
+    font-family: sans-serif;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    margin: 0px 0px 10px 0px;
+    padding: 0px 0px 10px 0px;
+    background-color: #909bbc;
+
+}
+
+fieldset legend {
+    display: block;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold ;
+    margin-left: -5px;
+    margin-bottom:10px;
+    padding: 0px 10px 0px 10px;
+    width: auto;
+    background-color: #e7e7e7;
+}
+
+
+
+
+
+
+
+
+.tabsRegion {
+    margin-top: 10px;
+}
+
+.ui-tabs.ui-widget-content{
+    background-color: #909bbc;
+    border-radius: 7px;
+}
+.ui-tabs.ui-widget-header{
+    background-color: #909bbc;
+    border-radius: 7px;
+}
+
+.ui-tabs.ui-widget{
+    background-color: #909bbc;
+    border-color: black;
+}
+
+.ui-state-active a:link {
+    color: black;
+}
+
+.ui-tabs .ui-tabs-nav .ui-tabs-anchor {
+    display: block;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold ;
+    margin-top: -20px;
+    padding: 2px 10px 2px 10px;
+    width: auto;
+    background-color: #e7e7e7;
+}
+
+.ui-tabs .ui-tabs-panel {
+    width: auto;
+    padding: 0px;
+}
+
+.ui-helper-clearfix {
+    min-height: 20px;
+}
+
+
+.bootbox-dialog .modal-body {
+    height: auto;
+    overflow-y: scroll;
+}
+
+.col-xs-1 {
+    padding: 0px 2px 0px 2px;
+    width: 7%;
+}
+.col-xs-2 {
+     padding: 0px 2px 0px 2px;
+     width: 7%;
+
+}

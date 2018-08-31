@@ -1,0 +1,32 @@
+<template name="QuikVis">
+    <div class="container" style="width: 95%;height: 95%;">
+        {{#if multipleScripts}}
+            <div class="row scriptSelector">
+                    <label for="scriptSelector">Script to Visualize:</label>
+                    <select id="scriptSelector" data-placeholder="Select a script to run...">
+                        <option value="">Select a script</option>
+                        {{#each scripts}}
+                            <option value="{{script}}">{{script}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+
+        {{/if}}
+        {{#if scriptSelected}}
+            {{#if scriptResult}}
+                {{#if graphToShow}}
+                    {{#if drawingGraph}}
+                        {{> ResultsVis}}
+                    {{/if}}
+                {{/if}}
+            {{/if}}
+        {{/if}}
+
+    </div>
+    <a href="http://tinkertools.rlse.cloud9.ibm.com">
+        <img src="powered-by-tinkertools.png" style="display:block;margin-left:auto;margin-right:auto"/>
+    </a>
+    <div class="text-center">
+    <p id="ws-status">Nothing connected yet....</p>
+    </div>
+</template>
