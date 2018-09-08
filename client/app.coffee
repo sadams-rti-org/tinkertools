@@ -14,12 +14,13 @@ Session.set 'admin-userID','admin@tinkertools.com'  #password adminadmin
 Session.set 'queryTime','N/A'
 Session.set 'elapsedTime','N/A'
 Session.set 'runStatus', 'Ready'
-Session.set 'githubURL', 'https://github.com/ssadams11/tinkertoolsOSS'
-Session.set 'githubIssuesURL', 'https://github.com/ssadams11/tinkertoolsOSS/issues'
+Session.set 'githubURL', 'https://github.com/ssadams11/tinkertools'
+Session.set 'githubIssuesURL', 'https://github.com/ssadams11/tinkertools/issues'
 Session.set 'graphFoundInResults', false
 Session.set 'drawButtonPressed', false
 Session.set 'elapsedRenderTime', ''
 Session.set 'usingWebSockets', false
+Session.set('versionNumber', '3.2.0')
 
 
 Meteor.subscribe 'scripts'
