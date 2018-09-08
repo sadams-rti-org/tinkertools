@@ -60,6 +60,9 @@ Template.LoginAndServerAndGraphSelectors.rendered = ->
 
 Template.LoginAndServerAndGraphSelectors.helpers
 
+  versionNumber: ->
+    Session.get('versionNumber')
+
   serverSelected: ->
     (Session.get 'serverURL') != null
 

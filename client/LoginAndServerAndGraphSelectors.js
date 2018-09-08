@@ -71,6 +71,9 @@
 
   //------------------ Helpers -----------------------
   Template.LoginAndServerAndGraphSelectors.helpers({
+    versionNumber: function() {
+      return Session.get('versionNumber');
+    },
     serverSelected: function() {
       return (Session.get('serverURL')) !== null;
     },

@@ -1,4 +1,5 @@
 Router.route('/', ()->
+  Session.set('versionNumber', '3.1.9')
   me = this
   Meteor.call 'getEnvironmentVariable','EMBEDDED_GRAPH_SERVER_URL',(err,result)->
     if result != undefined

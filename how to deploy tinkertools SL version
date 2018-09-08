@@ -1,6 +1,6 @@
 
 
-
+dont foget docker login!!!
 
 
 Install docker
@@ -32,13 +32,13 @@ $ docker run -d -e ROOT_URL=... -e MONGO_URL=... -p 80:3000 myDockerTag
 e.g.:
 docker run -d -p 80:3000 --name=tinkertools -e ROOT_URL=http://tinkertools.sl.cloud9.ibm.com -e MONGO_URL=mongodb://tinkertools:tinkertools@9.59.151.106:27017/tinkertools tinkertools3.1.8
 
+docker run -d -p 80:3000 --name=tinkertools -e ROOT_URL=http://tinkertools.cloudapp.net -e MONGO_URL="mongodb://sadams-mongo:vEOUHegFJmLBZXxbKcq85UxOdXRN4UjttgqgEcOMbfYtgFW4fBjAOjzMvim6YjPgFQgUY0KKhogmPPLgfwoIWw==@sadams-mongo.documents.azure.com:10255/tinkertools?ssl=true&replicaSet=globaldb" tinkertools3.1.8
 
 
 
 
 
-
--------------------Database--------------
+-------------------Database-------------
 
 How to create your mongo db with proper authentication turned on:
 0) ensure port 27017 is open on the target server firewwall

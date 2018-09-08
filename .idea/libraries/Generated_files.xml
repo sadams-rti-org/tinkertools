@@ -1,0 +1,25 @@
+<component name="libraryTable">
+  <library name="Generated files" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/client/Home.js" />
+        <item url="file://$PROJECT_DIR$/client/LoginAndServerAndGraphSelectors.js" />
+        <item url="file://$PROJECT_DIR$/client/LoginOnly.js" />
+        <item url="file://$PROJECT_DIR$/client/OtherGraphButtons.js" />
+        <item url="file://$PROJECT_DIR$/client/ResultsVis.js" />
+        <item url="file://$PROJECT_DIR$/client/ServerButtons.js" />
+        <item url="file://$PROJECT_DIR$/lib/router.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/client/Home.js" />
+      <root url="file://$PROJECT_DIR$/client/LoginAndServerAndGraphSelectors.js" />
+      <root url="file://$PROJECT_DIR$/client/LoginOnly.js" />
+      <root url="file://$PROJECT_DIR$/client/OtherGraphButtons.js" />
+      <root url="file://$PROJECT_DIR$/client/ResultsVis.js" />
+      <root url="file://$PROJECT_DIR$/client/ServerButtons.js" />
+      <root url="file://$PROJECT_DIR$/lib/router.js" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>

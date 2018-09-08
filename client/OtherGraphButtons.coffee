@@ -45,8 +45,8 @@ Template.OtherGraphButtons.rendered = ->
           label: "Upload and Install"
           className: "btn-success"
           callback: ()->
-            NProgress.configure({ parent: '.progress-goes-here', showSpinner: true,})
-            NProgress.start()
+            #NProgress.configure({ parent: '.progress-goes-here', showSpinner: true,})
+            #NProgress.start()
             formData = new FormData()
             for file in window.FilesToUpload
               uploadName = file.name
@@ -92,12 +92,12 @@ Template.OtherGraphButtons.rendered = ->
                           alert 'Failed to load file, try again, or check file'
                         if rs.success == true
                           window.deleteFilesOnServer rs.results
-                          NProgress.done()
+                          #NProgress.done()
                         else
-                          NProgress.done()
+                          #NProgress.done()
                           debugger
                 else
-                  NProgress.done()
+                  #NProgress.done()
                   debugger
 
   $(".graphSON-file-import").click ->   #NOTE this implementation assumes the target graph can reach out of port 80 to the tinkertools server, be sure of the firewall on the graph server
@@ -109,8 +109,8 @@ Template.OtherGraphButtons.rendered = ->
           label: "Upload and Install"
           className: "btn-success"
           callback: ()->
-            NProgress.configure({ parent: '.progress-goes-here', showSpinner: true,})
-            NProgress.start()
+            #NProgress.configure({ parent: '.progress-goes-here', showSpinner: true,})
+           # NProgress.start()
             formData = new FormData()
             for file in window.FilesToUpload
               uploadName = file.name
@@ -156,8 +156,9 @@ Template.OtherGraphButtons.rendered = ->
                         if rs.success == true
                           window.deleteFilesOnServer rs.results
                         else
-                          NProgress.done()
-              NProgress.done()
+                          #NProgress.done()
+              #NProgress.done()
+
   $('.csv-files-import').click ->
     bootbox.dialog
       title: "Select a CSV Ingestion Template and one or more CSV files to Ingest"
@@ -167,16 +168,15 @@ Template.OtherGraphButtons.rendered = ->
           label: "Upload and Install"
           className: "btn-success"
           callback: ()->
-            NProgress.configure({ parent: '.progress-goes-here', showSpinner: false,})
-            NProgress.start()
+            #NProgress.configure({ parent: '.progress-goes-here', showSpinner: false,})
+            #NProgress.start()
             Session.set 'totalRecordsParsed', 0
             $('#csv-template-file').parse
               config:
                 header: true
                 skipEmptyLines:true
-                chunkSize: 10000000
                 chunk: (chunk, handle)->
-                  NProgress.inc()
+                  #NProgress.inc()
                   file = handle.fileBeingParsed
                   console.log chunk
                   window.CSVIngestTemplate = processCSVTemplateRows(chunk.data)
@@ -187,43 +187,60 @@ Template.OtherGraphButtons.rendered = ->
               complete: (file)->
                 if file
                   console.log 'Completed',file.name
-                NProgress.done()
-            $('#files').parse
-              config:
-                header: true
-                skipEmptyLines:true
-                chunkSize: 10000
-                chunk: (chunk, handle)->
-                  NProgress.inc()
-                  file = handle.fileBeingParsed
-                  console.log chunk
-                  ingestCSVRecordsUsingTemplate(chunk.data, window.CSVIngestTemplate, (err,results)->
-                    console.log results
-                  )
-              before: (file, inputElem)->
-                console.log 'Ingesting CSV records in file:', file.name
-                Session.set 'fileBeingParsed', file.name
-                Session.set 'recordsParsed',0
-              complete: (file)->
-                if file
-                  console.log 'Completed',file.name
-                NProgress.done()
+                console.log 'first...'
+                await firstPass()
+                console.log 'second'
+                await midPass()
+                console.log 'adding twigs and leaves'
+                window.prom = wsp.open()
+                debugger
+                $('#files').parse
+                  config:
+                    header: true
+                    skipEmptyLines:true
+                    chunk: (results, parser)->
+                      console.log "parsed chunk = ",results.data
+                      ingestCSVRecordsUsingTemplate(results.data, window.CSVIngestTemplate, prom,(err,res)->
+                        #console.log "Result of ingest = ",res
+                      )
+                    complete: (results,file)->
+                      if file
+                        console.log 'Completed',file.name
+                      #prom.then((response)-> console.log "Finished with promises = ", response)
+
+
+import WebSocketAsPromised from 'websocket-as-promised'
+window.wsap = WebSocketAsPromised
+wsUrl = "ws://localhost:8182/gremlin"
+window.wsp = new WebSocketAsPromised(wsUrl,
+  packMessage: (data)->
+    JSON.stringify(data)
+  unpackMessage: (message)->
+    JSON.parse(message)
+  attachRequestId: (data, requestId)->
+    Object.assign({requestId: requestId}, data)
+  extractRequestId: (data)->
+    data && data.requestId
+)
+window.wsp.onMessage.addListener((message)-> console.log JSON.parse(message))
 
 
 
-ingestCSVRecordsUsingTemplate = (rows, template, callback) ->
+ingestCSVRecordsUsingTemplate = (rows, template, priorPromise, callback) ->
+  requests = []
   for row in rows
+    #console.log "row = ",row
     #process verts first
     verts2Create = []
     verts2FindOrCreate = []
-    for k,vTemp of template.verts
-      vert = {label: vTemp.label, id: vTemp.uid, properties:{_class: [{value:vTemp._class}]}, propsToMatch:{}, propsToAdd:{}}
-      for k,prop of vTemp.props
+    for k1,vTemp of template.verts
+      vert = {label: vTemp.label, id: Number(vTemp.uid), properties:{_class: [{value:vTemp._class}]}, propsToMatch:{}, propsToAdd:{}}
+      for k2,prop of vTemp.props
         incomingValue = row[prop.property]
         if incomingValue
           if prop.dataType == "String" then outgoingValue = incomingValue.toString()
-          if prop.dataType == "Single" then outgoingValue = JSON.parse(incomingValue)
-          if prop.dataType == "Double" then outgoingValue = JSON.parse(incomingValue)
+          if prop.dataType == "Single" then outgoingValue = Number(incomingValue)
+          if prop.dataType == "Double" then outgoingValue = Number(incomingValue)
           if prop.dataType == "Bool" then outgoingValue = JSON.parse(incomingValue.toLowerCase())
           vert.properties[prop.property] = [{value: outgoingValue}]
           if vert.properties[prop.findIt] == "TRUE"
@@ -235,10 +252,10 @@ ingestCSVRecordsUsingTemplate = (rows, template, callback) ->
       else
         verts2FindOrCreate.push vert
     #process edges
-    edges2Create = []
-    for k,eTemp of template.edges
-      edge = {label: eTemp.label, id: eTemp.uid, properties:{}, outV: JSON.parse(eTemp.fromV), inV: JSON.parse(eTemp.toV)}
-      for k,prop of eTemp.props
+    edges2FindOrCreate = []
+    for k1,eTemp of template.edges
+      edge = {label: eTemp.label, id: Number(eTemp.uid), properties:{}, outV: Number(eTemp.fromV), inV: Number(eTemp.toV)}
+      for k2,prop of eTemp.props
         incomingValue = row[prop.property]
         if incomingValue
           if prop.dataType == "String" then outgoingValue = incomingValue.toString()
@@ -246,39 +263,115 @@ ingestCSVRecordsUsingTemplate = (rows, template, callback) ->
           if prop.dataType == "Double" then outgoingValue = JSON.parse(incomingValue)
           if prop.dataType == "Bool" then outgoingValue = JSON.parse(incomingValue.toLowerCase())
           edge.properties[prop.property] = outgoingValue
-      edges2Create.push edge
-    bindings = {verts2Create: verts2Create, verts2FindOrCreate: verts2FindOrCreate, edges2Create: edges2Create, transactionContext: "ingesting from CSV"}
-    console.log bindings
+      edges2FindOrCreate.push edge
+      #NOTE that edges2Create is ignored in this version
+    bindings = {verts2Create: verts2Create, verts2FindOrCreate: verts2FindOrCreate, edges2FindOrCreate: edges2FindOrCreate, edges2Create:[], transactionContext: "ingesting from CSV"}
+    #console.log "bindings ready to send = ",bindings
     if (Session.get "usingWebSockets")
-      window.socketToJanus.onmessage = (msg) ->
-        endTime = Date.now()
-        data = msg.data
-        json = JSON.parse(data)
-        if json.status.code >= 500
-          alert "Error in processing Gremlin script: "+json.status.message
-        else
-          if json.status.code == 204
-            results = []
-          else
-            results = json.result.data
-          callback(results)
       request =
-        requestId: uuid.new(),
         op:"eval",
         processor:"",
         args:{gremlin: ingestionScript(), bindings: bindings, language: "gremlin-groovy"}
-      startTime = Date.now()
-      window.socketToJanus.send(JSON.stringify(request))
+      requests.push JSON.parse(JSON.stringify(request))
     else
       Meteor.call 'runScript', Session.get('userID'), Session.get('serverURL'),(Session.get 'tinkerPopVersion'), Session.get('graphName'),'CSV Ingester', ingestionScript(), bindings, (error,result)->
         callback(result.results)
+  #console.log "Requests = ",requests
+  wait = (ms)->
+    new Promise((resolve)-> setTimeout(resolve,ms))
+  sendIt = (req)->
+    await wait(100)
+    wsp.sendRequest(req,{requestId: uuid.new()})
+
+  respondIt = (response)->
+    console.log  "resp=",response
+  for req in requests
+    window.prom = window.prom.then(sendIt.bind(null,req))
+    window.prom = window.prom.then(respondIt)
+
+
+
+firstPass = ()->
+  #First pass to locate and find/create roots and low branch verts
+  new Promise (resolve) ->
+    window.verts2EnsureCreation = {}
+    $('#files').parse
+      config:
+        header: true
+        skipEmptyLines:true
+        step: (results, parser)->
+          row = results.data[0]
+          collectRootsAndLowBranchVerts(row, window.CSVIngestTemplate)
+        complete: (results,file)->
+          resolve()
+
+midPass = ()->
+  new Promise (resolve) ->
+    ingestVertices(Object.values(window.verts2EnsureCreation), (err,res)->
+      console.log res
+      resolve()
+    )
+
+ingestVertices = (verts2Create,callback)->
+  window.prom = wsp.open()
+  bindings = {verts2Create: verts2Create, verts2FindOrCreate: [], edges2FindOrCreate: [], edges2Create:[], transactionContext: "ingesting from CSV"}
+  console.log bindings
+  if (Session.get "usingWebSockets")
+    request =
+      requestId: uuid.new(),
+      op:"eval",
+      processor:"",
+      args:{gremlin: ingestionScript(), bindings: bindings, language: "gremlin-groovy"}
+    startTime = Date.now()
+    wait = (ms)->
+      new Promise((resolve)-> setTimeout(resolve,ms))
+    sendIt = (req)->
+      await wait(100)
+      wsp.sendRequest(req,{requestId: uuid.new()})
+    respondIt = (response)->
+      console.log  "resp=",response
+      callback('no err',response)
+    window.prom = window.prom.then(sendIt.bind(null,request))
+    window.prom = window.prom.then(respondIt)
+  else
+    Meteor.call 'runScript', Session.get('userID'), Session.get('serverURL'),(Session.get 'tinkerPopVersion'), Session.get('graphName'),'CSV Ingester', ingestionScript(), bindings, (error,result)->
+      callback(result.results)
+
+
+collectRootsAndLowBranchVerts = (row, template) ->
+  console.log "looking for roots=",row
+  #process verts first
+  for k1,vTemp of template.verts
+    vert = {label: vTemp.label, id: Number(vTemp.uid), properties:{_class: [{value:vTemp._class}]}, propsToMatch:{}, propsToAdd:{}}
+    for k2,prop of vTemp.props
+      incomingValue = row[prop.property]
+      if incomingValue
+        if prop.dataType == "String" then outgoingValue = incomingValue.toString()
+        if prop.dataType == "Single" then outgoingValue = Number(incomingValue)
+        if prop.dataType == "Double" then outgoingValue = Number(incomingValue)
+        if prop.dataType == "Bool" then outgoingValue = JSON.parse(incomingValue.toLowerCase())
+        vert.properties[prop.property] = [{value: outgoingValue}]
+        if prop.findIt == "TRUE"
+          vert.propsToMatch[prop.property] = [{value: outgoingValue}]
+        else
+          vert.propsToAdd[prop.property] = [{value: outgoingValue}]
+    if Object.keys(vert.propsToMatch).length == 0
+      a=1
+    else
+      console.log vert
+      window.verts2EnsureCreation[vert.label+':'+vert._class+':'+JSON.stringify(vert.propsToMatch)] = vert
+
+
+
+
 
 ingestionScript = ()->
   """
-  //bindings include: {verts2FindOrCreate, verts2Create, edges2Create}
+  //bindings include: {verts2FindOrCreate, edges2FindOrCreate, verts2Create, edges2Create}
   vMap = [:]
   vMapFull = [:]
   eMapFull = [:]
+  eMultimatchMap = [:]
   verts2FindOrCreate.collect { json ->
       trav = g.V().hasLabel(json.label)
       json.properties.each { key, val ->
@@ -288,34 +381,68 @@ ingestionScript = ()->
      if (results.size == 0) {oldV = null} else {oldV = results[0]}
       if (oldV == null){
           //create it
-          newV = gg(transactionContext).addV(json.label).next()
+          newV = g.addV(json.label).next()
           json.properties.each { key, val ->
-              gg(transactionContext).V(newV.id()).property(key, val[0].value).next()
+              g.V(newV.id()).property(key, val[0].value).next()
               }
       } else {
           //reference it
           newV = oldV
       }
       vMap[json.id] = newV.id()
+      vMapFull[json.id] = newV
   }
+
+
   verts2Create.collect { json ->
-      newV = gg(transactionContext).addV(json.label).next()
+      newV = g.addV(json.label).next()
       vMap[json.id] = newV.id()
       vMapFull[json.id] = newV
       json.properties.each { key, val ->
-          gg(transactionContext).V(newV.id()).property(key, val[0].value).next()
+          g.V(newV.id()).property(key, val[0].value).next()
   }}
-  edges2Create.collect { json ->
+
+  edges2FindOrCreate.collect { json ->
       fromID = vMap[json.outV] ? vMap[json.outV] : json.outV
       toID = vMap[json.inV] ? vMap[json.inV] : json.inV
-      newEdge=gg(transactionContext).V(fromID).addE(json.label).to(g.V(toID)).next()
-      eMapFull[json.id] = newEdge
-      json.properties.collect { key, val ->
-          gg(transactionContext).E(newEdge.id()).property(key, val.value).next()
-  }}
-  //answer the maps of old element ids to new elements
-  [vertMap: vMapFull, edgeMap: eMapFull]
+      /*cases to consider:
+          1) edge does not exist....create it and its properties
+          2) a single edge exists that matches to/from/label....use it and overwrite/add properties
+          3) multiple edges exist that match from/to/label, pick one and overwrite/add properties, and report it in return via eMultimatchMap[ incoming-json-id: chosen existing edge]
+      */
 
+      oldEdges = g.V(fromID).outE(json.label).as('e').inV().hasId(toID).select('e').toList()
+      if (oldEdges.size() == 0){  //none exists so create a new edge
+          newEdge=g.V(fromID).addE(json.label).to(g.V(toID)).next()
+          theEdge = newEdge
+      } else {
+          if (oldEdges.size() == 1){ //only one exists so use it
+              theEdge = oldEdges[0]
+          } else { //multiple exists so pick first one and use it and record the fact in eMultimatchMap
+              theEdge = oldEdges[0]
+              eMultimatchMap[json.id] = theEdge
+          }
+      }
+
+      eMapFull[json.id] = theEdge
+      json.properties.collect { key, val ->
+          g.E(theEdge.id()).property(key, val.value).next()
+
+  }}
+    edges2Create.collect { json ->
+        fromID = vMap[json.outV] //? vMap[json.outV] : json.outV
+        toID = vMap[json.inV] //? vMap[json.inV] : json.inV
+
+
+        newEdge=g.V(fromID).addE(json.label).to(g.V(toID)).next()
+        eMapFull[json.id] = newEdge
+        json.properties.collect { key, val ->
+            g.E(newEdge.id()).property(key, val.value).next()
+        }}
+
+
+  //answer the maps of old element ids to new elements
+  [vMap: vMap, vertMap: vMapFull, edgeMap: eMapFull, eMultimatchMap: eMultimatchMap]
   """
 
 ingestionScriptWithBatches = ()->
@@ -349,9 +476,9 @@ ingestionScriptWithBatches = ()->
          if (results.size == 0) {oldV = null} else {oldV = results[0]}
           if (oldV == null){
               //create it
-              newV = gg(transactionContext).addV(json.label).next()
+              newV = g.addV(json.label).next()
               json.properties.each { key, val ->
-                  gg(transactionContext).V(newV.id()).property(key, val[0].value).next()
+                  g.V(newV.id()).property(key, val[0].value).next()
                   }
           } else {
               //reference it
@@ -361,19 +488,19 @@ ingestionScriptWithBatches = ()->
 
       }
       verts2Create.collect { json ->
-          newV = gg(transactionContext).addV(json.label).next()
+          newV = g.addV(json.label).next()
           vMap[json.id] = newV.id()
           vMapFull[json.id] = newV
           json.properties.each { key, val ->
-              gg(transactionContext).V(newV.id()).property(key, val[0].value).next()
+              g.V(newV.id()).property(key, val[0].value).next()
       }}
       edges2Create.collect { json ->
           fromID = vMap[json.outV] ? vMap[json.outV] : json.outV
           toID = vMap[json.inV] ? vMap[json.inV] : json.inV
-          newEdge=gg(transactionContext).V(fromID).addE(json.label).to(g.V(toID)).next()
+          newEdge=g.V(fromID).addE(json.label).to(g.V(toID)).next()
           eMapFull[json.id] = newEdge
           json.properties.collect { key, val ->
-              gg(transactionContext).E(newEdge.id()).property(key, val.value).next()
+              g.E(newEdge.id()).property(key, val.value).next()
       }}
       //answer the maps of old element ids to new elements
       [vertMap: vMapFull, edgeMap: eMapFull]
@@ -453,6 +580,7 @@ processCSVTemplateRows = (rows) ->
       delete row.edgeLabel5
       delete row.edgeTo5
       delete row['label/_class']
+
       #handle index decls
       if row.indexName
         if !indices[row.indexName]
@@ -467,8 +595,10 @@ processCSVTemplateRows = (rows) ->
       delete row.indexName
       delete row.indexType
       delete row.indexOrder
+
       #Now add all the rest of the property attributes
       verts[uid]['props'].push row
+
     if row.type == 'edge'
       uid = row.uid
       delete row.type
@@ -487,6 +617,7 @@ processCSVTemplateRows = (rows) ->
         edges[uid].toV = row.toV
         delete row.toV
       edges[uid]['props'].push row
+
   #post-process verts to collect simple edges
   nextEdgeId = 1000
   for key,vert of verts
@@ -498,8 +629,8 @@ processCSVTemplateRows = (rows) ->
         fromV: vert.uid
         toV: JSON.parse(eKey)
       nextEdgeId = nextEdgeId + 1
-  #post-process the indices to reduce single key cases
 
+  #post-process the indices to reduce single key cases
   for key,index of indices
     ordered = true
     index.dataType = 'Ordered'
@@ -509,6 +640,7 @@ processCSVTemplateRows = (rows) ->
         index.dataType = index.keys[0].dataType  #assume they are all the same in this case
     if !ordered
       delete index.keys
+
   result = {
     verts: verts
     edges: edges
@@ -516,3 +648,109 @@ processCSVTemplateRows = (rows) ->
   }
   console.log result
   return result
+
+
+
+
+
+###  mostly junk
+
+
+  console.log "Starting 1st pass"
+  window.verts2EnsureCreation = {}
+  await firstPass()
+  console.log "Starting mid pass"
+  await midPass()
+  console.log "Starting 2nd pass"
+  await secondPass()
+  console.log "done"
+
+
+
+firstPass = ()->
+#First pass to locate and find/create roots and low branch verts
+new Promise (resolve) ->
+  $('#files').parse
+    config:
+      header: true
+      skipEmptyLines:true
+      step: (results, parser)->
+        row = results.data
+        collectRootsAndLowBranchVerts(row, window.CSVIngestTemplate)
+      complete: (results,file)->
+        resolve()
+
+midPass = ()->
+new Promise (resolve) ->
+  ingestVertices(Object.values(window.verts2EnsureCreation), (err,res)->
+    console.log res
+    resolve()
+  )
+
+secondPass = ()->
+#Second pass to add all high branches and leaf verts
+new Promise (resolve) ->
+  $('#files').parse
+    config:
+      header: true
+      skipEmptyLines:true
+      chunk: (results, parser)->
+        ingestCSVRecordsUsingTemplate(results.data, window.CSVIngestTemplate, (err,res)->
+          console.log res
+        )
+      complete: (results,file)->
+        if file
+          console.log 'Completed',file.name
+        resolve()
+
+
+ingestVertices = (verts2Create,callback)->
+bindings = {verts2Create: verts2Create, verts2FindOrCreate: [], edges2FindOrCreate: [], edges2Create:[], transactionContext: "ingesting from CSV"}
+console.log bindings
+if (Session.get "usingWebSockets")
+  window.socketToJanus.onmessage = (msg) ->
+    endTime = Date.now()
+    data = msg.data
+    json = JSON.parse(data)
+    if json.status.code >= 500
+      alert "Error in processing Gremlin script: "+json.status.message
+    else
+      if json.status.code == 204
+        results = []
+      else
+        results = json.result.data
+      callback(results)
+  request =
+    requestId: uuid.new(),
+    op:"eval",
+    processor:"",
+    args:{gremlin: ingestionScript(), bindings: bindings, language: "gremlin-groovy"}
+  startTime = Date.now()
+  window.socketToJanus.send(JSON.stringify(request))
+else
+  Meteor.call 'runScript', Session.get('userID'), Session.get('serverURL'),(Session.get 'tinkerPopVersion'), Session.get('graphName'),'CSV Ingester', ingestionScript(), bindings, (error,result)->
+    callback(result.results)
+
+
+collectRootsAndLowBranchVerts = (row, template) ->
+#process verts first
+for k1,vTemp of template.verts
+  vert = {label: vTemp.label, id: Number(vTemp.uid), properties:{_class: [{value:vTemp._class}]}, propsToMatch:{}, propsToAdd:{}}
+  for k2,prop of vTemp.props
+    incomingValue = row[prop.property]
+    if incomingValue
+      if prop.dataType == "String" then outgoingValue = incomingValue.toString()
+      if prop.dataType == "Single" then outgoingValue = Number(incomingValue)
+      if prop.dataType == "Double" then outgoingValue = Number(incomingValue)
+      if prop.dataType == "Bool" then outgoingValue = JSON.parse(incomingValue.toLowerCase())
+      vert.properties[prop.property] = [{value: outgoingValue}]
+      if vert.properties[prop.findIt] == "TRUE"
+        vert.propsToMatch[prop.property] = [{value: outgoingValue}]
+      else
+        vert.propsToAdd[prop.property] = [{value: outgoingValue}]
+  if vert.propsToMatch == {}
+  else
+    window.verts2EnsureCreation[vert.label+':'+vert._class+':'+JSON.stringify(vert.propsToMatch)] = vert
+
+
+###

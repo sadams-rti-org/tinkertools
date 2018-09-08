@@ -36,6 +36,39 @@
     });
   };
 
+  /*
+    $('.try-wsp').click ->
+      alert "Here"
+      p = wsp.open()
+      for nn in [1..1000]
+        window.n = nn
+        p = p.then(addV)
+
+  request1 =
+    op:"eval",
+    processor:"",
+    args:{gremlin:'g.addV(a).next()',bindings:{a:'Sam'}, language: "gremlin-groovy"}
+
+  addV = ()->
+    request1.args.bindings.a = 'Sam '+window.n
+    request = JSON.parse(JSON.stringify(request1))
+    wsp.sendRequest(request,{requestId: uuid.new()})
+
+  import WebSocketAsPromised from 'websocket-as-promised'
+  window.wsap = WebSocketAsPromised
+  wsUrl = "ws://localhost:8182/gremlin"
+  window.wsp = new WebSocketAsPromised(wsUrl,
+    packMessage: (data)->
+      JSON.stringify(data)
+    unpackMessage: (message)->
+      JSON.parse(message)
+    attachRequestId: (data, requestId)->
+      Object.assign({requestId: requestId}, data)
+    extractRequestId: (data)->
+      data && data.requestId
+  )
+  window.wsp.onMessage.addListener((message)-> console.log JSON.parse(message))
+  */
   Template.ServerButtons.helpers({
     serverSelected: function() {
       return (Session.get('serverURL')) !== null;

@@ -10,6 +10,9 @@ Template.LoginOnly.rendered = ->
 
 Template.LoginOnly.helpers
 
+  versionNumber: ->
+    Session.get('versionNumber')
+
   serverSelected: ->
     (Session.get 'serverURL') != null
 

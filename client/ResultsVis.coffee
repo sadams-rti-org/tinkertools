@@ -51,17 +51,12 @@ window.determineGraphToShow = ->
   verts = _.uniq(verts,(item)->
     return item.id)
   edges = edgesInside(Session.get 'scriptResult')
-  addEdgesToGraphToShow edges
-  addVertsToGraphToShow verts
-  Session.set 'elementsInResults', {vertices: verts, edges: edges}
   vIDsInEdges = vertIDsInEdges(edges)
   vIDsInResults = []
   vIDsInResults = (v.id for v in verts)
   missingVIDs = _.difference vIDsInEdges, vIDsInResults
   if missingVIDs.length == 0
     return setGraphToShow verts, edges
-  if missingVIDs.length == 0
-    return
   bindings = {vIDs: missingVIDs}
   script = 'vIDs.collect{each-> g.V(each).next()}'
   if (Session.get "usingWebSockets")
@@ -77,6 +72,9 @@ window.determineGraphToShow = ->
         else
           results = json.result.data
         addVertsToGraphToShow(results)
+        addEdgesToGraphToShow edges
+        addVertsToGraphToShow verts
+        Session.set 'elementsInResults', {vertices: verts, edges: edges}
     request =
       requestId: uuid.new(),
       op:"eval",
@@ -87,7 +85,9 @@ window.determineGraphToShow = ->
   else
     Meteor.call 'runScript', Session.get('userID'), Session.get('serverURL'),(Session.get 'tinkerPopVersion'), Session.get('graphName'),'Built-in Vertex Retriever', script, bindings, (error,result)->
       addVertsToGraphToShow(result.results)
-
+      addEdgesToGraphToShow edges
+      addVertsToGraphToShow verts
+      Session.set 'elementsInResults', {vertices: verts, edges: edges}
 
 window.addVertsToGraphToShow = (verts)->
   nodes = ({id: String(v.id),label: labelForVertex(v,Session.get 'keyForNodeLabel'), allowedToMoveX: true, allowedToMoveY: true, title: titleForElement(v), element:v} for v in verts)
