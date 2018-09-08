@@ -6,5 +6,8 @@
     "ReturnHostURL.coffee"
   ],
   "names": [],
-  "mappings": ";AAAA;EAAA,QAAQ,CAAC,aAAa,CAAC,QAAvB,GAAkC,SAAA,GAAA;;EAElC,QAAQ,CAAC,aAAa,CAAC,OAAvB,CACE;IAAA,OAAA,EAAS,SAAA;aACN,OAAO,CAAC,GAAR,CAAY,SAAZ;IADM,CAAT;GADF;AAFA"
+  "mappings": ";AAAA;EAAA,QAAQ,CAAC,aAAa,CAAC,QAAvB,GAAkC,QAAA,CAAA,CAAA,EAAA;;EAElC,QAAQ,CAAC,aAAa,CAAC,OAAvB,CACE;IAAA,OAAA,EAAS,QAAA,CAAA,CAAA;aACN,OAAO,CAAC,GAAR,CAAY,SAAZ;IADM;EAAT,CADF;AAFA",
+  "sourcesContent": [
+    "Template.ReturnHostURL.rendered = ->\n\nTemplate.ReturnHostURL.helpers\n  hostURL: ->\n    (Session.get 'hostURL')\n"
+  ]
 }

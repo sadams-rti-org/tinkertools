@@ -6,5 +6,8 @@
     "UserPill.coffee"
   ],
   "names": [],
-  "mappings": ";AAAA;EAAA,QAAQ,CAAC,QAAQ,CAAC,OAAlB,CACE;IAAA,UAAA,EAAY,SAAA;MACV,IAAI,IAAI,CAAC,MAAM,CAAC,IAAhB;AACE,eAAO,gBADT;OAAA,MAEK,IAAI,IAAI,CAAC,MAAM,CAAC,MAAhB;AACH,eAAO,gBADJ;OAAA,MAAA;AAGH,eAAO,gBAHJ;;IAHK,CAAZ;GADF;AAAA"
+  "mappings": ";AAAA;EAAA,QAAQ,CAAC,QAAQ,CAAC,OAAlB,CACE;IAAA,UAAA,EAAY,QAAA,CAAA,CAAA;MACV,IAAI,IAAI,CAAC,MAAM,CAAC,IAAhB;AACE,eAAO,gBADT;OAAA,MAEK,IAAI,IAAI,CAAC,MAAM,CAAC,MAAhB;AACH,eAAO,gBADJ;OAAA,MAAA;AAGH,eAAO,gBAHJ;;IAHK;EAAZ,CADF;AAAA",
+  "sourcesContent": [
+    "Template.UserPill.helpers\n  labelClass: ->\n    if (this.status.idle)\n      return \"label-warning\"\n    else if (this.status.online)\n      return \"label-success\"\n    else\n      return \"label-default\"\n"
+  ]
 }

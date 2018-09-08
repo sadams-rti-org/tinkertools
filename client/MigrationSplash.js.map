@@ -6,5 +6,8 @@
     "MigrationSplash.coffee"
   ],
   "names": [],
-  "mappings": ";AAAA;EAAA,QAAQ,CAAC,eAAe,CAAC,QAAzB,GAAoC,SAAA;WAClC,CAAA,CAAE,oBAAF,CAAuB,CAAC,KAAxB,CAA8B,SAAA;MAC5B,KAAA,CAAA;aACA,IAAA,CAAK,OAAL;IAF4B,CAA9B;EADkC;AAApC"
+  "mappings": ";AAAA;EAAA,QAAQ,CAAC,eAAe,CAAC,QAAzB,GAAoC,QAAA,CAAA,CAAA;WAClC,CAAA,CAAE,oBAAF,CAAuB,CAAC,KAAxB,CAA8B,QAAA,CAAA,CAAA;MAC5B,KAAA,CAAA;aACA,IAAA,CAAK,OAAL;IAF4B,CAA9B;EADkC;AAApC",
+  "sourcesContent": [
+    "Template.MigrationSplash.rendered = ->\n  $(\".use-server-anyway\").click ->\n    alert()\n    open('/Open')"
+  ]
 }

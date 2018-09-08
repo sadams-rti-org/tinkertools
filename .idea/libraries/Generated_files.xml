@@ -2,25 +2,81 @@
   <library name="Generated files" type="javaScript">
     <properties>
       <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/client/AdminTools.js" />
+        <item url="file://$PROJECT_DIR$/client/BluemixGraphButtons.js" />
+        <item url="file://$PROJECT_DIR$/client/DemoVideo.js" />
+        <item url="file://$PROJECT_DIR$/client/DrawGraphButton.js" />
+        <item url="file://$PROJECT_DIR$/client/GraphButtons.js" />
+        <item url="file://$PROJECT_DIR$/client/Help.js" />
         <item url="file://$PROJECT_DIR$/client/Home.js" />
+        <item url="file://$PROJECT_DIR$/client/HomeEmbedded.js" />
         <item url="file://$PROJECT_DIR$/client/LoginAndServerAndGraphSelectors.js" />
         <item url="file://$PROJECT_DIR$/client/LoginOnly.js" />
+        <item url="file://$PROJECT_DIR$/client/MigrationSplash.js" />
         <item url="file://$PROJECT_DIR$/client/OtherGraphButtons.js" />
+        <item url="file://$PROJECT_DIR$/client/OtherScriptButtons.js" />
+        <item url="file://$PROJECT_DIR$/client/OtherServerButtons.js" />
+        <item url="file://$PROJECT_DIR$/client/QuikVis.js" />
+        <item url="file://$PROJECT_DIR$/client/QuikVisIFrameOnly.js" />
+        <item url="file://$PROJECT_DIR$/client/QuikVisIFrameOnlyMinimal.js" />
+        <item url="file://$PROJECT_DIR$/client/ResultsOnly.js" />
         <item url="file://$PROJECT_DIR$/client/ResultsVis.js" />
+        <item url="file://$PROJECT_DIR$/client/ResultsVisMinimal.js" />
+        <item url="file://$PROJECT_DIR$/client/ReturnHostURL.js" />
+        <item url="file://$PROJECT_DIR$/client/RunScriptAndDrawButton.js" />
+        <item url="file://$PROJECT_DIR$/client/RunScriptButton.js" />
+        <item url="file://$PROJECT_DIR$/client/ScriptButtons.js" />
+        <item url="file://$PROJECT_DIR$/client/ScriptResults.js" />
+        <item url="file://$PROJECT_DIR$/client/ScriptSelectorAndEditor.js" />
         <item url="file://$PROJECT_DIR$/client/ServerButtons.js" />
+        <item url="file://$PROJECT_DIR$/client/TestTinkerPopVersionDiscovery.js" />
+        <item url="file://$PROJECT_DIR$/client/TopRow.js" />
+        <item url="file://$PROJECT_DIR$/client/TopRowEmbedded.js" />
+        <item url="file://$PROJECT_DIR$/client/UserPill.js" />
+        <item url="file://$PROJECT_DIR$/client/VisConfig.js" />
+        <item url="file://$PROJECT_DIR$/client/VisitSelector.js" />
         <item url="file://$PROJECT_DIR$/client/app.js" />
         <item url="file://$PROJECT_DIR$/lib/router.js" />
+        <item url="file://$PROJECT_DIR$/server/methods.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
+      <root url="file://$PROJECT_DIR$/client/AdminTools.js" />
+      <root url="file://$PROJECT_DIR$/client/BluemixGraphButtons.js" />
+      <root url="file://$PROJECT_DIR$/client/DemoVideo.js" />
+      <root url="file://$PROJECT_DIR$/client/DrawGraphButton.js" />
+      <root url="file://$PROJECT_DIR$/client/GraphButtons.js" />
+      <root url="file://$PROJECT_DIR$/client/Help.js" />
       <root url="file://$PROJECT_DIR$/client/Home.js" />
+      <root url="file://$PROJECT_DIR$/client/HomeEmbedded.js" />
       <root url="file://$PROJECT_DIR$/client/LoginAndServerAndGraphSelectors.js" />
       <root url="file://$PROJECT_DIR$/client/LoginOnly.js" />
+      <root url="file://$PROJECT_DIR$/client/MigrationSplash.js" />
       <root url="file://$PROJECT_DIR$/client/OtherGraphButtons.js" />
+      <root url="file://$PROJECT_DIR$/client/OtherScriptButtons.js" />
+      <root url="file://$PROJECT_DIR$/client/OtherServerButtons.js" />
+      <root url="file://$PROJECT_DIR$/client/QuikVis.js" />
+      <root url="file://$PROJECT_DIR$/client/QuikVisIFrameOnly.js" />
+      <root url="file://$PROJECT_DIR$/client/QuikVisIFrameOnlyMinimal.js" />
+      <root url="file://$PROJECT_DIR$/client/ResultsOnly.js" />
       <root url="file://$PROJECT_DIR$/client/ResultsVis.js" />
+      <root url="file://$PROJECT_DIR$/client/ResultsVisMinimal.js" />
+      <root url="file://$PROJECT_DIR$/client/ReturnHostURL.js" />
+      <root url="file://$PROJECT_DIR$/client/RunScriptAndDrawButton.js" />
+      <root url="file://$PROJECT_DIR$/client/RunScriptButton.js" />
+      <root url="file://$PROJECT_DIR$/client/ScriptButtons.js" />
+      <root url="file://$PROJECT_DIR$/client/ScriptResults.js" />
+      <root url="file://$PROJECT_DIR$/client/ScriptSelectorAndEditor.js" />
       <root url="file://$PROJECT_DIR$/client/ServerButtons.js" />
+      <root url="file://$PROJECT_DIR$/client/TestTinkerPopVersionDiscovery.js" />
+      <root url="file://$PROJECT_DIR$/client/TopRow.js" />
+      <root url="file://$PROJECT_DIR$/client/TopRowEmbedded.js" />
+      <root url="file://$PROJECT_DIR$/client/UserPill.js" />
+      <root url="file://$PROJECT_DIR$/client/VisConfig.js" />
+      <root url="file://$PROJECT_DIR$/client/VisitSelector.js" />
       <root url="file://$PROJECT_DIR$/client/app.js" />
       <root url="file://$PROJECT_DIR$/lib/router.js" />
+      <root url="file://$PROJECT_DIR$/server/methods.js" />
     </CLASSES>
     <SOURCES />
   </library>
