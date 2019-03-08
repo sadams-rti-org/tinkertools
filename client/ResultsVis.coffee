@@ -573,14 +573,23 @@ selectNone = ()->
 #deselect all local element
   window.visnetwork.unselectAll()
 
+layoutSelectionsInCircle = ()->
+  elementIDs = window.visnetwork.getSelection()
+  nds = window.visnetwork.nodesHandler.body.data.nodes.getDataSet()
+  eds = window.visnetwork.edgesHandler.body.data.edges.getDataSet()
+  for nodeID in elementIDs.nodes
+    nds.update({id:nodeID, physics: false})
+#for edgeID in elementIDs.edges
+#  eds.update({id:edgeID, physics: false})
+
 pinSelections = ()->
   elementIDs = window.visnetwork.getSelection()
   nds = window.visnetwork.nodesHandler.body.data.nodes.getDataSet()
   eds = window.visnetwork.edgesHandler.body.data.edges.getDataSet()
   for nodeID in elementIDs.nodes
     nds.update({id:nodeID, physics: false})
-  #for edgeID in elementIDs.edges
-  #  eds.update({id:edgeID, physics: false})
+#for edgeID in elementIDs.edges
+#  eds.update({id:edgeID, physics: false})
 
 unpinSelections = ()->
   elementIDs = window.visnetwork.getSelection()
@@ -1011,7 +1020,6 @@ cloneSelections = ()->
 #-----------------for use from other functions-----------------
 
 addElementsFromBindingsJSON = (bindings)->
-  alert "Remember this function is not using gg()"
   script =
   '''
   if (bindings['vertsJSON'] == null) {vertsJSON = []} else {vertsJSON = bindings['vertsJSON']}

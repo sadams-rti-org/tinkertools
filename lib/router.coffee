@@ -7,31 +7,40 @@ Router.route('/', ()->
       Session.set 'graphName','the default graph'
       me.render 'HomeEmbedded'
     else
-      me.render 'Home'
+      me.render 'HomeClassic'
   where: 'server')
-Router.route('/Open', ()->
-  @render 'Home'
+
+Router.route('/Tools', ()->
+  @render 'Tools'
   where: 'server')
+
+Router.route('/HomeClassic', ()->
+  @render 'HomeClassic'
+  where: 'server')
+
 Router.route('/Embedded', ()->
   me = this
-  Meteor.call 'getEnvironmentVariable','EMBEDDED_GRAPH_SERVER_URL',(err,result)->
-    if result != undefined
-      Session.set 'serverURL', result
-      Session.set 'tinkerPopVersion','3'
-      Session.set 'graphName','the default graph'
-      me.render 'HomeEmbedded'
-    else
-      me.render 'Home'
+  if @params.query.serverURL
+    Session.set 'serverURL',@params.query.serverURL
+    Session.set 'tinkerPopVersion','3'
+    Session.set 'graphName','the default graph'
+    me.render 'HomeEmbedded'
+  else
+    me.render 'HomeClassic'
   where: 'server')
+
 Router.route('/testTinkerPopVersionDiscovery', ()->
   @render 'TestTinkerPopVersionDiscovery'
   where: 'server')
+
 Router.route('/help', ()->
   @render 'Help'
   where: 'server')
+
 Router.route('/demo-video', ()->
   @render 'DemoVideo'
   where: 'server')
+
 Router.route('/results', ()->
   Session.set 'scriptResults',JSON.parse(@params.query.json)
   console.log @params.query

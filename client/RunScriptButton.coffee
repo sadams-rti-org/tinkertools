@@ -27,7 +27,9 @@ Template.RunScriptButton.rendered = ->
       else
         scriptCode = Session.get 'scriptCode'
       if (Session.get "usingWebSockets")
+        window.PARTIALRESULTS = []
         window.socketToJanus.onmessage = (msg) ->
+          console.log msg
           endTime = Date.now()
           data = msg.data
           json = JSON.parse(data)
@@ -35,10 +37,13 @@ Template.RunScriptButton.rendered = ->
             Session.set 'runStatus', json.status.message
             alert "Error in processing Gremlin script: "+json.status.message
           else
+            if json.status.code == 206  #partial data, stash this and wait for more
+              window.PARTIALRESULTS =  _.union(window.PARTIALRESULTS, json.result.data)
+              return
             if json.status.code == 204
               results = []
-            else
-              results = json.result.data
+            if json.status.code == 200  #final result, but may have partial
+              results =  _.union(window.PARTIALRESULTS, json.result.data)
             processResults(results, true, startTime - endTime)
         request =
           requestId: uuid.new(),

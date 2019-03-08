@@ -34,6 +34,9 @@
         }
       });
     });
+    $(".practical-gremlin").click(function() {
+      return open("http://kelvinlawrence.net/book/Gremlin-Graph-Guide.html");
+    });
     $(".gremlin-docs").click(function() {
       return open("http://gremlindocs.com/");
     });
@@ -41,10 +44,10 @@
       return open("http://www.groovy-lang.org/groovy-dev-kit.html");
     });
     $(".tinkerpop-docs").click(function() {
-      return open("http://tinkerpop.apache.org/docs/3.1.1-incubating/reference/");
+      return open("http://tinkerpop.apache.org/docs/current/reference/");
     });
     $(".getting-started").click(function() {
-      return open("http://tinkerpop.apache.org/docs/3.2.0-incubating/tutorials/getting-started/");
+      return open("http://tinkerpop.apache.org/docs/current/tutorials/getting-started/");
     });
     return $(".sql2gremlin").click(function() {
       return open("http://sql2gremlin.com/");

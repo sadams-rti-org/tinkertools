@@ -1,4 +1,4 @@
-Template.ScriptButtons.rendered = ->
+Template.ScriptBookButtons.rendered = ->
   $(".script-add").click ->
     bootbox.prompt "Enter the name for the new script", (newName)->
       if newName
@@ -27,9 +27,6 @@ Template.ScriptButtons.rendered = ->
           document.getElementById('scriptSelector').value=newName
         ,500)
 
-  $(".practical-gremlin").click ->
-    open("http://kelvinlawrence.net/book/Gremlin-Graph-Guide.html")
-
   $(".gremlin-docs").click ->
     open("http://gremlindocs.com/")
 
@@ -37,16 +34,16 @@ Template.ScriptButtons.rendered = ->
     open("http://www.groovy-lang.org/groovy-dev-kit.html")
 
   $(".tinkerpop-docs").click ->
-    open("http://tinkerpop.apache.org/docs/current/reference/")
+    open("http://tinkerpop.apache.org/docs/3.1.1-incubating/reference/")
 
   $(".getting-started").click ->
-    open("http://tinkerpop.apache.org/docs/current/tutorials/getting-started/")
+    open("http://tinkerpop.apache.org/docs/3.2.0-incubating/tutorials/getting-started/")
 
   $(".sql2gremlin").click ->
     open("http://sql2gremlin.com/")
 
 
-Template.ScriptButtons.helpers
+Template.ScriptBookButtons.helpers
   scriptSelected: ->
     (Session.get 'scriptName') != null
   isTinkerPopVersion3 : ->

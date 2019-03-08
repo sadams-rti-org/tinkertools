@@ -36,6 +36,7 @@ docker run -d -p 80:3000 --name=tinkertools -e ROOT_URL=http://tinkertools.cloud
 
 
 
+docker run -d -p 80:3000 --name=tinkertools -e ROOT_URL=http:/localhost -e MONGO_URL=mongodb://localhost:27017/tinkertools tinkertools3.1.8
 
 
 -------------------Database-------------
@@ -57,6 +58,8 @@ Successfully added user: { "user" : "my_user", "roles" : [ "root" ] }
 5) now user: my_user, password: my_password is set up and authentication is turned on.  Target server will now serve mongodb via port 27017
 
 
-
-
+Azure Ubuntu 18.04
+install docker
+sudo docker run --name mongo -p 27017:27017 -v /root/data:/data/db -e MONGO_INITDB_ROOT_USERNAME=sadams -e MONGO_INITDB_ROOT_PASSWORD=odranoel -d mongo --auth --bind_ip_all
+sudo docker run -d -p 80:3000 --name=tinkertools -e ROOT_URL=http://tinkertools.eastus.cloudapp.azure.com -e MONGO_URL=mongodb://tinkertools:tinkertools@tinkertools.eastus.cloudapp.azure.com:27017/tinkertools tinkertools3.1.8
 

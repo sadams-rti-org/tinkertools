@@ -9,6 +9,7 @@
         <item url="file://$PROJECT_DIR$/client/GraphButtons.js" />
         <item url="file://$PROJECT_DIR$/client/Help.js" />
         <item url="file://$PROJECT_DIR$/client/Home.js" />
+        <item url="file://$PROJECT_DIR$/client/HomeClassic.js" />
         <item url="file://$PROJECT_DIR$/client/HomeEmbedded.js" />
         <item url="file://$PROJECT_DIR$/client/LoginAndServerAndGraphSelectors.js" />
         <item url="file://$PROJECT_DIR$/client/LoginOnly.js" />
@@ -25,11 +26,14 @@
         <item url="file://$PROJECT_DIR$/client/ReturnHostURL.js" />
         <item url="file://$PROJECT_DIR$/client/RunScriptAndDrawButton.js" />
         <item url="file://$PROJECT_DIR$/client/RunScriptButton.js" />
+        <item url="file://$PROJECT_DIR$/client/ScriptBookButtons.js" />
         <item url="file://$PROJECT_DIR$/client/ScriptButtons.js" />
+        <item url="file://$PROJECT_DIR$/client/ScriptOrganizerSelectorAndEditor.js" />
         <item url="file://$PROJECT_DIR$/client/ScriptResults.js" />
         <item url="file://$PROJECT_DIR$/client/ScriptSelectorAndEditor.js" />
         <item url="file://$PROJECT_DIR$/client/ServerButtons.js" />
         <item url="file://$PROJECT_DIR$/client/TestTinkerPopVersionDiscovery.js" />
+        <item url="file://$PROJECT_DIR$/client/Tools.js" />
         <item url="file://$PROJECT_DIR$/client/TopRow.js" />
         <item url="file://$PROJECT_DIR$/client/TopRowEmbedded.js" />
         <item url="file://$PROJECT_DIR$/client/UserPill.js" />
@@ -43,11 +47,13 @@
     <CLASSES>
       <root url="file://$PROJECT_DIR$/client/AdminTools.js" />
       <root url="file://$PROJECT_DIR$/client/BluemixGraphButtons.js" />
+      <root url="file://$PROJECT_DIR$/client/BookButtons.js" />
       <root url="file://$PROJECT_DIR$/client/DemoVideo.js" />
       <root url="file://$PROJECT_DIR$/client/DrawGraphButton.js" />
       <root url="file://$PROJECT_DIR$/client/GraphButtons.js" />
       <root url="file://$PROJECT_DIR$/client/Help.js" />
       <root url="file://$PROJECT_DIR$/client/Home.js" />
+      <root url="file://$PROJECT_DIR$/client/HomeClassic.js" />
       <root url="file://$PROJECT_DIR$/client/HomeEmbedded.js" />
       <root url="file://$PROJECT_DIR$/client/LoginAndServerAndGraphSelectors.js" />
       <root url="file://$PROJECT_DIR$/client/LoginOnly.js" />
@@ -64,11 +70,14 @@
       <root url="file://$PROJECT_DIR$/client/ReturnHostURL.js" />
       <root url="file://$PROJECT_DIR$/client/RunScriptAndDrawButton.js" />
       <root url="file://$PROJECT_DIR$/client/RunScriptButton.js" />
+      <root url="file://$PROJECT_DIR$/client/ScriptBookButtons.js" />
       <root url="file://$PROJECT_DIR$/client/ScriptButtons.js" />
+      <root url="file://$PROJECT_DIR$/client/ScriptOrganizerSelectorAndEditor.js" />
       <root url="file://$PROJECT_DIR$/client/ScriptResults.js" />
       <root url="file://$PROJECT_DIR$/client/ScriptSelectorAndEditor.js" />
       <root url="file://$PROJECT_DIR$/client/ServerButtons.js" />
       <root url="file://$PROJECT_DIR$/client/TestTinkerPopVersionDiscovery.js" />
+      <root url="file://$PROJECT_DIR$/client/Tools.js" />
       <root url="file://$PROJECT_DIR$/client/TopRow.js" />
       <root url="file://$PROJECT_DIR$/client/TopRowEmbedded.js" />
       <root url="file://$PROJECT_DIR$/client/UserPill.js" />

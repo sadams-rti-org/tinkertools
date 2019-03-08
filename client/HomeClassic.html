@@ -1,4 +1,4 @@
-<template name="Home">
+<template name="HomeClassic">
     <div class="container">
         {{#if userLoggedIn}}
             {{#if isAdmin}}
@@ -6,7 +6,7 @@
             {{else}}
                 {{> LoginAndServerAndGraphSelectors}}
                 {{#if graphSelected}}
-                    {{> ScriptOrganizerSelectorAndEditor}}
+                    {{> ScriptSelectorAndEditor}}
                 {{/if}}
                 {{#if scriptSelected}}
                     {{> RunScriptButton}}

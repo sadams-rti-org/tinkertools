@@ -1,0 +1,14 @@
+<template name="ScriptBookButtons">
+    <a href="#" class="btn btn-default " title="add a book of recipes"><span class="fa fa-plus book-add"></span></a>
+    {{#if bookSelected}}
+        <a href="#" class="btn btn-default" title="remove this book of recipes"><span class="fa fa-minus book-remove"></span></a>
+    {{/if}}
+    {{#if bookSelected}}
+        <a href="#" class="btn btn-default" title="copy this book of recipes to the clipboard"><span class="fa fa-copy book-copy"></span></a>
+    {{/if}}
+    <a href="#" class="btn btn-default" title="paste a book of recipes from the clipboard"><span class="fa fa-paste book-paste"></span></a>
+    <a href="#" class="btn btn-default" title="upload a book of recipes"><span class="fa fa-upload book-upload"></span></a>
+    {{#if bookSelected}}
+        <a href="#" class="btn btn-default" title="download this book of recipes"><span class="fa fa-download book-download"></span></a>
+    {{/if}}
+</template>
