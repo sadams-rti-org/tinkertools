@@ -1,6 +1,6 @@
 ![](https://github.com/ssadams11/tinkertoolsOSS/blob/master/public/tinkertools-logo.png)
 
-Tinkertools 3.0, even more graphie goodness!
+Tinkertools 3.2.1, even more graphie goodness!
 ============================================
 
 Tinkertools is a tool for knowledge graph developers. It can communicate with
@@ -12,7 +12,7 @@ interactively editable network.
 
  
 
-Installing Tinkertools 3.0
+Installing Tinkertools 3.2.1
 --------------------------
 
 ### Running from the source directory
@@ -41,13 +41,13 @@ export ROOT_URL=http://bluehair3.sl.cloud9.ibm.com/
 forever start bundle/main.js
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-### Using Docker to manage Tinkertools
+### Using Docker to manage Tinkertools on a server
 
 On a system with docker installed, move your tinkertools.tar.gz file to a
 directory and then:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-docker run -d -e ROOT_URL=http://bluehair3.sl.cloud9.ibm.com -e MONGO_URL=mongodb://admin:mongo4tinkertools@ssa-mongo.sl.cloud9.ibm.com:27017 -v ~/:/bundle -p 80:80 --restart=always --name=tinkertools meteorhacks/meteord:base
+docker run -d -e ROOT_URL=http://your-tinkertools-server-url-goes-here.com -e MONGO_URL=mongodb://admin:mongo4tinkertools@ssa-mongo.sl.cloud9.ibm.com:27017 -v ~/:/bundle -p 80:80 --restart=always --name=tinkertools meteorhacks/meteord:base
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 replacing the ROOT\_URL and MONGO\_URL locations appropriately
@@ -56,7 +56,35 @@ Or, if you want to run Tinkertools in embedded mode, where only a specified
 graph database is allowed, use:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-docker run -d -e EMBEDDED_GRAPH_SERVER_URL=http://bluehair5.sl.cloud9.ibm.com:8182 -e ROOT_URL=http://bluehair3.sl.cloud9.ibm.com -e MONGO_URL=mongodb://admin:mongo4tinkertools@ssa-mongo.sl.cloud9.ibm.com:27017 -v ~/:/bundle -p 80:80 --restart=always --name=tinkertools meteorhacks/meteord:base
+docker run -d -e EMBEDDED_GRAPH_SERVER_URL=http://your-graph-server-url-goes-here.com:8182 -e ROOT_URL=http://bluehair3.sl.cloud9.ibm.com -e MONGO_URL=mongodb://admin:mongo4tinkertools@ssa-mongo.sl.cloud9.ibm.com:27017 -v ~/:/bundle -p 80:80 --restart=always --name=tinkertools meteorhacks/meteord:base
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+again, replacing ROOT\_URL, MONGO\_URL and EMBEDDED\_GRAPH\_SERVER\_URL. Don’t
+forget the port number on the graph server URL, typically 8182.
+
+
+### Using Docker to run Tinkertools on a workstation/laptop
+
+On a laptop with docker installed, download the docker image file and then import it to your local docker system using:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+docker load -i tinkertools3.2.1.image
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+docker run -d -e ROOT_URL=http://your-tinkertools-server-url-goes-here.com -e MONGO_URL=mongodb://admin:mongo4tinkertools@ssa-mongo.sl.cloud9.ibm.com:27017 -v ~/:/bundle -p 80:80 --restart=always --name=tinkertools meteorhacks/meteord:base
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+replacing the ROOT\_URL and MONGO\_URL locations appropriately
+
+Or, if you want to run Tinkertools in embedded mode, where only a specified
+graph database is allowed, use:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+docker run -d -e EMBEDDED_GRAPH_SERVER_URL=http://your-graph-server-url-goes-here.com:8182 -e ROOT_URL=http://bluehair3.sl.cloud9.ibm.com -e MONGO_URL=mongodb://admin:mongo4tinkertools@ssa-mongo.sl.cloud9.ibm.com:27017 -v ~/:/bundle -p 80:80 --restart=always --name=tinkertools meteorhacks/meteord:base
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 again, replacing ROOT\_URL, MONGO\_URL and EMBEDDED\_GRAPH\_SERVER\_URL. Don’t
