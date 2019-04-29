@@ -39,6 +39,8 @@ docker run -d -p 80:3000 --name=tinkertools -e ROOT_URL=http://tinkertools.cloud
 docker run -d -p 80:3000 --name=tinkertools -e ROOT_URL=http:/localhost -e MONGO_URL=mongodb://localhost:27017/tinkertools tinkertools3.2.1
 
 
+
+
 -------------------Database-------------
 
 How to create your mongo db with proper authentication turned on:
