@@ -17,26 +17,26 @@ https://github.com/aedm/minimeteor
 Execute this in your project directory and it builds a Docker image. You don't need Meteor to be installed, only Docker.
 $ curl https://aedm.github.io/minimeteor/build.sh | sh -s myDockerTag[s]
 e.g.:
-curl https://aedm.github.io/minimeteor/build.sh | sh -s tinkertools3.1.8
+curl https://aedm.github.io/minimeteor/build.sh | sh -s tinkertools3.2.1
 
 Save the docker image to a file and move the file to the server
-docker save tinkertools3.1.8 -o tinkertools3.1.8.image
+docker save tinkertools3.2.1 -o tinkertools3.2.1.image
 
 Then load it into your server's docker system
-docker load -i tinkertools3.1.8.image
+docker load -i tinkertools3.2.1.image
 
 
 MiniMeteor exposes port 3000 by default.
 
 $ docker run -d -e ROOT_URL=... -e MONGO_URL=... -p 80:3000 myDockerTag
 e.g.:
-docker run -d -p 80:3000 --name=tinkertools -e ROOT_URL=http://tinkertools.sl.cloud9.ibm.com -e MONGO_URL=mongodb://tinkertools:tinkertools@9.59.151.106:27017/tinkertools tinkertools3.1.8
+docker run -d -p 80:3000 --name=tinkertools -e ROOT_URL=http://tinkertools.sl.cloud9.ibm.com -e MONGO_URL=mongodb://tinkertools:tinkertools@9.59.151.106:27017/tinkertools tinkertools3.2.1
 
-docker run -d -p 80:3000 --name=tinkertools -e ROOT_URL=http://tinkertools.cloudapp.net -e MONGO_URL="mongodb://sadams-mongo:vEOUHegFJmLBZXxbKcq85UxOdXRN4UjttgqgEcOMbfYtgFW4fBjAOjzMvim6YjPgFQgUY0KKhogmPPLgfwoIWw==@sadams-mongo.documents.azure.com:10255/tinkertools?ssl=true&replicaSet=globaldb" tinkertools3.1.8
+docker run -d -p 80:3000 --name=tinkertools -e ROOT_URL=http://tinkertools.cloudapp.net -e MONGO_URL="mongodb://sadams-mongo:vEOUHegFJmLBZXxbKcq85UxOdXRN4UjttgqgEcOMbfYtgFW4fBjAOjzMvim6YjPgFQgUY0KKhogmPPLgfwoIWw==@sadams-mongo.documents.azure.com:10255/tinkertools?ssl=true&replicaSet=globaldb" tinkertools3.2.1
 
 
 
-docker run -d -p 80:3000 --name=tinkertools -e ROOT_URL=http:/localhost -e MONGO_URL=mongodb://localhost:27017/tinkertools tinkertools3.1.8
+docker run -d -p 80:3000 --name=tinkertools -e ROOT_URL=http:/localhost -e MONGO_URL=mongodb://localhost:27017/tinkertools tinkertools3.2.1
 
 
 -------------------Database-------------
@@ -61,5 +61,5 @@ Successfully added user: { "user" : "my_user", "roles" : [ "root" ] }
 Azure Ubuntu 18.04
 install docker
 sudo docker run --name mongo -p 27017:27017 -v /root/data:/data/db -e MONGO_INITDB_ROOT_USERNAME=sadams -e MONGO_INITDB_ROOT_PASSWORD=odranoel -d mongo --auth --bind_ip_all
-sudo docker run -d -p 80:3000 --name=tinkertools -e ROOT_URL=http://tinkertools.eastus.cloudapp.azure.com -e MONGO_URL=mongodb://tinkertools:tinkertools@tinkertools.eastus.cloudapp.azure.com:27017/tinkertools tinkertools3.1.8
+sudo docker run -d -p 80:3000 --name=tinkertools -e ROOT_URL=http://tinkertools.eastus.cloudapp.azure.com -e MONGO_URL=mongodb://tinkertools:tinkertools@tinkertools.eastus.cloudapp.azure.com:27017/tinkertools tinkertools3.2.1
 
