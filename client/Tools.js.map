@@ -1,0 +1,13 @@
+{
+  "version": 3,
+  "file": "Tools.js",
+  "sourceRoot": "",
+  "sources": [
+    "Tools.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;EAAA,QAAQ,CAAC,KAAK,CAAC,QAAf,GAA0B,QAAA,CAAA,CAAA,EAAA;;EAG1B,QAAQ,CAAC,KAAK,CAAC,OAAf,CAEE;IAAA,aAAA,EAAe,QAAA,CAAA,CAAA;aACb,OAAO,CAAC,GAAR,CAAY,eAAZ;IADa;EAAf,CAFF;AAHA",
+  "sourcesContent": [
+    "Template.Tools.rendered = ->\n\n\nTemplate.Tools.helpers\n\n  versionNumber: ->\n    Session.get('versionNumber')\n\n"
+  ]
+}
