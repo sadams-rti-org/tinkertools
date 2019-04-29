@@ -32,7 +32,7 @@ $ docker run -d -e ROOT_URL=... -e MONGO_URL=... -p 80:3000 myDockerTag
 e.g.:
 docker run -d -p 80:3000 --name=tinkertools -e ROOT_URL=http://tinkertools.sl.cloud9.ibm.com -e MONGO_URL=mongodb://tinkertools:tinkertools@9.59.151.106:27017/tinkertools tinkertools3.2.1
 
-docker run -d -p 80:3000 --name=tinkertools -e ROOT_URL=http://tinkertools.cloudapp.net -e MONGO_URL="mongodb://sadams-mongo:vEOUHegFJmLBZXxbKcq85UxOdXRN4UjttgqgEcOMbfYtgFW4fBjAOjzMvim6YjPgFQgUY0KKhogmPPLgfwoIWw==@sadams-mongo.documents.azure.com:10255/tinkertools?ssl=true&replicaSet=globaldb" tinkertools3.2.1
+docker run -d -p 80:3000 --name=tinkertools -e ROOT_URL=http://tinkertools.cloudapp.net -e MONGO_URL="mongodb://sadams-mongo:foo-bar@sadams-mongo.documents.azure.com:10255/tinkertools?ssl=true&replicaSet=globaldb" tinkertools3.2.1
 
 
 

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b1690f77-7bda-4094-8861-ecf81e0d2c21" name="Default Changelist" comment="+3.2.1">
+    <list default="true" id="b1690f77-7bda-4094-8861-ecf81e0d2c21" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/how to deploy tinkertools SL version" beforeDir="false" afterPath="$PROJECT_DIR$/how to deploy tinkertools SL version" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -87,8 +88,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/how to deploy tinkertools SL version">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="577">
-              <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
+            <state relative-caret-position="697">
+              <caret line="49" column="122" lean-forward="true" selection-start-line="49" selection-start-column="122" selection-end-line="49" selection-end-column="122" />
             </state>
           </provider>
         </entry>
@@ -410,7 +411,7 @@
       <workItem from="1555523953650" duration="20000" />
       <workItem from="1555524005790" duration="3902000" />
       <workItem from="1556291522603" duration="885000" />
-      <workItem from="1556558086326" duration="798000" />
+      <workItem from="1556558086326" duration="1513000" />
     </task>
     <task id="LOCAL-00001" summary="First commit after fork.  Set up in webstorm">
       <created>1536433118360</created>
@@ -433,11 +434,25 @@
       <option name="project" value="LOCAL" />
       <updated>1556559620292</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="+3.2.1">
+      <created>1556559788170</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1556559788170</updated>
+    </task>
+    <task id="LOCAL-00005" summary="++3.2.1">
+      <created>1556560139771</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1556560139771</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="153204000" />
+    <option name="totallyTimeSpent" value="153919000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="212" y="23" width="1889" height="1105" extended-state="0" />
@@ -469,7 +484,9 @@
     <MESSAGE value="First commit after fork.  Set up in webstorm" />
     <MESSAGE value="Fixed 206" />
     <MESSAGE value="3.2.1" />
-    <option name="LAST_COMMIT_MESSAGE" value="3.2.1" />
+    <MESSAGE value="+3.2.1" />
+    <MESSAGE value="++3.2.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="++3.2.1" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/client/ScriptSelectorAndEditor.js">
@@ -2017,8 +2034,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/how to deploy tinkertools SL version">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="577">
-          <caret line="41" lean-forward="true" selection-start-line="41" selection-end-line="41" />
+        <state relative-caret-position="697">
+          <caret line="49" column="122" lean-forward="true" selection-start-line="49" selection-start-column="122" selection-end-line="49" selection-end-column="122" />
         </state>
       </provider>
     </entry>
