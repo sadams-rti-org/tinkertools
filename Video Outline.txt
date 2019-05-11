@@ -1,0 +1,95 @@
+Outline for demo video:
+
+Intro to Tinkertools
+    what it is
+    purpose
+    history
+    Deployment options
+        Meteor/Nodejs Client/Server Mongo
+        Server deployment
+        Localhost deployment
+            Meteor run
+            Docker images
+
+    User interface overview
+        toprow
+        server selection
+        script editing
+        JSON results
+        Graph results
+        Styling
+
+Getting Started
+    creating an account
+    connecting to a server
+        adding/removing servers and their scripts
+    writing a Groovy/Gremlin script
+        3+4
+        get graph
+        add vertex
+    running the script
+    viewing results
+        as JSON
+        as a Graph visualization
+
+Script management
+    manual editing
+        ignore Query URL row
+    CRUD buttons
+    documentation and tutorial source buttons
+    upload/download
+    generate a random graph
+
+Results
+    JSON results
+        spawn button
+        export CSV button
+    Graph results
+        ONLY if elements are found in results
+        basic navigation
+        graph editing is LIVE
+
+Graph editing in detail
+    Graph navigation (drag scroll zoom)
+
+    Selection model (single/multi/group)
+        hover/doubleclick  (pop-up editor covered later)
+
+    Selection tools
+        All/None/Invert/Expand/Exp5/All/Query
+
+    Edit button to add verts and edges
+        add 2 vertices
+            explain Labels immutable and selection box
+        add edge
+            explain labels (and namespace w properties) and selection box and immutable
+        add self edge
+
+    Show/Hides Nodes/Edges
+    Label/Property
+
+    Visit/Drop
+        Supernode check
+
+    Clone/Delete
+
+    Pin/Unpin/Physics
+
+    Hide Buffers
+        1-4
+        Hide selections
+        Unhide
+        Spawn buffer
+
+    Inspect/Uninspect
+        Popup editor features
+        Including copy/paste props between elements
+
+    Spawn selected
+    Spawn All
+
+    Spawn Bindings
+    Paste/Ingest Bindings
+    Groovy Ingestion Code
+
+    Styling options

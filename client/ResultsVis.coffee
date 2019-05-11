@@ -46,6 +46,38 @@ Template.ResultsVis.helpers
 #----------------- Functions -----------------------
 
 window.determineGraphToShow = ->
+  g3 = detectGraphSON3Element(Session.get 'scriptResult')
+  if g3
+    return determineGraphToShowGraphSON3()
+  else
+    return determineGraphToShowGraphSON1()
+
+detectGraphSON3Element = (obj)->
+  if not obj[0] then return false
+  if obj[0]['@value'] then return true
+  vertFound = atLeastOneInsideGraphSON3(obj, '@type','g:Vertex')
+  if vertFound then return true
+  edgeFound = atLeastOneInsideGraphSON3(obj, '@type', 'g:Edge')
+  return edgeFound
+
+atLeastOneInsideGraphSON3 = (obj,key,value) ->
+  if obj[key] && (obj[key]== value)
+    return true
+  else
+    if (typeof obj == 'string') || (typeof obj == 'boolean') || (typeof obj == 'number') || (typeof obj == 'symbol') || (typeof obj == 'undefined') || ( obj == null)
+      return false
+    if Array.isArray(obj)  #its an array, recurse
+      for subObj in obj
+        answer = atLeastOneInsideGraphSON3(subObj,key,value)
+        if answer then return true
+    else
+      for okey in Object.keys(obj)
+        answer = atLeastOneInsideGraphSON3(obj[okey],key,value)
+        if answer then return true
+  return false
+
+
+window.determineGraphToShowGraphSON1 = ->
   Session.set 'graphToShow', {nodes:[],edges:[]}
   verts = verticesInside(Session.get 'scriptResult')
   verts = _.uniq(verts,(item)->
@@ -89,6 +121,53 @@ window.determineGraphToShow = ->
       addVertsToGraphToShow verts
       Session.set 'elementsInResults', {vertices: verts, edges: edges}
 
+
+window.determineGraphToShowGraphSON3 = ->
+  Session.set 'graphToShow', {nodes:[],edges:[]}
+  verts = verticesInsideGraphSON3(Session.get 'scriptResult')
+  verts = _.uniq(verts,(item)->
+    return item.id['@value'])
+  edges = edgesInsideGraphSON3(Session.get 'scriptResult')
+  vIDsInEdges = vertIDsInEdgesGraphSON3(edges)
+  vIDsInResults = []
+  vIDsInResults = (v.id['@value'] for v in verts)
+  missingVIDs = _.difference vIDsInEdges, vIDsInResults
+  if missingVIDs.length == 0
+    return setGraphToShowGraphSON3 verts, edges
+  bindings = {vIDs: missingVIDs}
+  script = 'vIDs.collect{each-> g.V(each).next()}'
+  if (Session.get "usingWebSockets")
+    window.socketToJanus.onmessage = (msg) ->
+      endTime = Date.now()
+      data = msg.data
+      json = JSON.parse(data)
+      if json.status.code >= 500
+        alert "Error in processing Gremlin script: "+json.status.message
+      else
+        if json.status.code == 204
+          results = []
+        else
+          results = json.result.data
+        addVertsToGraphToShowGraphSON3(v['@value'] for v in results['@value'])
+        addEdgesToGraphToShowGraphSON3 edges
+        addVertsToGraphToShowGraphSON3 verts
+        gts = Session.get 'graphToShow'
+        Session.set 'elementsInResults', gts
+    request =
+      requestId: uuid.new(),
+      op:"eval",
+      processor:"",
+      args:{gremlin: script, bindings: bindings, language: "gremlin-groovy"}
+    startTime = Date.now()
+    window.socketToJanus.send(JSON.stringify(request))
+  else
+    Meteor.call 'runScript', Session.get('userID'), Session.get('serverURL'),(Session.get 'tinkerPopVersion'), Session.get('graphName'),'Built-in Vertex Retriever', script, bindings, (error,result)->
+      addVertsToGraphToShowGraphSON3(result.results)
+      addEdgesToGraphToShowGraphSON3 edges
+      addVertsToGraphToShowGraphSON3 verts
+      gts = Session.get 'graphToShow'
+      Session.set 'elementsInResults', gts
+
 window.addVertsToGraphToShow = (verts)->
   nodes = ({id: String(v.id),label: labelForVertex(v,Session.get 'keyForNodeLabel'), allowedToMoveX: true, allowedToMoveY: true, title: titleForElement(v), element:v} for v in verts)
   if window.visnetwork
@@ -119,7 +198,6 @@ window.addEdgesToGraphToShow = (edges)->
   else
     Session.set 'graphFoundInResults', false
 
-
 window.setGraphToShow = (verts, edges)->
   keyForLabel = Session.get 'keyForNodeLabel'
   nodes = ({id: String(v.id),label: labelForVertex(v,keyForLabel), allowedToMoveX: true, allowedToMoveY: true, title: titleForElement(v), element:v} for v in verts)
@@ -130,6 +208,67 @@ window.setGraphToShow = (verts, edges)->
     Session.set 'graphFoundInResults', true
   else
     Session.set 'graphFoundInResults', false
+
+
+
+window.addVertsToGraphToShowGraphSON3 = (verts)->
+  nodes = []
+  for v in verts
+    v.type = 'vertex'
+    node = {id: String(v.id['@value']),label: labelForVertexGraphSON3(v,Session.get 'keyForNodeLabel'), allowedToMoveX: true, allowedToMoveY: true, title: titleForElementGraphSON3(v), element:v}
+    nodes.push node
+  if window.visnetwork
+    window.visnetwork.nodesHandler.body.data.nodes.update nodes
+  if (Session.get 'graphToShow') == undefined
+    Session.set 'graphToShow', {nodes:[],edges:[]}
+  gts = Session.get 'graphToShow'
+  gts.nodes=gts.nodes.concat nodes
+  Session.set 'graphToShow',gts
+  if gts.nodes.length + gts.edges.length > 0
+    Session.set 'graphFoundInResults', true
+  else
+    Session.set 'graphFoundInResults', false
+
+window.addEdgesToGraphToShowGraphSON3 = (edgesData)->
+  edges = []
+  for e in edgesData
+    e.type = 'edge'
+    edge = {id: String(e.id['@value']['relationId']), label: e.label, from: String(e.outV['@value']), to: String(e.inV['@value']), title: titleForElementGraphSON3(e), element:e}
+    edges.push edge
+  if window.visnetwork
+    window.visnetwork.edgesHandler.body.data.edges.update edges
+  if (Session.get 'graphToShow') == undefined
+    Session.set 'graphToShow', {nodes:[],edges:[]}
+  gts = Session.get 'graphToShow'
+  #console.log 'before=',gts
+  gts.edges=gts.edges.concat edges
+  #console.log 'after=',gts
+  Session.set 'graphToShow',gts
+  if gts.edges.length + gts.edges.length > 0
+    Session.set 'graphFoundInResults', true
+  else
+    Session.set 'graphFoundInResults', false
+
+window.setGraphToShowGraphSON3 = (verts, edgesData)->
+  keyForLabel = Session.get 'keyForNodeLabel'
+  nodes = []
+  for v in verts
+    v.type = 'vertex'
+    node = {id: String(v.id['@value']),label: labelForVertexGraphSON3(v,keyForLabel), allowedToMoveX: true, allowedToMoveY: true, title: titleForElementGraphSON3(v), element:v}
+    nodes.push node
+  edges = []
+  for e in edgesData
+    e.type = 'edge'
+    edge = {id: String(e.id['@value']['relationId']), label: e.label, from: String(e.outV['@value']), to: String(e.inV['@value']), title: titleForElementGraphSON3(e), element:e}
+    edges.push edge
+  g = {nodes: nodes, edges: edges}
+  Session.set 'graphToShow',g
+  if g.nodes.length + g.edges.length > 0
+    Session.set 'graphFoundInResults', true
+  else
+    Session.set 'graphFoundInResults', false
+
+
 
 window.randomizeLayout = ()->
   g = Session.get 'graphToShow'
@@ -152,8 +291,6 @@ vertIDsInEdges = (edges)->
   edgeVertIDs = []
   edgeVertIDs.push edge.inV for edge in edges
   edgeVertIDs.push edge.outV for edge in edges
-
-
   return _.uniq(edgeVertIDs)
 
 allObjectsInsideWithKeyValue = (foundArray, obj, key, value)->
@@ -166,6 +303,34 @@ allObjectsInsideWithKeyValue = (foundArray, obj, key, value)->
       foundArray.push obj
     else  #recurse deeper
       allObjectsInsideWithKeyValue(foundArray,obj[okey],key,value) for okey in Object.keys(obj)
+  return []
+
+verticesInsideGraphSON3 = (obj)->
+  verts = []
+  allObjectsInsideWithKeyValueGraphSON3 verts, obj, '@type', 'g:Vertex'
+  return verts
+
+edgesInsideGraphSON3 = (obj)->
+  edges = []
+  allObjectsInsideWithKeyValueGraphSON3 edges,obj, '@type', 'g:Edge'
+  return edges
+
+vertIDsInEdgesGraphSON3 = (edges)->
+  edgeVertIDs = []
+  edgeVertIDs.push edge.inV['@value'] for edge in edges
+  edgeVertIDs.push edge.outV['@value'] for edge in edges
+  return _.uniq(edgeVertIDs)
+
+allObjectsInsideWithKeyValueGraphSON3 = (foundArray, obj, key, value)->
+  if (typeof obj == 'string') || (typeof obj == 'boolean') || (typeof obj == 'number') || (typeof obj == 'symbol') || (typeof obj == 'undefined') || ( obj == null)
+    return []
+  if Array.isArray(obj)  #its an array, recurse
+    allObjectsInsideWithKeyValueGraphSON3(foundArray,subObj,key,value) for subObj in obj
+  else   #its not an array, assume an object
+    if obj[key] && obj[key]==value
+      foundArray.push obj['@value']
+    else  #recurse deeper
+      allObjectsInsideWithKeyValueGraphSON3(foundArray,obj[okey],key,value) for okey in Object.keys(obj)
   return []
 
 #********************* array splitter, used to be used to process batches of verts and edges due to GET length restrictions, no longer needed since moving to POST
@@ -204,6 +369,27 @@ retrieveVerticesForIDs = (ids, callback)->
     Meteor.call 'runScript', Session.get('userID'), Session.get('serverURL'),(Session.get 'tinkerPopVersion'), Session.get('graphName'),'Built-in Vertex Retriever', script, bindings, (error,result)->
       callback(result.results)
 
+
+titleForElementGraphSON3 = (props)->
+  if props.type == 'edge'
+    id = props.id['@value']['relationId']
+  else
+    id = props.id['@value']
+  userProps = userPropertiesForElementGraphSON3(props)
+  sortedKeys = _.sortBy(_.keys(userProps), (e)->
+    return e.toLocaleLowerCase()
+  )
+  html = '<div  class="vis-element-popup">'
+  html = html + '<table style="width:200">'
+  html = html+'<tr><th>'+props.type+': </th><th>'+id+'</th><tr>'
+  html = html+'<tr><td>label: </td><td>'+props.label+'</td><tr>'
+  for key in sortedKeys
+    value = userProps[key]
+    tr = '<tr><td>'+key+': </td><td>'+value+'</td></tr>'
+    html = html + tr
+  html = html + '</table>'
+  html = html + '</div>'
+  return html
 
 titleForElement = (props)->
 #console.log props
@@ -256,6 +442,139 @@ popupDialogForElement = (localElement, elementType)->
   html = html + '</div>'
   return html
 
+popupDialogForElementGraphSON3 = (localElement, elementType)->
+  props = localElement.element
+  userProps = userPropertiesForElementGraphSON3(props)
+  sortedKeys = _.sortBy(_.keys(userProps), (e)->
+    return e.toLocaleLowerCase()
+  )
+  if elementType == 'vertex'
+    id = props.id['@value']
+  else
+    id = props.id['@value']['relationId']
+  html = '<div  class="vis-element-popup">'
+  html = html + '<table style="width:100%" class="propTableForElementID'+id+'" name="'+elementType+'">'
+  addPropButton = '<a href="#" class="btn btn-default" id="'+id+'" title="Add property"><span class="glyphicon glyphicon-plus element-addProperty'+id+'"></span></a>'
+  if elementType == 'vertex'
+    cloneButton = '<a href="#" class="btn btn-default" id="'+id+'" title="Clone this Vertex"><span class="clone-vertex'+id+'">Clone</span></a>'
+  else
+    cloneButton = '<a href="#" class="btn btn-default" id="'+id+'" title="Clone this Edge"><span class="clone-edge'+id+'">Clone</span></a>'
+  deletePropButton = '<a href="#" class="btn btn-default" title="Delete property"><span class="glyphicon glyphicon-minus element-deleteProperty'+id+'"></span></a>'
+  copyPropButton = '<a href="#" class="btn btn-default" title="Copy property"><span class="glyphicon glyphicon-copy element-copyProperty'+id+'"></span></a>'
+  pastePropButton = '<a href="#" class="btn btn-default" title="Paste property"><span class="glyphicon glyphicon-paste element-pasteProperty'+id+'"></span></a>'
+  logButton = '<a href="#" class="btn btn-default" title="console.log the element"><span class="glyphicon glyphicon-share element-log'+id+'"></span></a>'
+  pinItButton = '<input type="checkbox" class="vis-options-checkbox" id="pinItCheckBoxForId'+id+'" value="'+localElement.allowedToMoveX+'" onclick="pinVertex(\''+id+'\',this.value)"><span class="glyphicon glyphicon-pushpin"></span></a>'
+  html = html+'<tr><th>Property:  </th><th>Value</th><th style="width:50">'+addPropButton+pastePropButton+logButton+'</th><tr>'
+  tr = '<tr><td>id:  </td><td>'+id+'</td><td style="width:50">'+pinItButton+'</td><tr>'
+  html = html + tr
+  tr = '<tr><td>label:  </td><td>'+props.label+'</td><th style="width:50px" id="'+id+'" value="'+elementType+'" name="'+key+'">'+cloneButton+'</th></tr>'
+  html = html + tr
+  for key in sortedKeys
+    value = userProps[key]
+    type = findJavaTypeForPropertyNamedGraphSON3(key,props,elementType)
+    cacheOriginalPropertyTypeGraphSON3(elementType,id,key,type)
+    typeSelector = buildTypeSelectorHTMLGraphSON3(id,key,type,elementType)
+    tr = '<tr><td>'+key+':  </td><td><input type="text" class="propForElementID'+id+'" name='+key+' value="'+value+'" oninput="$(\'.commitButtonForElementID'+id+'\').show()"></td><th style="width:150px" id="'+id+'" value="'+elementType+'" name="'+key+'">'+typeSelector+deletePropButton+copyPropButton+'</th></tr>'
+    html = html + tr
+  html = html + '</table>'
+  html = html + '<button type="button" style="display: none" class="commitButtonForElementID'+id+'" onclick="updateElementPropsGraphSON3(\''+id+'\',\''+elementType+'\')">Commit changes</button>'
+  html = html + '</div>'
+  return html
+
+cacheOriginalPropertyTypeGraphSON3 = (elementType,id,key,type)->
+  if not window.ElementPropertyTypeChangeCacheForGraphSON3
+    window.ElementPropertyTypeChangeCacheForGraphSON3 = {vertex:{},edge:{}}
+  if not window.ElementPropertyTypeChangeCacheForGraphSON3[elementType][id]
+    window.ElementPropertyTypeChangeCacheForGraphSON3[elementType][id] = {originalTypes:{}, newTypes:{}}
+  window.ElementPropertyTypeChangeCacheForGraphSON3[elementType][id]['originalTypes'][key]=type
+
+propertyTypesChangedGraphSON3 = (elementType,id)->
+  if window.ElementPropertyTypeChangeCacheForGraphSON3[elementType][id]['newTypes'] == {}
+    return []
+  changedTypes = {}
+  newTypes = window.ElementPropertyTypeChangeCacheForGraphSON3[elementType][id]['newTypes']
+  newTypeKeys = Object.keys(newTypes)
+  for key in newTypeKeys
+    origType = window.ElementPropertyTypeChangeCacheForGraphSON3[elementType][id]['originalTypes'][key]
+    if origType != newTypes[key]
+      changedTypes[key] = newTypes[key]
+  return changedTypes
+
+currentPropertyTypesGraphSON3 = (elementType,id)->
+  currentTypes =  _.clone(window.ElementPropertyTypeChangeCacheForGraphSON3[elementType][id]['originalTypes'])
+  for key in _.keys(window.ElementPropertyTypeChangeCacheForGraphSON3[elementType][id]['newTypes'])
+    currentTypes[key] = window.ElementPropertyTypeChangeCacheForGraphSON3[elementType][id]['newTypes'][key]
+  return currentTypes
+
+findJavaTypeForPropertyNamedGraphSON3 = (propName, element, elementType)->
+  if elementType == 'vertex'
+    propVal = element.properties[propName][0]['@value']['value']
+  else
+    propVal = element.properties[propName]['@value']['value']
+  if propVal['@type']
+    gtype = propVal['@type']
+    if gtype == "janusgraph:Geoshape"
+      type = "Geoshape"
+    else
+      if gtype.slice(0,2) == "gx"
+        type = gtype.slice(3)
+      else
+        type = gtype.slice(2)
+  else
+    type = 'Undef'
+    if typeof propVal == 'string' then type = 'String'
+    if typeof propVal == 'boolean' then type = 'Boolean'
+    console.log typeof propVal, type
+  return type
+
+
+buildTypeSelectorHTMLGraphSON3 = (id,key,type,elementType)->
+  valueLabelMap = {
+    String: 'String'
+    Char: 'Char'
+    Boolean: 'Bool'
+    Byte: 'Byte'
+    Int32: 'Int32'
+    Int64: 'Int64'
+    Float: 'Float'
+    Double: 'Double'
+    Date: 'Date'
+    Geoshape: 'Shape'
+    UUID: 'UUID'
+    Class: 'Class'
+  }
+  html = '<select onchange="$(\'.commitButtonForElementID' + id + '\').show();window.changePropertyTypeGraphSON3(\''+elementType+'\',\''+id+'\',\''+key+'\',this.value)"   style="width:70px" >'
+  for val in Object.keys(valueLabelMap)
+    selected = ''
+    if type == val
+      selected = 'selected'
+    option = '<option '+selected+' value="'+val+'">'+valueLabelMap[val]+'</option>'
+    html = html + option
+  html = html + '</select>'
+  return html
+
+window.changePropertyTypeGraphSON3 = (elementType,id,key,newType)->
+  window.ElementPropertyTypeChangeCacheForGraphSON3[elementType][id]['newTypes'][key]=newType
+  if elementType == 'vertex'
+    node = window.visnetwork.nodesHandler.body.data.nodes._data[id]
+    prop = node.element.properties[key][0]['@value']
+  else
+    edge = window.visnetwork.edgesHandler.body.data.edges._data[id]
+    prop = edge.element.properties[key]['@value']
+  propVal = prop['value']
+  if propVal['@type']
+    propVal = propVal['@value']
+  prop['value'] = {"@type": typeStringForGraphSON3(newType), "@value": propVal}
+
+
+typeStringForGraphSON3 = (type)->
+  prefix = 'g'
+  if type == 'Char' then prefix = 'gx'
+  if type == 'Byte' then prefix = 'gx'
+  if type == 'Geoshape' then prefix = 'janusgraph'
+  return prefix+':'+type
+
+
 
 window.pinVertex = (id, value)->
   node = clientElement = window.visnetwork.nodesHandler.body.data.nodes._data[id]
@@ -274,6 +593,334 @@ window.updateElementProps = (id,elementType)->
     props[$(this).attr("name")] = $(this).val()
   window.updatePropsForElement(elementType,id,props,originalProps)
 
+window.updateElementPropsGraphSON3 = (id,elementType)->
+  if elementType == 'vertex'
+    clientElement = window.visnetwork.nodesHandler.body.data.nodes._data[id]
+  else
+    clientElement = window.visnetwork.edgesHandler.body.data.edges._data[id]
+  props = {}
+  originalProps = userPropertiesForElementGraphSON3(clientElement.element)
+  $('.propForElementID'+id).each ()->
+    props[$(this).attr("name")] = $(this).val()
+  window.updatePropsForElementGraphSON3(elementType,id,props,originalProps)
+
+
+javaValueExpressionGraphSON3 = (element,key,value,type)->
+  if typeof value == 'string'
+    str = value
+  else
+    str = JSON.stringify(value)
+  if type == 'String'
+    expression = '"'+str+'"'
+    return expression
+  if type == 'Char'
+    if str.length > 1
+      alert('the value for property "'+key+'" should be between a single character (Char).  Truncating "'+str+'" to "'+str.slice(0,1)+'"')
+    if str.length = 0
+      alert('the value for property "'+key+'" should be between a single character (Char).  This string is empty.')
+    expression = '"'+str.slice(0,1)+'"'
+    return expression
+  if type == 'Byte'
+# a byte in Java/Groovy is short between -127 and 127
+    num = Number.parseInt(str)
+    if num < -127 or num >127
+      alert('the value for property "'+key+'" should be between -127 and 127 (Byte).  This in not a byte: '+str)
+    expression = num.toString()+' as byte'
+    return expression
+  if type == 'Int32'
+    num = Number.parseInt(str)
+    if num == Nan
+      alert('the value for property "'+key+'" should be an integer (Int32).  This is not a number: '+str)
+    expression = num.toString()+' as Integer'
+    return expression
+  if type == 'Int64'
+    num = Number.parseInt(str)
+    if num == Nan
+      alert('the value for property "'+key+'" should be an integer (Int64).  This is not a number: '+str)
+    expression = num.toString()+' as Long'
+    return expression
+  if type == 'Float'
+    num = Number.parseFloat(str)
+    if num == Nan
+      alert('the value for property "'+key+'" should be a float (Float).  This is not a number: '+str)
+    expression = num.toString()+' as Float'
+    return expression
+  if type == 'Double'
+    num = Number.parseFloat(str)
+    if num == Nan
+      alert('the value for property "'+key+'" should be a double-precision float (Double).  This is not a number: '+str)
+    expression = num.toString()+' as Double'
+    return expression
+  if type == 'Boolean'
+    str = str.toLowerCase()
+    if str != 'true' and str != 'false'
+      alert('the value for property "'+key+'" should be true or false (Boolean).  This is neither: '+str)
+    expression = str
+    return expression
+  if type == 'Date'
+    num = Number.parseFloat(str)
+    if num == Nan
+      alert('the value for property "'+key+'" should be integer milliseconds since 1-1-1970 (Date).  This is not a number of milliseconds: '+str)
+    expression = 'new Date('+num.toString()+')'
+    return expression
+  if type == 'LocalDate'
+    dateTest = /(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])-([12]\d{3})/
+    if not dateTest.test(str)
+      alert('the value for property "'+key+'" should be like 1-1-1970 or 05-03-2019 (LocalDate).  This is not a date string: '+str)
+    expression = 'new Date('+num.toString()+')'
+    return expression
+  if type == 'UUID'
+    if str.length == 36
+      alert('the value for property "'+key+'" should be a 36 character string like "13971916-83be-4b52-9d74-f478d45e2dcd" (UUID).  This is not long enough: '+str)
+    expression = 'UUID.fromString("'+str+'")'
+    return expression
+  if type == 'Class'
+    if str.length == 0
+      alert('the value for property "'+key+'" should be a string like "org.apache.tinkerpop.gremlin.structure.Vertex" or "Vertex" (Class).  This is string is empty '+str)
+    expression = str
+    return expression
+  if type == 'Geoshape'
+    if not ((str.slice(0,"Geoshape.fromWkt".length) == "Geoshape.fromWkt") or (str.slice(0,"Geoshape.point".length) == "Geoshape.point") or (str.slice(0,"Geoshape.circle".length) == "Geoshape.circle"))
+      alert('the value for property "'+key+'" should be a string like "Geoshape.fromWkt(...)" or "Geoshape.point(...)" or "Geoshape.circle(...)" (Geoshape).  This is string is neither: '+str)
+    expression = str
+    return expression
+
+
+geoshapeGraphSON3ToJava = (g3)->
+  if g3['coordinates']   #we have a point
+    pts = g3['coordinates']
+    ptstrs = (pt.toString() for pt in pts)
+    if pts.length == 2 then mod = ''
+    if pts.length == 3 then mod = 'Z'  #note we are ignoring the solo M possibility
+    if pts.length == 4 then mod = 'ZM'
+    str = 'Geoshape.fromWkt( "POINT '
+    for ptstr in ptstrs
+      str = str + ',' + ptstr
+    str = str.slice(0,-1)
+    str = str + ')'
+    return str
+  if g3['geometry']   #we have a geometric object
+    val = g3['geometry']['@value']
+    type = val[1]
+    if type == 'Circle'
+      centerCoords = listFromGraphSON3(val[3])
+      radius = valueFromGraphSON3(val[5])
+      str = 'Geoshape.circle('+centerCoords[0].toString()+','+centerCoords[1].toString()+','+radius.toString()+')'
+      return str
+    # otherwise we have a WKT version
+    wkt = geoshapeGeometryGraphSON3ToWKT(val[3])
+    return 'Geoshape.fromWkt("'+wkt+'")'
+
+geoshapeGeometryGraphSON3ToWKT = (val)->
+  debugger
+  #val = g3['@value']['geometry']['@value'] or g3['@value']['@value'] in the GeoCollection geometries case
+  type = val[1]
+  if type == 'Point'
+    str = 'POINT '     #ignoring Z and M and MZ options for now, only 2D points supported here
+    list = wktListFromGraphSON3(val[3])
+    str = str + list
+    return str
+  if type == 'Polygon'
+    str = 'POLYGON '
+    list = wktListFromGraphSON3(val[3])
+    str = str + list
+    return str
+  if type == 'LineString'
+    str = 'LINESTRING '
+    list = wktListFromGraphSON3(val[3])
+    str = str + list
+    return str
+  if type == 'MultiPoint'
+    str = 'MULTIPOINT '
+    list = wktListFromGraphSON3(val[3])
+    str = str + list
+    return str
+  if type == 'MultiLineString'
+    str = 'MULTILINESTRING '
+    list = wktListFromGraphSON3(val[3])
+    str = str + list
+    return str
+  if type == 'MultiPolygon'
+    str = 'MULTIPOLYGON '
+    list = wktListFromGraphSON3(val[3])
+    str = str + list
+    return str
+  if type == 'GeometryCollection'
+    str = 'GEOMETRYCOLLECTION '
+    list = wktListFromGraphSON3(val[2])
+    str = str + list
+    return str
+
+
+valueListFromGraphSON3 = (g3)->
+  if g3['@type'] != 'g:List' then debugger
+  inList = g3['@value']
+  outList = []
+  for item in inList
+    if item['@type'] == 'g.List'   #have a nested list so recurse
+      outItem = wktListFromGraphSON3(item)
+    else
+      if item['@type'] == 'g.Map'   #have a geometry object
+        outItem = geoshapeGeometryGraphSON3ToWKT(item)
+      else #any other type is assumed to be a number and ok to use value directly
+        outItem = item['@value']
+    outList.push(outItem)
+  return outList
+
+
+wktValueListFromGraphSON3 = (g3)->
+  list = valueListFromGraphSON3(g3)
+  return wktValueListFromValueList(list)
+
+wktValueListFromValueList = (list)->
+  str = '('
+  for item in list
+    if typeof item == 'Array'
+      itemstr = wktValueListFromValueList(item)
+    else
+      itemstr = item.toString()
+    str = str + ' ' + itemstr
+  str = str + ')'
+  return str
+
+
+valueFromGraphSON3 = (g3)->
+  debugger
+
+
+window.updatePropsForElementGraphSON3 = (elementType, id, newProps, oldProps) ->
+  $('.commitButtonForElementID'+id).hide()
+  keys2Delete = []
+  for key in _.keys(oldProps)
+    if newProps[key] == undefined
+      keys2Delete.push(key)
+  if elementType == 'vertex'
+    clientElement = window.visnetwork.nodesHandler.body.data.nodes._data[id]
+  else
+    clientElement = window.visnetwork.edgesHandler.body.data.edges._data[id]
+  script = ''
+  if keys2Delete.length > 0
+  #$(".propTableForElementID"+id).parent().parent().parent().height($(".propTableForElementID"+id).parent().parent().parent().height()-28)
+    if elementType == "vertex"
+      script = script + 'keys2Delete.each { g.V(vID).properties(it).drop()}'
+    else
+      script = script + 'keys2Delete.each { g.E(vID).properties(it).drop()}'
+    bindings = {keys2Delete: keys2Delete, vID: id}
+    if (Session.get "usingWebSockets")
+      window.socketToJanus.onmessage = (msg) ->
+        endTime = Date.now()
+        console.log msg
+        data = msg.data
+        json = JSON.parse(data)
+        if json.status.code >= 500
+          alert "Error in processing Gremlin script: "+json.status.message
+        else
+          if json.status.code == 204
+            results = []
+          else
+            results = json.result.data
+          for key2Delete in keys2Delete
+            clientElement.element.properties = _.omit clientElement.element.properties, key2Delete
+            clientElement.title = titleForElementGraphSON3(clientElement.element)
+            if elementType == 'vertex'
+              window.visnetwork.nodesHandler.body.data.nodes.update [clientElement], []
+            else
+              window.visnetwork.edgesHandler.body.data.edges.update [clientElement], []
+      #set up request
+      request =
+        requestId: uuid.new(),
+        op:"eval",
+        processor:"",
+        args:{gremlin: script, bindings: bindings, language: "gremlin-groovy"}
+      startTime = Date.now()
+      window.socketToJanus.send(JSON.stringify(request))
+    else
+      Meteor.call 'runScript', Session.get('userID'), Session.get('serverURL'),(Session.get 'tinkerPopVersion'), Session.get('graphName'),'Built-in property remover', script, bindings,(error,result)->
+        if result.success == true
+          for key2Delete in keys2Delete
+            clientElement.element.properties = _.omit clientElement.element.properties, key2Delete
+            clientElement.title = titleForElementGraphSON3(clientElement.element)
+            if elementType == 'vertex'
+              window.visnetwork.nodesHandler.body.data.nodes.update [clientElement], []
+            else
+              window.visnetwork.edgesHandler.body.data.edges.update [clientElement], []
+        else
+          alert "Graph update failed.  Nothing changed.  Maybe try again?"
+  changedProps = {}
+  for key in _.keys(newProps)
+    if oldProps[key] == undefined
+      changedProps[key] = newProps[key]
+    else
+      if newProps[key].toString() != oldProps[key].toString()
+        changedProps[key] = newProps[key]
+  changedTypes = propertyTypesChangedGraphSON3(elementType,id)
+  propTypes = currentPropertyTypesGraphSON3(elementType,id)
+  if (not $.isEmptyObject(changedProps)) or (Object.keys(changedTypes).length > 0)
+    if elementType == 'vertex'
+      script = 'v=g.V('+id+').next();'
+    else
+      script = 'v=g.E("'+id+'").next();'
+    allKeys = _.uniq(_.union(_.keys(changedProps), _.keys(changedTypes)))
+    for key in allKeys
+      if changedProps[key]
+        propVal = changedProps[key]
+      else
+        propVal = oldProps[key]
+      script = script + 'v.property("'+key+'","'+javaValueExpressionGraphSON3(clientElement.element,key,propVal,propTypes[key])+'");'
+    script = script + 'v '
+    if (Session.get "usingWebSockets")
+      window.socketToJanus.onmessage = (msg) ->
+        endTime = Date.now()
+        data = msg.data
+        json = JSON.parse(data)
+        if json.status.code >= 500
+          alert "Error in processing Gremlin script: "+json.status.message
+        else
+          if json.status.code == 204
+            results = []
+          else
+            results = json.result.data
+          if elementType == 'vertex'
+            clientElement = window.visnetwork.nodesHandler.body.data.nodes._data[id]
+          else
+            clientElement = window.visnetwork.edgesHandler.body.data.edges._data[id]
+          clientElement.element = results[0]
+          clientElement.title = titleForElementGraphSON3(clientElement.element)
+          #console.log "clientElement=",clientElement
+          delete clientElement.x
+          delete clientElement.y
+          if elementType == 'vertex'
+            window.visnetwork.nodesHandler.body.data.nodes.update [clientElement], []
+          else
+            window.visnetwork.edgesHandler.body.data.edges.update [clientElement], []
+          getLabelSets()
+      request =
+        requestId: uuid.new(),
+        op:"eval",
+        processor:"",
+        args:{gremlin: script, bindings: {}, language: "gremlin-groovy"}
+      startTime = Date.now()
+      window.socketToJanus.send(JSON.stringify(request))
+    else
+      Meteor.call 'runScript', Session.get('userID'), Session.get('serverURL'),(Session.get 'tinkerPopVersion'), Session.get('graphName'),'Built-in property updater', script, (error,result)->
+        if result.success == true
+          if elementType == 'vertex'
+            clientElement = window.visnetwork.nodesHandler.body.data.nodes._data[id]
+          else
+            clientElement = window.visnetwork.edgesHandler.body.data.edges._data[id]
+          clientElement.element = result.results[0]
+          clientElement.title = titleForElementGraphSON3(clientElement.element)
+          #console.log "clientElement=",clientElement
+          delete clientElement.x
+          delete clientElement.y
+          if elementType == 'vertex'
+            window.visnetwork.nodesHandler.body.data.nodes.update [clientElement], []
+          else
+            window.visnetwork.edgesHandler.body.data.edges.update [clientElement], []
+          getLabelSets()
+        else
+          alert "Graph update failed.  Nothing changed.  Maybe try again?"
+
 window.updatePropsForElement = (elementType, id, newProps, oldProps) ->
   $('.commitButtonForElementID'+id).hide()
   keys2Delete = []
@@ -286,7 +933,7 @@ window.updatePropsForElement = (elementType, id, newProps, oldProps) ->
     clientElement = window.visnetwork.edgesHandler.body.data.edges._data[id]
   script = ''
   if keys2Delete.length > 0
-    #$(".propTableForElementID"+id).parent().parent().parent().height($(".propTableForElementID"+id).parent().parent().parent().height()-28)
+#$(".propTableForElementID"+id).parent().parent().parent().height($(".propTableForElementID"+id).parent().parent().parent().height()-28)
     if elementType == "vertex"
       script = script + 'keys2Delete.each { g.V(vID).properties(it).drop()}'
     else
@@ -447,7 +1094,7 @@ addVertToGraph = (nodeData, callback) ->
   bootbox.prompt("<p>Enter the label for this new vertex or choose one of these "+labelSelectorHTML+"</p><p>Vertex labels are immutable (can't be changed), so choose wisely.</p>", (result)->
     label = result
     if label == null || label == ""
-#alert "Vetices must have labels, adding vertex aborted"
+#alert "Vertices must have labels, adding vertex aborted"
       callback(null)
       return
     script = 'g.addV("'+label+'")'
@@ -722,7 +1369,6 @@ unhideSelections1 = ()->
     window.visnetwork.moveNode(node.id,oldLoc.x,oldLoc.y)
   window.hidden1 = {nodes:[],edges:[], positions:{}}
   $(".context-hideSelections1").text("Hide1")
-window.hidden1 = {nodes:[],edges:[], positions:{}}
 
 spawnHidden1 = ()->
   hiddenNodes = (each.id for each in window.hidden1.nodes)
@@ -1360,7 +2006,46 @@ labelForVertex = (vertex, keyForLabel)->
 
   return labelPrefix+nl+suffix
 
+userPropertiesForElementGraphSON3 = (element)->
+#this does not try to handle multivalue properties yet, only returns the first one
+  props = {}
+  if element["properties"] != undefined
+    for key in _.keys element.properties
+      if element.type == "vertex"
+        val = element.properties[key][0]['@value']['value']
+        if val['@value'] then val = val['@value']
+        if (typeof val == 'object') then val = geoshapeGraphSON3ToJava(val)
+        props[key] = val
+      else   #edge properties aren't multivalued
+        val = element.properties[key]['@value']['value']
+        if val['@value'] then val = val['@value']
+        if (typeof val == 'object') then val = geoshapeGraphSON3ToJava(val)
+        props[key] = val
+  return props
 
+labelForVertexGraphSON3 = (vertex, keyForLabel)->
+  if keyForLabel == undefined
+    key = "null"
+  else
+    key = keyForLabel
+  if Session.get 'useLabelPrefix'
+    labelPrefix = vertex.label
+  else
+    labelPrefix = ""
+  suffix = ""
+  if (vertex[key] == undefined)
+    if vertex['properties'] && (vertex.properties[key] != undefined)
+      suffix = key+": "+vertex.properties[key][0]['@value']
+    else
+      suffix = ""
+      nl = ""
+  else
+    suffix = key+": "+vertex[key]
+  if suffix != ""
+    nl = '\n'
+  else
+    nl = ""
+  return labelPrefix+nl+suffix
 
 allKeysInVerts = (verts)->
 #answer the collection of all unique vertex keys in verts
@@ -1369,7 +2054,6 @@ allKeysInVerts = (verts)->
   for v in verts
     allKeys.push(k) for k in Object.keys(v.properties)
   return _.uniq(allKeys)
-
 
 window.updateEdgeColors = ()->
   conf = window.visnetwork.configurator.moduleOptions
@@ -1581,7 +2265,14 @@ window.setUpVis = () ->
 
   window.popupPropertyEditor = (element, elementType)->
     id = element.element.id
-    html = popupDialogForElement(element, elementType)
+    if id['@value']
+      html = popupDialogForElementGraphSON3(element, elementType)
+      if elementType == 'vertex'
+        id = id['@value']
+      else
+        id = id['@value']['relationId']
+    else
+      html = popupDialogForElement(element, elementType)
     title = elementType + ': ' + id
     div = document.createElement 'div'
     div.class = 'doubleClick-dialog'

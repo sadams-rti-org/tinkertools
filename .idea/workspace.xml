@@ -2,7 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b1690f77-7bda-4094-8861-ecf81e0d2c21" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Video Outline.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WKT Gemotry examples.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/graphson3-example.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/ResultsVis.coffee" beforeDir="false" afterPath="$PROJECT_DIR$/client/ResultsVis.coffee" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/ResultsVis.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/ResultsVis.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/ResultsVis.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/client/ResultsVis.js.map" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -11,112 +17,87 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/router.coffee">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" selection-start-line="15" selection-end-line="15" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Desktop/json_dump.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret selection-end-column="80990" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/TopRow.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="24" column="31" selection-start-line="24" selection-start-column="31" selection-end-line="24" selection-end-column="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/client/TopRow.coffee">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="615">
-              <caret line="41" selection-start-line="41" selection-end-line="41" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/how to deploy tinkertools SL version">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="708">
-              <caret line="51" column="101" lean-forward="true" selection-start-line="51" selection-start-column="3" selection-end-line="51" selection-end-column="101" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="705">
-                <caret line="47" column="31" selection-start-line="47" selection-start-column="31" selection-end-line="47" selection-end-column="31" />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/tinkertools-splash.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/tinkertoy-graph.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/tinkertools-logo.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/setting up meteor for this build">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="68" selection-start-column="51" selection-end-column="68" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.5">
+      <split-first>
+        <leaf>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/client/ResultsVis.coffee">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="375">
+                  <caret line="714" column="6" selection-start-line="714" selection-start-column="6" selection-end-line="714" selection-end-column="6" />
+                  <folding>
+                    <element signature="n#style#0;n#table#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#table#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#th#2;n#tr#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#th#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#th#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#th#2;n#tr#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#th#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#th#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#th#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#th#0;n#!!top" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <splitter split-orientation="vertical" split-proportion="0.5">
+          <split-first>
+            <leaf>
+              <file pinned="false" current-in-tab="true">
+                <entry file="file://$PROJECT_DIR$/graphson3-example.json">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="274">
+                      <caret line="990" selection-start-line="990" selection-end-line="990" />
+                      <folding>
+                        <element signature="e#23418#23775#0" />
+                        <element signature="e#23819#23907#0" />
+                        <element signature="e#23955#24121#0" />
+                        <element signature="e#24431#27074#0" />
+                        <element signature="e#27384#30017#0" />
+                        <element signature="e#30330#31274#0" />
+                        <element signature="e#31592#33869#0" />
+                        <element signature="e#34184#40136#0" />
+                      </folding>
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+            </leaf>
+          </split-first>
+          <split-second>
+            <leaf>
+              <file pinned="false" current-in-tab="true">
+                <entry file="file://$PROJECT_DIR$/WKT Gemotry examples.txt">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state relative-caret-position="360">
+                      <caret line="24" column="34" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+            </leaf>
+          </split-second>
+        </splitter>
+      </split-second>
+    </splitter>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
-        <option value="tsconfig.json" />
         <option value="JavaScript File" />
+        <option value="tsconfig.json" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>addElement</find>
-      <find>inputGremlinCodeForIngestion</find>
-      <find>debugger</find>
-      <find>Otter</find>
-      <find>Todd</find>
-      <find>Bayam</find>
-      <find>Rinc</find>
-      <find>Juana D</find>
-      <find>vanas</find>
-      <find>?</find>
-      <find>3.1.8</find>
       <find>04</find>
       <find>multiselect</find>
       <find>setupvis</find>
@@ -133,6 +114,20 @@
       <find>58203</find>
       <find>300px</find>
       <find>Adams Cou</find>
+      <find>setGraphToShowGraphSON3</find>
+      <find>debugg</find>
+      <find>popup</find>
+      <find>detect</find>
+      <find>relationId</find>
+      <find>@relationId</find>
+      <find>debugger</find>
+      <find>Boolean</find>
+      <find>alert</find>
+      <find>nodes</find>
+      <find>commit</find>
+      <find>changeProperty</find>
+      <find>userPro</find>
+      <find>toJava</find>
     </findStrings>
     <replaceStrings>
       <replace>3.2.1</replace>
@@ -153,10 +148,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/client/Home.html" />
-        <option value="$PROJECT_DIR$/lib/collections.js" />
-        <option value="$PROJECT_DIR$/client/ScriptOrganizerSelectorAndEditor.coffee" />
-        <option value="$PROJECT_DIR$/client/BookButtons.html" />
         <option value="$PROJECT_DIR$/client/BookButtons.coffee" />
         <option value="$PROJECT_DIR$/client/ScriptOrganizerSelectorAndEditor.html" />
         <option value="$PROJECT_DIR$/client/header.html" />
@@ -175,8 +166,6 @@
         <option value="$PROJECT_DIR$/client/HomeClassic.js" />
         <option value="$PROJECT_DIR$/client/ScriptSelectorAndEditor.html" />
         <option value="$USER_HOME$/Desktop/json_dump.json" />
-        <option value="$PROJECT_DIR$/tsconfig.json" />
-        <option value="$PROJECT_DIR$/client/ResultsVis.coffee" />
         <option value="$PROJECT_DIR$/../data/county-adjacency-by-state.json" />
         <option value="$PROJECT_DIR$/client/RunScriptButton.coffee" />
         <option value="$PROJECT_DIR$/lib/router.coffee" />
@@ -204,6 +193,12 @@
         <option value="$USER_HOME$/Library/Caches/Cleanup At Startup/com.fetchsoftworks.Fetch/Fetch Temporary Folder 2/elastic_search.js" />
         <option value="$PROJECT_DIR$/how to deploy tinkertools SL version" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/Video Outline.txt" />
+        <option value="$PROJECT_DIR$/tsconfig.json" />
+        <option value="$PROJECT_DIR$/client/ResultsVis.js" />
+        <option value="$PROJECT_DIR$/graphson3-example.json" />
+        <option value="$PROJECT_DIR$/WKT Gemotry examples.txt" />
+        <option value="$PROJECT_DIR$/client/ResultsVis.coffee" />
       </list>
     </option>
   </component>
@@ -211,10 +206,10 @@
     <dismissed value="$PROJECT_DIR$/package.json" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="212" />
+    <option name="x" value="168" />
     <option name="y" value="23" />
-    <option name="width" value="1889" />
-    <option name="height" value="1105" />
+    <option name="width" value="2252" />
+    <option name="height" value="1371" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -224,22 +219,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
-          <expand>
-            <path>
-              <item name="tinkertools" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
-            </path>
-            <path>
-              <item name="tinkertools" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="client" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -294,16 +273,39 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope">
+        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
+          <expand>
+            <path>
+              <item name="tinkertools" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+            </path>
+            <path>
+              <item name="tinkertools" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="client" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="HbShouldOpenHtmlAsHb" value="enabled" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js.meteor.library.cached" value="$PROJECT_DIR$/.meteor" />
     <property name="js.meteor.library.was.enabled" value="true" />
     <property name="js.meteor.project" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
@@ -365,6 +367,9 @@
       <item itemvalue="Meteor.Run 3000" />
     </list>
   </component>
+  <component name="StructureViewFactory">
+    <option name="ACTIVE_ACTIONS" value=",SHOW_FIELDS,ALPHA_COMPARATOR" />
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -411,7 +416,16 @@
       <workItem from="1555523953650" duration="20000" />
       <workItem from="1555524005790" duration="3902000" />
       <workItem from="1556291522603" duration="885000" />
-      <workItem from="1556558086326" duration="5238000" />
+      <workItem from="1556558086326" duration="9394000" />
+      <workItem from="1556803601020" duration="3084000" />
+      <workItem from="1556896944879" duration="1783000" />
+      <workItem from="1557170362554" duration="244000" />
+      <workItem from="1557258656740" duration="115000" />
+      <workItem from="1557260009349" duration="14433000" />
+      <workItem from="1557419652721" duration="4968000" />
+      <workItem from="1557430405926" duration="761000" />
+      <workItem from="1557491627975" duration="27000" />
+      <workItem from="1557491984878" duration="33572000" />
     </task>
     <task id="LOCAL-00001" summary="First commit after fork.  Set up in webstorm">
       <created>1536433118360</created>
@@ -469,23 +483,31 @@
       <option name="project" value="LOCAL" />
       <updated>1556563758759</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="3.2.1 with local laptop install instructions">
+      <created>1556564265337</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1556564265337</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="157644000" />
+    <option name="totallyTimeSpent" value="220787000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="212" y="23" width="1889" height="1105" extended-state="0" />
+    <frame x="168" y="23" width="2252" height="1371" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14507495" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4959496" visible="true" weight="0.12147019" />
+      <window_info id="Structure" order="1" sideWeight="0.50405043" side_tool="true" visible="true" weight="0.12147019" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info id="npm" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32977208" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.14732143" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.22321428" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32961783" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.11544586" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.22292994" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -513,55 +535,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="3.2.1 with local laptop install instructions" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/client/LoginAndServerAndGraphSelectors.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="28" column="45" selection-start-line="28" selection-start-column="32" selection-end-line="28" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/app.coffee">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/collections.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="42" selection-start-column="42" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/Home.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="29" selection-start-line="29" selection-end-line="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/Home.coffee">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/methods.coffee">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/LoginAndServerAndGraphSelectors.coffee">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/HomeClassic.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tsconfig.json" />
-    <entry file="file://$USER_HOME$/Desktop/gremlin-scripts-from-the default graph (8).json" />
-    <entry file="file://$USER_HOME$/Desktop/gremlin-scripts-from-the default graph (7).json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="73" selection-start-line="6" selection-start-column="22" selection-end-line="6" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../data/county-adjacency-by-state.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1114500">
@@ -1939,13 +1912,6 @@
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/Library/Caches/Cleanup At Startup/com.fetchsoftworks.Fetch/Fetch Temporary Folder 6/app-store-demo.html" />
-    <entry file="file://$PROJECT_DIR$/client/ResultsVis.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="28605">
-          <caret line="1907" column="37" selection-start-line="1907" selection-start-column="26" selection-end-line="1907" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Library/Caches/Cleanup At Startup/com.fetchsoftworks.Fetch/Fetch Temporary Folder 4/index.html" />
     <entry file="file://$USER_HOME$/Library/Caches/Cleanup At Startup/com.fetchsoftworks.Fetch/Fetch Temporary Folder 13/databricks-demo.html" />
     <entry file="file://$USER_HOME$/Library/Caches/Cleanup At Startup/com.fetchsoftworks.Fetch/Fetch Temporary Folder 9/family-tree-demo.html" />
@@ -1973,13 +1939,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1905">
           <caret line="127" column="18" selection-start-line="127" selection-start-column="18" selection-end-line="127" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/ResultsVis.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="50400">
-          <caret line="3360" column="1" selection-start-line="3061" selection-start-column="7" selection-end-line="3360" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -2025,6 +1984,33 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/client/app.coffee">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/HomeClassic.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="40" column="33" selection-start-line="40" selection-start-column="33" selection-end-line="40" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="825">
+            <caret line="55" selection-start-line="55" selection-end-line="55" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Video Outline.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="555">
+          <caret line="37" column="16" selection-start-line="37" selection-start-column="16" selection-end-line="37" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/public/tinkertools-splash.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -2043,18 +2029,97 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/how to deploy tinkertools SL version">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="708">
-          <caret line="51" column="101" lean-forward="true" selection-start-line="51" selection-start-column="3" selection-end-line="51" selection-end-column="101" />
+        <state relative-caret-position="840">
+          <caret line="56" column="28" lean-forward="true" selection-start-line="56" selection-start-column="28" selection-end-line="56" selection-end-column="28" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="705">
-            <caret line="47" column="31" selection-start-line="47" selection-start-column="31" selection-end-line="47" selection-end-column="31" />
-          </first_editor>
-          <second_editor />
+    <entry file="http://localhost:3000/packages/meteor.js?hash=c9a34f92f28ede5a42eac467d3fa1763b624436a">
+      <provider selected="true" editor-type-id="httpFileEditor" />
+    </entry>
+    <entry file="http://localhost:3000/packages/tracker.js?hash=0e8b5c18d543a28ce43b2f183c26b49ee62196af">
+      <provider selected="true" editor-type-id="httpFileEditor" />
+    </entry>
+    <entry file="http://localhost:3000/packages/mongo-id.js?hash=2f2a83467fca25b9f42f5bfaef5abe29526393e5">
+      <provider selected="true" editor-type-id="httpFileEditor" />
+    </entry>
+    <entry file="http://localhost:3000/packages/blaze.js?hash=cbd85c3fe14949f2d2b9a3b76334f5f0e96d553c">
+      <provider selected="true" editor-type-id="httpFileEditor" />
+    </entry>
+    <entry file="http://localhost:3000/packages/jquery.js?hash=e15504227515793c40a6a3a8ad340399cb657500">
+      <provider selected="true" editor-type-id="httpFileEditor" />
+    </entry>
+    <entry file="http://localhost:3000/packages/modules-runtime.js?hash=9f9bb5e055614ddf4eb3e743737b7a5b3cfd9d34">
+      <provider selected="true" editor-type-id="httpFileEditor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/graphson3-example.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="274">
+          <caret line="990" selection-start-line="990" selection-end-line="990" />
+          <folding>
+            <element signature="e#23418#23775#0" />
+            <element signature="e#23819#23907#0" />
+            <element signature="e#23955#24121#0" />
+            <element signature="e#24431#27074#0" />
+            <element signature="e#27384#30017#0" />
+            <element signature="e#30330#31274#0" />
+            <element signature="e#31592#33869#0" />
+            <element signature="e#34184#40136#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WKT Gemotry examples.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="34" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/ResultsVis.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="639">
+          <caret line="1181" column="4" selection-start-line="1181" selection-start-column="4" selection-end-line="1181" selection-end-column="4" />
+          <folding>
+            <element signature="n#style#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#2;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#2;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#2;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#2;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#select#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/ResultsVis.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="714" column="6" selection-start-line="714" selection-start-column="6" selection-end-line="714" selection-end-column="6" />
+          <folding>
+            <element signature="n#style#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#2;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#2;n#tr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

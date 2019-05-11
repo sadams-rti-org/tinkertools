@@ -1,0 +1,1400 @@
+[
+  [
+    {
+      "@type": "g:List",
+      "@value": [
+        {
+          "@type": "g:List",
+          "@value": [
+            {
+              "@type": "g:Vertex",
+              "@value": {
+                "id": {
+                  "@type": "g:Int64",
+                  "@value": 4328
+                },
+                "label": "State",
+                "properties": {
+                  "zip": [
+                    {
+                      "@type": "g:VertexProperty",
+                      "@value": {
+                        "id": {
+                          "@type": "janusgraph:RelationIdentifier",
+                          "@value": {
+                            "relationId": "17h-3c8-1l1"
+                          }
+                        },
+                        "value": "3566",
+                        "label": "zip"
+                      }
+                    }
+                  ],
+                  "address": [
+                    {
+                      "@type": "g:VertexProperty",
+                      "@value": {
+                        "id": {
+                          "@type": "janusgraph:RelationIdentifier",
+                          "@value": {
+                            "relationId": "1lp-3c8-35x"
+                          }
+                        },
+                        "value": "12529",
+                        "label": "address"
+                      }
+                    }
+                  ],
+                  "year": [
+                    {
+                      "@type": "g:VertexProperty",
+                      "@value": {
+                        "id": {
+                          "@type": "janusgraph:RelationIdentifier",
+                          "@value": {
+                            "relationId": "1zx-3c8-3yd"
+                          }
+                        },
+                        "value": {
+                          "@type": "g:Int32",
+                          "@value": 333
+                        },
+                        "label": "year"
+                      }
+                    }
+                  ],
+                  "name": [
+                    {
+                      "@type": "g:VertexProperty",
+                      "@value": {
+                        "id": {
+                          "@type": "janusgraph:RelationIdentifier",
+                          "@value": {
+                            "relationId": "2e5-3c8-4qt"
+                          }
+                        },
+                        "value": "429",
+                        "label": "name"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "g:Vertex",
+              "@value": {
+                "id": {
+                  "@type": "g:Int64",
+                  "@value": 16520
+                },
+                "label": "Space",
+                "properties": {
+                  "zip": [
+                    {
+                      "@type": "g:VertexProperty",
+                      "@value": {
+                        "id": {
+                          "@type": "janusgraph:RelationIdentifier",
+                          "@value": {
+                            "relationId": "74h-cqw-1l1"
+                          }
+                        },
+                        "value": "4596",
+                        "label": "zip"
+                      }
+                    }
+                  ],
+                  "address": [
+                    {
+                      "@type": "g:VertexProperty",
+                      "@value": {
+                        "id": {
+                          "@type": "janusgraph:RelationIdentifier",
+                          "@value": {
+                            "relationId": "7ip-cqw-35x"
+                          }
+                        },
+                        "value": "83554",
+                        "label": "address"
+                      }
+                    }
+                  ],
+                  "year": [
+                    {
+                      "@type": "g:VertexProperty",
+                      "@value": {
+                        "id": {
+                          "@type": "janusgraph:RelationIdentifier",
+                          "@value": {
+                            "relationId": "7wx-cqw-3yd"
+                          }
+                        },
+                        "value": {
+                          "@type": "g:Int32",
+                          "@value": 282
+                        },
+                        "label": "year"
+                      }
+                    }
+                  ],
+                  "name": [
+                    {
+                      "@type": "g:VertexProperty",
+                      "@value": {
+                        "id": {
+                          "@type": "janusgraph:RelationIdentifier",
+                          "@value": {
+                            "relationId": "8b5-cqw-4qt"
+                          }
+                        },
+                        "value": "378",
+                        "label": "name"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "g:Vertex",
+              "@value": {
+                "id": {
+                  "@type": "g:Int64",
+                  "@value": 12424
+                },
+                "label": "UniversitySystem",
+                "properties": {
+                  "zip": [
+                    {
+                      "@type": "g:VertexProperty",
+                      "@value": {
+                        "id": {
+                          "@type": "janusgraph:RelationIdentifier",
+                          "@value": {
+                            "relationId": "4r5-9l4-1l1"
+                          }
+                        },
+                        "value": "5296",
+                        "label": "zip"
+                      }
+                    }
+                  ],
+                  "address": [
+                    {
+                      "@type": "g:VertexProperty",
+                      "@value": {
+                        "id": {
+                          "@type": "janusgraph:RelationIdentifier",
+                          "@value": {
+                            "relationId": "55d-9l4-35x"
+                          }
+                        },
+                        "value": "41872",
+                        "label": "address"
+                      }
+                    }
+                  ],
+                  "year": [
+                    {
+                      "@type": "g:VertexProperty",
+                      "@value": {
+                        "id": {
+                          "@type": "janusgraph:RelationIdentifier",
+                          "@value": {
+                            "relationId": "5jl-9l4-3yd"
+                          }
+                        },
+                        "value": {
+                          "@type": "g:Int32",
+                          "@value": 770
+                        },
+                        "label": "year"
+                      }
+                    }
+                  ],
+                  "name": [
+                    {
+                      "@type": "g:VertexProperty",
+                      "@value": {
+                        "id": {
+                          "@type": "janusgraph:RelationIdentifier",
+                          "@value": {
+                            "relationId": "5xt-9l4-4qt"
+                          }
+                        },
+                        "value": "392",
+                        "label": "name"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "@type": "g:Vertex",
+              "@value": {
+                "id": {
+                  "@type": "g:Int64",
+                  "@value": 8192
+                },
+                "label": "UniversityCampus",
+                "properties": {
+                  "zip": [
+                    {
+                      "@type": "g:VertexProperty",
+                      "@value": {
+                        "id": {
+                          "@type": "janusgraph:RelationIdentifier",
+                          "@value": {
+                            "relationId": "1jb4-6bk-1l1"
+                          }
+                        },
+                        "value": "7436",
+                        "label": "zip"
+                      }
+                    }
+                  ],
+                  "address": [
+                    {
+                      "@type": "g:VertexProperty",
+                      "@value": {
+                        "id": {
+                          "@type": "janusgraph:RelationIdentifier",
+                          "@value": {
+                            "relationId": "1jpc-6bk-35x"
+                          }
+                        },
+                        "value": "92376",
+                        "label": "address"
+                      }
+                    }
+                  ],
+                  "year": [
+                    {
+                      "@type": "g:VertexProperty",
+                      "@value": {
+                        "id": {
+                          "@type": "janusgraph:RelationIdentifier",
+                          "@value": {
+                            "relationId": "1k3k-6bk-3yd"
+                          }
+                        },
+                        "value": {
+                          "@type": "g:Int32",
+                          "@value": 790
+                        },
+                        "label": "year"
+                      }
+                    }
+                  ],
+                  "name": [
+                    {
+                      "@type": "g:VertexProperty",
+                      "@value": {
+                        "id": {
+                          "@type": "janusgraph:RelationIdentifier",
+                          "@value": {
+                            "relationId": "1khs-6bk-4qt"
+                          }
+                        },
+                        "value": "974",
+                        "label": "name"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "@type": "g:List",
+          "@value": [
+            {
+              "@type": "g:Edge",
+              "@value": {
+                "id": {
+                  "@type": "janusgraph:RelationIdentifier",
+                  "@value": {
+                    "relationId": "2sd-3c8-8ph-6bk"
+                  }
+                },
+                "label": "_start_in",
+                "inVLabel": "UniversityCampus",
+                "outVLabel": "State",
+                "inV": {
+                  "@type": "g:Int64",
+                  "@value": 8192
+                },
+                "outV": {
+                  "@type": "g:Int64",
+                  "@value": 4328
+                },
+                "properties": {
+                  "year": {
+                    "@type": "g:Property",
+                    "@value": {
+                      "key": "year",
+                      "value": {
+                        "@type": "g:Int32",
+                        "@value": 90
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "@type": "g:Edge",
+              "@value": {
+                "id": {
+                  "@type": "janusgraph:RelationIdentifier",
+                  "@value": {
+                    "relationId": "3kt-3c8-9hx-9l4"
+                  }
+                },
+                "label": "_city",
+                "inVLabel": "UniversitySystem",
+                "outVLabel": "State",
+                "inV": {
+                  "@type": "g:Int64",
+                  "@value": 12424
+                },
+                "outV": {
+                  "@type": "g:Int64",
+                  "@value": 4328
+                },
+                "properties": {
+                  "year": {
+                    "@type": "g:Property",
+                    "@value": {
+                      "key": "year",
+                      "value": {
+                        "@type": "g:Int32",
+                        "@value": 77
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "@type": "g:Edge",
+              "@value": {
+                "id": {
+                  "@type": "janusgraph:RelationIdentifier",
+                  "@value": {
+                    "relationId": "36l-3c8-dg5-6bk"
+                  }
+                },
+                "label": "_contains",
+                "inVLabel": "UniversityCampus",
+                "outVLabel": "State",
+                "inV": {
+                  "@type": "g:Int64",
+                  "@value": 8192
+                },
+                "outV": {
+                  "@type": "g:Int64",
+                  "@value": 4328
+                },
+                "properties": {
+                  "year": {
+                    "@type": "g:Property",
+                    "@value": {
+                      "key": "year",
+                      "value": {
+                        "@type": "g:Int32",
+                        "@value": 648
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "@type": "g:Edge",
+              "@value": {
+                "id": {
+                  "@type": "janusgraph:RelationIdentifier",
+                  "@value": {
+                    "relationId": "1v5s-6bk-cnp-6bk"
+                  }
+                },
+                "label": "_during",
+                "inVLabel": "UniversityCampus",
+                "outVLabel": "UniversityCampus",
+                "inV": {
+                  "@type": "g:Int64",
+                  "@value": 8192
+                },
+                "outV": {
+                  "@type": "g:Int64",
+                  "@value": 8192
+                },
+                "properties": {
+                  "year": {
+                    "@type": "g:Property",
+                    "@value": {
+                      "key": "year",
+                      "value": {
+                        "@type": "g:Int32",
+                        "@value": 660
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "@type": "g:List",
+      "@value": [
+        {
+          "@type": "g:Vertex",
+          "@value": {
+            "id": {
+              "@type": "g:Int64",
+              "@value": 45232
+            },
+            "label": "State",
+            "properties": {
+              "address": [
+                {
+                  "@type": "g:VertexProperty",
+                  "@value": {
+                    "id": {
+                      "@type": "janusgraph:RelationIdentifier",
+                      "@value": {
+                        "relationId": "15hy-ywg-2dh"
+                      }
+                    },
+                    "value": "99856 Street Drive",
+                    "label": "address"
+                  }
+                }
+              ],
+              "bool": [
+                {
+                  "@type": "g:VertexProperty",
+                  "@value": {
+                    "id": {
+                      "@type": "janusgraph:RelationIdentifier",
+                      "@value": {
+                        "relationId": "15w6-ywg-1g5h"
+                      }
+                    },
+                    "value": true,
+                    "label": "bool"
+                  }
+                }
+              ],
+              "double": [
+                {
+                  "@type": "g:VertexProperty",
+                  "@value": {
+                    "id": {
+                      "@type": "janusgraph:RelationIdentifier",
+                      "@value": {
+                        "relationId": "16ae-ywg-1gxx"
+                      }
+                    },
+                    "value": {
+                      "@type": "g:Double",
+                      "@value": 0.39491784907448724
+                    },
+                    "label": "double"
+                  }
+                }
+              ],
+              "byte": [
+                {
+                  "@type": "g:VertexProperty",
+                  "@value": {
+                    "id": {
+                      "@type": "janusgraph:RelationIdentifier",
+                      "@value": {
+                        "relationId": "16om-ywg-1hqd"
+                      }
+                    },
+                    "value": {
+                      "@type": "gx:Byte",
+                      "@value": 65
+                    },
+                    "label": "byte"
+                  }
+                }
+              ],
+              "char": [
+                {
+                  "@type": "g:VertexProperty",
+                  "@value": {
+                    "id": {
+                      "@type": "janusgraph:RelationIdentifier",
+                      "@value": {
+                        "relationId": "191y-ywg-1iit"
+                      }
+                    },
+                    "value": {
+                      "@type": "gx:Char",
+                      "@value": "a"
+                    },
+                    "label": "char"
+                  }
+                }
+              ],
+              "Geoshape": [
+                {
+                  "@type": "g:VertexProperty",
+                  "@value": {
+                    "id": {
+                      "@type": "janusgraph:RelationIdentifier",
+                      "@value": {
+                        "relationId": "172u-ywg-1o1x"
+                      }
+                    },
+                    "value": {
+                      "@type": "janusgraph:Geoshape",
+                      "@value": {
+                        "geometry": {
+                          "@type": "g:Map",
+                          "@value": [
+                            "type",
+                            "Circle",
+                            "coordinates",
+                            {
+                              "@type": "g:List",
+                              "@value": [
+                                {
+                                  "@type": "g:Double",
+                                  "@value": 23.72
+                                },
+                                {
+                                  "@type": "g:Double",
+                                  "@value": 37.97
+                                }
+                              ]
+                            },
+                            "radius",
+                            {
+                              "@type": "g:Int32",
+                              "@value": 50
+                            },
+                            "properties",
+                            {
+                              "@type": "g:Map",
+                              "@value": [
+                                "radius_units",
+                                "km"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "label": "Geoshape"
+                  }
+                }
+              ],
+              "name": [
+                {
+                  "@type": "g:VertexProperty",
+                  "@value": {
+                    "id": {
+                      "@type": "janusgraph:RelationIdentifier",
+                      "@value": {
+                        "relationId": "18nq-ywg-3yd"
+                      }
+                    },
+                    "value": "Joe",
+                    "label": "name"
+                  }
+                }
+              ],
+              "short": [
+                {
+                  "@type": "g:VertexProperty",
+                  "@value": {
+                    "id": {
+                      "@type": "janusgraph:RelationIdentifier",
+                      "@value": {
+                        "relationId": "19g6-ywg-1jb9"
+                      }
+                    },
+                    "value": {
+                      "@type": "g:Int32",
+                      "@value": 9576
+                    },
+                    "label": "short"
+                  }
+                }
+              ],
+              "float": [
+                {
+                  "@type": "g:VertexProperty",
+                  "@value": {
+                    "id": {
+                      "@type": "janusgraph:RelationIdentifier",
+                      "@value": {
+                        "relationId": "17h2-ywg-1k3p"
+                      }
+                    },
+                    "value": {
+                      "@type": "g:Float",
+                      "@value": 0.9401436
+                    },
+                    "label": "float"
+                  }
+                }
+              ],
+              "uuid": [
+                {
+                  "@type": "g:VertexProperty",
+                  "@value": {
+                    "id": {
+                      "@type": "janusgraph:RelationIdentifier",
+                      "@value": {
+                        "relationId": "17va-ywg-1kw5"
+                      }
+                    },
+                    "value": {
+                      "@type": "g:UUID",
+                      "@value": "84c938fa-68f7-4f61-a1f8-57e4533bf02a"
+                    },
+                    "label": "uuid"
+                  }
+                }
+              ],
+              "class": [
+                {
+                  "@type": "g:VertexProperty",
+                  "@value": {
+                    "id": {
+                      "@type": "janusgraph:RelationIdentifier",
+                      "@value": {
+                        "relationId": "19ue-ywg-1lol"
+                      }
+                    },
+                    "value": {
+                      "@type": "g:Class",
+                      "@value": "java.lang.Integer"
+                    },
+                    "label": "class"
+                  }
+                }
+              ],
+              "long": [
+                {
+                  "@type": "g:VertexProperty",
+                  "@value": {
+                    "id": {
+                      "@type": "janusgraph:RelationIdentifier",
+                      "@value": {
+                        "relationId": "189i-ywg-1mh1"
+                      }
+                    },
+                    "value": {
+                      "@type": "g:Int64",
+                      "@value": 9133599636274194000
+                    },
+                    "label": "long"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "@type": "g:List",
+      "@value": [
+        {
+          "@type": "janusgraph:Geoshape",
+          "@value": {
+            "coordinates": [
+              23.72,
+              37.97
+            ]
+          }
+        },
+        {
+          "@type": "janusgraph:Geoshape",
+          "@value": {
+            "geometry": {
+              "@type": "g:Map",
+              "@value": [
+                "type",
+                "Circle",
+                "coordinates",
+                {
+                  "@type": "g:List",
+                  "@value": [
+                    {
+                      "@type": "g:Double",
+                      "@value": 23.72
+                    },
+                    {
+                      "@type": "g:Double",
+                      "@value": 37.97
+                    }
+                  ]
+                },
+                "radius",
+                {
+                  "@type": "g:Int32",
+                  "@value": 50
+                },
+                "properties",
+                {
+                  "@type": "g:Map",
+                  "@value": [
+                    "radius_units",
+                    "km"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "janusgraph:Geoshape",
+          "@value": {
+            "geometry": {
+              "@type": "g:Map",
+              "@value": [
+                "type",
+                "Polygon",
+                "coordinates",
+                {
+                  "@type": "g:List",
+                  "@value": [
+                    {
+                      "@type": "g:List",
+                      "@value": [
+                        {
+                          "@type": "g:List",
+                          "@value": [
+                            {
+                              "@type": "g:Double",
+                              "@value": 23.72
+                            },
+                            {
+                              "@type": "g:Double",
+                              "@value": 37.97
+                            }
+                          ]
+                        },
+                        {
+                          "@type": "g:List",
+                          "@value": [
+                            {
+                              "@type": "g:Double",
+                              "@value": 23.72
+                            },
+                            {
+                              "@type": "g:Double",
+                              "@value": 38.97
+                            }
+                          ]
+                        },
+                        {
+                          "@type": "g:List",
+                          "@value": [
+                            {
+                              "@type": "g:Double",
+                              "@value": 24.72
+                            },
+                            {
+                              "@type": "g:Double",
+                              "@value": 38.97
+                            }
+                          ]
+                        },
+                        {
+                          "@type": "g:List",
+                          "@value": [
+                            {
+                              "@type": "g:Double",
+                              "@value": 24.72
+                            },
+                            {
+                              "@type": "g:Double",
+                              "@value": 37.97
+                            }
+                          ]
+                        },
+                        {
+                          "@type": "g:List",
+                          "@value": [
+                            {
+                              "@type": "g:Double",
+                              "@value": 23.72
+                            },
+                            {
+                              "@type": "g:Double",
+                              "@value": 37.97
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "janusgraph:Geoshape",
+          "@value": {
+            "geometry": {
+              "@type": "g:Map",
+              "@value": [
+                "type",
+                "Polygon",
+                "coordinates",
+                {
+                  "@type": "g:List",
+                  "@value": [
+                    {
+                      "@type": "g:List",
+                      "@value": [
+                        {
+                          "@type": "g:List",
+                          "@value": [
+                            {
+                              "@type": "g:Double",
+                              "@value": 35.4
+                            },
+                            {
+                              "@type": "g:Double",
+                              "@value": 48.9
+                            }
+                          ]
+                        },
+                        {
+                          "@type": "g:List",
+                          "@value": [
+                            {
+                              "@type": "g:Double",
+                              "@value": 35.4
+                            },
+                            {
+                              "@type": "g:Double",
+                              "@value": 49.1
+                            }
+                          ]
+                        },
+                        {
+                          "@type": "g:List",
+                          "@value": [
+                            {
+                              "@type": "g:Double",
+                              "@value": 35.6
+                            },
+                            {
+                              "@type": "g:Double",
+                              "@value": 49.1
+                            }
+                          ]
+                        },
+                        {
+                          "@type": "g:List",
+                          "@value": [
+                            {
+                              "@type": "g:Double",
+                              "@value": 35.6
+                            },
+                            {
+                              "@type": "g:Double",
+                              "@value": 48.9
+                            }
+                          ]
+                        },
+                        {
+                          "@type": "g:List",
+                          "@value": [
+                            {
+                              "@type": "g:Double",
+                              "@value": 35.4
+                            },
+                            {
+                              "@type": "g:Double",
+                              "@value": 48.9
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "janusgraph:Geoshape",
+          "@value": {
+            "geometry": {
+              "@type": "g:Map",
+              "@value": [
+                "type",
+                "MultiPoint",
+                "coordinates",
+                {
+                  "@type": "g:List",
+                  "@value": [
+                    {
+                      "@type": "g:List",
+                      "@value": [
+                        {
+                          "@type": "g:Int32",
+                          "@value": 60
+                        },
+                        {
+                          "@type": "g:Int32",
+                          "@value": 60
+                        }
+                      ]
+                    },
+                    {
+                      "@type": "g:List",
+                      "@value": [
+                        {
+                          "@type": "g:Int32",
+                          "@value": 120
+                        },
+                        {
+                          "@type": "g:Int32",
+                          "@value": 60
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "janusgraph:Geoshape",
+          "@value": {
+            "geometry": {
+              "@type": "g:Map",
+              "@value": [
+                "type",
+                "MultiLineString",
+                "coordinates",
+                {
+                  "@type": "g:List",
+                  "@value": [
+                    {
+                      "@type": "g:List",
+                      "@value": [
+                        {
+                          "@type": "g:List",
+                          "@value": [
+                            {
+                              "@type": "g:Int32",
+                              "@value": 59
+                            },
+                            {
+                              "@type": "g:Int32",
+                              "@value": 60
+                            }
+                          ]
+                        },
+                        {
+                          "@type": "g:List",
+                          "@value": [
+                            {
+                              "@type": "g:Int32",
+                              "@value": 61
+                            },
+                            {
+                              "@type": "g:Int32",
+                              "@value": 60
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "@type": "g:List",
+                      "@value": [
+                        {
+                          "@type": "g:List",
+                          "@value": [
+                            {
+                              "@type": "g:Int32",
+                              "@value": 119
+                            },
+                            {
+                              "@type": "g:Int32",
+                              "@value": 60
+                            }
+                          ]
+                        },
+                        {
+                          "@type": "g:List",
+                          "@value": [
+                            {
+                              "@type": "g:Int32",
+                              "@value": 121
+                            },
+                            {
+                              "@type": "g:Int32",
+                              "@value": 60
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "janusgraph:Geoshape",
+          "@value": {
+            "geometry": {
+              "@type": "g:Map",
+              "@value": [
+                "type",
+                "MultiPolygon",
+                "coordinates",
+                {
+                  "@type": "g:List",
+                  "@value": [
+                    {
+                      "@type": "g:List",
+                      "@value": [
+                        {
+                          "@type": "g:List",
+                          "@value": [
+                            {
+                              "@type": "g:List",
+                              "@value": [
+                                {
+                                  "@type": "g:Int32",
+                                  "@value": 59
+                                },
+                                {
+                                  "@type": "g:Int32",
+                                  "@value": 59
+                                }
+                              ]
+                            },
+                            {
+                              "@type": "g:List",
+                              "@value": [
+                                {
+                                  "@type": "g:Int32",
+                                  "@value": 61
+                                },
+                                {
+                                  "@type": "g:Int32",
+                                  "@value": 59
+                                }
+                              ]
+                            },
+                            {
+                              "@type": "g:List",
+                              "@value": [
+                                {
+                                  "@type": "g:Int32",
+                                  "@value": 61
+                                },
+                                {
+                                  "@type": "g:Int32",
+                                  "@value": 61
+                                }
+                              ]
+                            },
+                            {
+                              "@type": "g:List",
+                              "@value": [
+                                {
+                                  "@type": "g:Int32",
+                                  "@value": 59
+                                },
+                                {
+                                  "@type": "g:Int32",
+                                  "@value": 61
+                                }
+                              ]
+                            },
+                            {
+                              "@type": "g:List",
+                              "@value": [
+                                {
+                                  "@type": "g:Int32",
+                                  "@value": 59
+                                },
+                                {
+                                  "@type": "g:Int32",
+                                  "@value": 59
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "@type": "g:List",
+                      "@value": [
+                        {
+                          "@type": "g:List",
+                          "@value": [
+                            {
+                              "@type": "g:List",
+                              "@value": [
+                                {
+                                  "@type": "g:Int32",
+                                  "@value": 119
+                                },
+                                {
+                                  "@type": "g:Int32",
+                                  "@value": 59
+                                }
+                              ]
+                            },
+                            {
+                              "@type": "g:List",
+                              "@value": [
+                                {
+                                  "@type": "g:Int32",
+                                  "@value": 121
+                                },
+                                {
+                                  "@type": "g:Int32",
+                                  "@value": 59
+                                }
+                              ]
+                            },
+                            {
+                              "@type": "g:List",
+                              "@value": [
+                                {
+                                  "@type": "g:Int32",
+                                  "@value": 121
+                                },
+                                {
+                                  "@type": "g:Int32",
+                                  "@value": 61
+                                }
+                              ]
+                            },
+                            {
+                              "@type": "g:List",
+                              "@value": [
+                                {
+                                  "@type": "g:Int32",
+                                  "@value": 119
+                                },
+                                {
+                                  "@type": "g:Int32",
+                                  "@value": 61
+                                }
+                              ]
+                            },
+                            {
+                              "@type": "g:List",
+                              "@value": [
+                                {
+                                  "@type": "g:Int32",
+                                  "@value": 119
+                                },
+                                {
+                                  "@type": "g:Int32",
+                                  "@value": 59
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "janusgraph:Geoshape",
+          "@value": {
+            "geometry": {
+              "@type": "g:Map",
+              "@value": [
+                "type",
+                "GeometryCollection",
+                "geometries",
+                {
+                  "@type": "g:List",
+                  "@value": [
+                    {
+                      "@type": "g:Map",
+                      "@value": [
+                        "type",
+                        "Point",
+                        "coordinates",
+                        {
+                          "@type": "g:List",
+                          "@value": [
+                            {
+                              "@type": "g:Int32",
+                              "@value": 60
+                            },
+                            {
+                              "@type": "g:Int32",
+                              "@value": 60
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "@type": "g:Map",
+                      "@value": [
+                        "type",
+                        "LineString",
+                        "coordinates",
+                        {
+                          "@type": "g:List",
+                          "@value": [
+                            {
+                              "@type": "g:List",
+                              "@value": [
+                                {
+                                  "@type": "g:Int32",
+                                  "@value": 119
+                                },
+                                {
+                                  "@type": "g:Int32",
+                                  "@value": 60
+                                }
+                              ]
+                            },
+                            {
+                              "@type": "g:List",
+                              "@value": [
+                                {
+                                  "@type": "g:Int32",
+                                  "@value": 121
+                                },
+                                {
+                                  "@type": "g:Int32",
+                                  "@value": 60
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "@type": "g:Map",
+                      "@value": [
+                        "type",
+                        "Polygon",
+                        "coordinates",
+                        {
+                          "@type": "g:List",
+                          "@value": [
+                            {
+                              "@type": "g:List",
+                              "@value": [
+                                {
+                                  "@type": "g:List",
+                                  "@value": [
+                                    {
+                                      "@type": "g:Int32",
+                                      "@value": 119
+                                    },
+                                    {
+                                      "@type": "g:Int32",
+                                      "@value": 59
+                                    }
+                                  ]
+                                },
+                                {
+                                  "@type": "g:List",
+                                  "@value": [
+                                    {
+                                      "@type": "g:Int32",
+                                      "@value": 121
+                                    },
+                                    {
+                                      "@type": "g:Int32",
+                                      "@value": 59
+                                    }
+                                  ]
+                                },
+                                {
+                                  "@type": "g:List",
+                                  "@value": [
+                                    {
+                                      "@type": "g:Int32",
+                                      "@value": 121
+                                    },
+                                    {
+                                      "@type": "g:Int32",
+                                      "@value": 61
+                                    }
+                                  ]
+                                },
+                                {
+                                  "@type": "g:List",
+                                  "@value": [
+                                    {
+                                      "@type": "g:Int32",
+                                      "@value": 119
+                                    },
+                                    {
+                                      "@type": "g:Int32",
+                                      "@value": 61
+                                    }
+                                  ]
+                                },
+                                {
+                                  "@type": "g:List",
+                                  "@value": [
+                                    {
+                                      "@type": "g:Int32",
+                                      "@value": 119
+                                    },
+                                    {
+                                      "@type": "g:Int32",
+                                      "@value": 59
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+]
