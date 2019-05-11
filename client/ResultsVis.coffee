@@ -474,7 +474,7 @@ popupDialogForElementGraphSON3 = (localElement, elementType)->
     type = findJavaTypeForPropertyNamedGraphSON3(key,props,elementType)
     cacheOriginalPropertyTypeGraphSON3(elementType,id,key,type)
     typeSelector = buildTypeSelectorHTMLGraphSON3(id,key,type,elementType)
-    tr = '<tr><td>'+key+':  </td><td><input type="text" class="propForElementID'+id+'" name='+key+' value="'+value+'" oninput="$(\'.commitButtonForElementID'+id+'\').show()"></td><th style="width:150px" id="'+id+'" value="'+elementType+'" name="'+key+'">'+typeSelector+deletePropButton+copyPropButton+'</th></tr>'
+    tr = '<tr><td>'+key+':  </td><td style="width:100%"><input style="width:100%" type="text" class="propForElementID'+id+'" name='+key+' value="'+value+'" oninput="$(\'.commitButtonForElementID'+id+'\').show()"></td><th style="width:150px" id="'+id+'" value="'+elementType+'" name="'+key+'">'+typeSelector+deletePropButton+copyPropButton+'</th></tr>'
     html = html + tr
   html = html + '</table>'
   html = html + '<button type="button" style="display: none" class="commitButtonForElementID'+id+'" onclick="updateElementPropsGraphSON3(\''+id+'\',\''+elementType+'\')">Commit changes</button>'
@@ -693,61 +693,60 @@ geoshapeGraphSON3ToJava = (g3)->
     if pts.length == 2 then mod = ''
     if pts.length == 3 then mod = 'Z'  #note we are ignoring the solo M possibility
     if pts.length == 4 then mod = 'ZM'
-    str = 'Geoshape.fromWkt( "POINT '
+    str = 'POINT ('
     for ptstr in ptstrs
-      str = str + ',' + ptstr
-    str = str.slice(0,-1)
+      str = str + ptstr + ' '
     str = str + ')'
     return str
   if g3['geometry']   #we have a geometric object
     val = g3['geometry']['@value']
     type = val[1]
     if type == 'Circle'
-      centerCoords = listFromGraphSON3(val[3])
+      centerCoords = valueListFromGraphSON3(val[3])
       radius = valueFromGraphSON3(val[5])
       str = 'Geoshape.circle('+centerCoords[0].toString()+','+centerCoords[1].toString()+','+radius.toString()+')'
       return str
     # otherwise we have a WKT version
-    wkt = geoshapeGeometryGraphSON3ToWKT(val[3])
-    return 'Geoshape.fromWkt("'+wkt+'")'
+    wkt = geoshapeGeometryGraphSON3ToWKT(val)
+    return wkt
 
 geoshapeGeometryGraphSON3ToWKT = (val)->
-  debugger
   #val = g3['@value']['geometry']['@value'] or g3['@value']['@value'] in the GeoCollection geometries case
+  if val['@type'] then val = val['@value']   #ugly hack for the geocollection case
   type = val[1]
   if type == 'Point'
     str = 'POINT '     #ignoring Z and M and MZ options for now, only 2D points supported here
-    list = wktListFromGraphSON3(val[3])
+    list = wktValueListFromGraphSON3(val[3],'spaces',false)
     str = str + list
     return str
   if type == 'Polygon'
     str = 'POLYGON '
-    list = wktListFromGraphSON3(val[3])
+    list = wktValueListFromGraphSON3(val[3],'commas',false)
     str = str + list
     return str
   if type == 'LineString'
     str = 'LINESTRING '
-    list = wktListFromGraphSON3(val[3])
+    list = wktValueListFromGraphSON3(val[3],'commas',false)
     str = str + list
     return str
   if type == 'MultiPoint'
     str = 'MULTIPOINT '
-    list = wktListFromGraphSON3(val[3])
+    list = wktValueListFromGraphSON3(val[3],'commas',false)
     str = str + list
     return str
   if type == 'MultiLineString'
     str = 'MULTILINESTRING '
-    list = wktListFromGraphSON3(val[3])
+    list = wktValueListFromGraphSON3(val[3],'commas',false)
     str = str + list
     return str
   if type == 'MultiPolygon'
     str = 'MULTIPOLYGON '
-    list = wktListFromGraphSON3(val[3])
+    list = wktValueListFromGraphSON3(val[3],'commas',false)
     str = str + list
     return str
   if type == 'GeometryCollection'
     str = 'GEOMETRYCOLLECTION '
-    list = wktListFromGraphSON3(val[2])
+    list = wktValueListFromGraphSON3(val[3],'commas',true)
     str = str + list
     return str
 
@@ -757,35 +756,57 @@ valueListFromGraphSON3 = (g3)->
   inList = g3['@value']
   outList = []
   for item in inList
-    if item['@type'] == 'g.List'   #have a nested list so recurse
-      outItem = wktListFromGraphSON3(item)
+    if item['@type'] == 'g:List'   #have a nested list so recurse
+      outItem = valueListFromGraphSON3(item)
     else
-      if item['@type'] == 'g.Map'   #have a geometry object
+      if item['@type'] == 'g:Map'   #have a geometry object
         outItem = geoshapeGeometryGraphSON3ToWKT(item)
-      else #any other type is assumed to be a number and ok to use value directly
-        outItem = item['@value']
+      else
+        if item['@type'] and item['@type'] == 'g:List'
+          outItem = valueListFromGraphSON3(item)
+        else
+          outItem = item['@value']
     outList.push(outItem)
   return outList
 
 
-wktValueListFromGraphSON3 = (g3)->
+wktValueListFromGraphSON3 = (g3,seps,geocol)->
   list = valueListFromGraphSON3(g3)
-  return wktValueListFromValueList(list)
+  return wktValueListFromValueList(list,seps,geocol)
 
-wktValueListFromValueList = (list)->
+wktValueListFromValueList = (list,seps,geocol)->
+  if seps == 'spaces'
+    sep = ' '
+  else
+    sep =','
+  origSep = sep
   str = '('
   for item in list
-    if typeof item == 'Array'
-      itemstr = wktValueListFromValueList(item)
+    if item == undefined then debugger
+    if Array.isArray(item)
+      itemstr = wktValueListFromValueList(item,seps)
     else
-      itemstr = item.toString()
-    str = str + ' ' + itemstr
+      if item['@type'] and (item['@type'] == 'g:List')
+        itemstr = wktValueListFromGraphSON3(item,seps)
+      else
+        if item['@type'] and (item['@type'] == 'g:List')
+          itemstr = wktValueListFromGraphSON3(item,seps)
+        else
+          itemstr = item.toString()
+          sep = ' '
+    if geocol
+      str = str  + itemstr + ','
+    else
+      str = str  + itemstr + sep
+    sep = origSep
+  str = str.slice(0,-1)
   str = str + ')'
   return str
 
 
 valueFromGraphSON3 = (g3)->
-  debugger
+  #any other type is assumed to be a number and ok to use value directly
+  return g3['@value']
 
 
 window.updatePropsForElementGraphSON3 = (elementType, id, newProps, oldProps) ->

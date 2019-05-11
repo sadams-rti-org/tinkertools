@@ -20,7 +20,7 @@ Session.set 'graphFoundInResults', false
 Session.set 'drawButtonPressed', false
 Session.set 'elapsedRenderTime', ''
 Session.set 'usingWebSockets', false
-Session.set('versionNumber', '3.2.0')
+Session.set('versionNumber', '3.2.3')
 
 
 Meteor.subscribe 'scripts'

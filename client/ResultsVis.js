@@ -827,7 +827,7 @@
       type = findJavaTypeForPropertyNamedGraphSON3(key, props, elementType);
       cacheOriginalPropertyTypeGraphSON3(elementType, id, key, type);
       typeSelector = buildTypeSelectorHTMLGraphSON3(id, key, type, elementType);
-      tr = '<tr><td>' + key + ':  </td><td><input type="text" class="propForElementID' + id + '" name=' + key + ' value="' + value + '" oninput="$(\'.commitButtonForElementID' + id + '\').show()"></td><th style="width:150px" id="' + id + '" value="' + elementType + '" name="' + key + '">' + typeSelector + deletePropButton + copyPropButton + '</th></tr>';
+      tr = '<tr><td>' + key + ':  </td><td style="width:100%"><input style="width:100%" type="text" class="propForElementID' + id + '" name=' + key + ' value="' + value + '" oninput="$(\'.commitButtonForElementID' + id + '\').show()"></td><th style="width:150px" id="' + id + '" value="' + elementType + '" name="' + key + '">' + typeSelector + deletePropButton + copyPropButton + '</th></tr>';
       html = html + tr;
     }
     html = html + '</table>';
@@ -1150,12 +1150,11 @@
       if (pts.length === 4) {
         mod = 'ZM';
       }
-      str = 'Geoshape.fromWkt( "POINT ';
+      str = 'POINT (';
       for (j = 0, len = ptstrs.length; j < len; j++) {
         ptstr = ptstrs[j];
-        str = str + ',' + ptstr;
+        str = str + ptstr + ' ';
       }
-      str = str.slice(0, -1);
       str = str + ')';
       return str;
     }
@@ -1163,61 +1162,63 @@
       val = g3['geometry']['@value'];
       type = val[1];
       if (type === 'Circle') {
-        centerCoords = listFromGraphSON3(val[3]);
+        centerCoords = valueListFromGraphSON3(val[3]);
         radius = valueFromGraphSON3(val[5]);
         str = 'Geoshape.circle(' + centerCoords[0].toString() + ',' + centerCoords[1].toString() + ',' + radius.toString() + ')';
         return str;
       }
       // otherwise we have a WKT version
-      wkt = geoshapeGeometryGraphSON3ToWKT(val[3]);
-      return 'Geoshape.fromWkt("' + wkt + '")';
+      wkt = geoshapeGeometryGraphSON3ToWKT(val);
+      return wkt;
     }
   };
 
   geoshapeGeometryGraphSON3ToWKT = function(val) {
-    debugger;
     var list, str, type;
     //val = g3['@value']['geometry']['@value'] or g3['@value']['@value'] in the GeoCollection geometries case
+    if (val['@type']) {
+      val = val['@value'];
+    }
     type = val[1];
     if (type === 'Point') {
       str = 'POINT '; //ignoring Z and M and MZ options for now, only 2D points supported here
-      list = wktListFromGraphSON3(val[3]);
+      list = wktValueListFromGraphSON3(val[3], 'spaces', false);
       str = str + list;
       return str;
     }
     if (type === 'Polygon') {
       str = 'POLYGON ';
-      list = wktListFromGraphSON3(val[3]);
+      list = wktValueListFromGraphSON3(val[3], 'commas', false);
       str = str + list;
       return str;
     }
     if (type === 'LineString') {
       str = 'LINESTRING ';
-      list = wktListFromGraphSON3(val[3]);
+      list = wktValueListFromGraphSON3(val[3], 'commas', false);
       str = str + list;
       return str;
     }
     if (type === 'MultiPoint') {
       str = 'MULTIPOINT ';
-      list = wktListFromGraphSON3(val[3]);
+      list = wktValueListFromGraphSON3(val[3], 'commas', false);
       str = str + list;
       return str;
     }
     if (type === 'MultiLineString') {
       str = 'MULTILINESTRING ';
-      list = wktListFromGraphSON3(val[3]);
+      list = wktValueListFromGraphSON3(val[3], 'commas', false);
       str = str + list;
       return str;
     }
     if (type === 'MultiPolygon') {
       str = 'MULTIPOLYGON ';
-      list = wktListFromGraphSON3(val[3]);
+      list = wktValueListFromGraphSON3(val[3], 'commas', false);
       str = str + list;
       return str;
     }
     if (type === 'GeometryCollection') {
       str = 'GEOMETRYCOLLECTION ';
-      list = wktListFromGraphSON3(val[2]);
+      list = wktValueListFromGraphSON3(val[3], 'commas', true);
       str = str + list;
       return str;
     }
@@ -1232,13 +1233,17 @@
     outList = [];
     for (j = 0, len = inList.length; j < len; j++) {
       item = inList[j];
-      if (item['@type'] === 'g.List') { //have a nested list so recurse
-        outItem = wktListFromGraphSON3(item);
+      if (item['@type'] === 'g:List') { //have a nested list so recurse
+        outItem = valueListFromGraphSON3(item);
       } else {
-        if (item['@type'] === 'g.Map') { //have a geometry object
-          outItem = geoshapeGeometryGraphSON3ToWKT(item); //any other type is assumed to be a number and ok to use value directly
+        if (item['@type'] === 'g:Map') { //have a geometry object
+          outItem = geoshapeGeometryGraphSON3ToWKT(item);
         } else {
-          outItem = item['@value'];
+          if (item['@type'] && item['@type'] === 'g:List') {
+            outItem = valueListFromGraphSON3(item);
+          } else {
+            outItem = item['@value'];
+          }
         }
       }
       outList.push(outItem);
@@ -1246,30 +1251,55 @@
     return outList;
   };
 
-  wktValueListFromGraphSON3 = function(g3) {
+  wktValueListFromGraphSON3 = function(g3, seps, geocol) {
     var list;
     list = valueListFromGraphSON3(g3);
-    return wktValueListFromValueList(list);
+    return wktValueListFromValueList(list, seps, geocol);
   };
 
-  wktValueListFromValueList = function(list) {
-    var item, itemstr, j, len, str;
+  wktValueListFromValueList = function(list, seps, geocol) {
+    var item, itemstr, j, len, origSep, sep, str;
+    if (seps === 'spaces') {
+      sep = ' ';
+    } else {
+      sep = ',';
+    }
+    origSep = sep;
     str = '(';
     for (j = 0, len = list.length; j < len; j++) {
       item = list[j];
-      if (typeof item === 'Array') {
-        itemstr = wktValueListFromValueList(item);
-      } else {
-        itemstr = item.toString();
+      if (item === void 0) {
+        debugger;
       }
-      str = str + ' ' + itemstr;
+      if (Array.isArray(item)) {
+        itemstr = wktValueListFromValueList(item, seps);
+      } else {
+        if (item['@type'] && (item['@type'] === 'g:List')) {
+          itemstr = wktValueListFromGraphSON3(item, seps);
+        } else {
+          if (item['@type'] && (item['@type'] === 'g:List')) {
+            itemstr = wktValueListFromGraphSON3(item, seps);
+          } else {
+            itemstr = item.toString();
+            sep = ' ';
+          }
+        }
+      }
+      if (geocol) {
+        str = str + itemstr + ',';
+      } else {
+        str = str + itemstr + sep;
+      }
+      sep = origSep;
     }
+    str = str.slice(0, -1);
     str = str + ')';
     return str;
   };
 
   valueFromGraphSON3 = function(g3) {
-    debugger;
+    //any other type is assumed to be a number and ok to use value directly
+    return g3['@value'];
   };
 
   window.updatePropsForElementGraphSON3 = function(elementType, id, newProps, oldProps) {
