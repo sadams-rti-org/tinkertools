@@ -1357,7 +1357,10 @@ shareGremlinCodeForIngestion  = ()->
 inputGremlinCodeForIngestion  = ()->
   bindings = JSON.parse prompt('Paste bindings JSON here')
   console.log bindings
-  addElementsFromBindingsJSON(bindings)
+  if window.UsingGraphSON3
+    addElementsFromBindingsJSONGraphSON3(bindings)
+  else
+    addElementsFromBindingsJSON(bindings)
 
 generateJSONBindingsForSelections  = ()->
   elementIDs = window.visnetwork.getSelection()
@@ -1756,8 +1759,9 @@ cloneSelections = ()->
 #-----------------for use from other functions-----------------
 
 addElementsFromBindingsJSON = (bindings)->
+  #Ignoring the case where GraphSON3 bindings are ingested into GraphSON1 graph.....this will BREAK
   script =
-  '''
+    '''
   if (bindings['vertsJSON'] == null) {vertsJSON = []} else {vertsJSON = bindings['vertsJSON']}
   if (bindings['edgesJSON'] == null) {edgesJSON = []} else {edgesJSON = bindings['edgesJSON']}
   if (bindings['verts2FindOrCreate'] == null) {verts2FindOrCreate = []} else {verts2FindOrCreate = bindings['verts2FindOrCreate']}
@@ -1838,6 +1842,124 @@ addElementsFromBindingsJSON = (bindings)->
             nodeIDsToSelect.push newNode.id
           for oldEID,newE of eMap
             newEdge = {id: String(newE.id),label: newE.label, from: newE.outV, to: newE.inV, title: titleForElement(newE), element:newE}
+            if bindings['styles'] && bindings.styles[oldEID.toString()]
+              styleForEdge = bindings.styles[oldEID.toString()]
+              newEdge = _.extend(newEdge,styleForEdge)
+            window.visnetwork.edgesHandler.body.data.edges.add newEdge
+            edgeIDsToSelect.push newEdge.id
+          window.visnetwork.setSelection({nodes: nodeIDsToSelect, edges: edgeIDsToSelect},{unselectedAll: true, highlightEdges: false})
+    request =
+      requestId: uuid.new(),
+      op:"eval",
+      processor:"",
+      args:{gremlin: script, bindings: {bindings: bindings}, language: "gremlin-groovy"}
+    startTime = Date.now()
+    window.socketToJanus.send(JSON.stringify(request))
+  else
+    Meteor.call 'runScript', Session.get('userID'), Session.get('serverURL'),(Session.get 'tinkerPopVersion'), Session.get('graphName'),'Subgraph ingestor from bindings JSON', script, {bindings: bindings}, (error,result)->
+      if result.success == true
+        vMap = result.results[0]
+        eMap = result.results[1]
+        nodeIDsToSelect = []
+        edgeIDsToSelect = []
+        for oldVID,newV of vMap
+          newNode = {id: String(newV.id),label: labelForVertex(newV,Session.get('keyForNodeLabel')), allowedToMoveX: true, allowedToMoveY: true, title: titleForElement(newV), element:newV}
+          window.visnetwork.nodesHandler.body.data.nodes.add newNode
+          oldLoc = (window.visnetwork.getPositions([oldVID]))[oldVID]
+          window.visnetwork.moveNode(newNode.id,oldLoc.x + 50,oldLoc.y + 50)
+          nodeIDsToSelect.push newNode.id
+        for oldEID,newE of eMap
+          newEdge = {id: String(newE.id),label: newE.label, from: newE.outV, to: newE.inV, title: titleForElement(newE), element:newE}
+          window.visnetwork.edgesHandler.body.data.edges.add newEdge
+          edgeIDsToSelect.push newEdge.id
+        window.visnetwork.setSelection({nodes: nodeIDsToSelect, edges: edgeIDsToSelect},{unselectedAll: true, highlightEdges: false})
+      else
+        alert "Selection cloning failed.  Nothing changed; "+script
+
+addElementsFromBindingsJSONGraphSON3 = (bindings)->
+  #Need to handle the case where GraphSON1 bindings are ingested into GraphSON3 graph
+  console.log bindings
+  script =
+    '''
+  println '***************************************************************************************'
+  println bindings
+  println '***************************************************************************************'
+  if (bindings['vertsJSON'] == null) {vertsJSON = []} else {vertsJSON = bindings['vertsJSON']}
+  if (bindings['edgesJSON'] == null) {edgesJSON = []} else {edgesJSON = bindings['edgesJSON']}
+  vMap = [:]
+  vMapFull = [:]
+  eMapFull = [:]
+
+  vertsJSON.collect { json ->
+      newV = g.addV(json.label).next()
+      println '-------------'
+      println json
+      println "ingestId="+json.id.toString()
+      println "newId="+newV.id().toString()
+      println '-------------'
+      vMap[json.id] = newV.id()
+      vMapFull[json.id] = newV
+    if(json['properties'] != null){
+      json.properties.each { key, val ->
+println "--------v---------->   "+val[0].toString()
+println "--------v---------->   "+val[0].value().toString()
+         g.V(newV.id()).property(key, val[0].value()).next()
+}
+  }}
+  edgesJSON.collect { json ->
+     println '-------------'
+      println json
+      println "ingestId="+json.id.toString()
+      fromID = vMap[json.outV] ? vMap[json.outV] : json.outV
+      toID = vMap[json.inV] ? vMap[json.inV] : json.inV
+      newEdge=g.V(fromID).addE(json.label).to(g.V(toID)).next()
+      eMapFull[json.id] = newEdge
+       println "newEdgeId="+newEdge.id().toString()
+      println '-------------'
+
+    if (json['properties'] != null){
+      json.properties.collect { key, val ->
+println "--------e---------->   "+val.toString()
+          g.E(newEdge.id()).property(key, val.value()).next()
+}
+  }}
+  //answer the maps of old element ids to new elements
+  [vMapFull, eMapFull]
+  '''
+  if (Session.get "usingWebSockets")
+    window.socketToJanus.onmessage = (msg) ->
+      endTime = Date.now()
+      data = msg.data
+      json = JSON.parse(data)
+      if json.status.code >= 500
+        alert "Error in processing Gremlin script: "+json.status.message
+      else
+        if json.status.code == 204
+          results = []
+        else
+          results = json.result.data
+          vMap = objectFromGraphSON3Map(results['@value'][0])
+          eMap = objectFromGraphSON3Map(results['@value'][1])
+          nodeIDsToSelect = []
+          edgeIDsToSelect = []
+          for oldVID,newV of vMap
+            newV.type = 'vertex'
+            newNode = {physics: false, id: String(newV.id['@value']),label: labelForVertexGraphSON3(newV,Session.get('keyForNodeLabel')), allowedToMoveX: true, allowedToMoveY: true, title: titleForElementGraphSON3(newV), element:newV}
+            window.visnetwork.nodesHandler.body.data.nodes.add newNode
+            if bindings['locations'] && bindings.locations[oldVID]
+              loc = bindings.locations[oldVID.toString()]
+              window.visnetwork.moveNode(newNode.id,loc.x,loc.y)
+            else
+              window.visnetwork.moveNode(newNode.id,0,0)
+            if bindings['styles'] && bindings.styles[oldVID.toString()]
+              styleForNode = bindings.styles[oldVID.toString()]
+              newNode = _.extend(newNode,styleForNode)
+              window.visnetwork.nodesHandler.body.data.nodes.getDataSet().update(newNode)
+              window.visnetwork.moveNode(newNode.id,loc.x,loc.y)
+            nodeIDsToSelect.push newNode.id
+          for oldEID,newE of eMap
+            newE.type = 'edge'
+            newEdge = {id: String(newE.id['@value']['relationId']),label: newE.label, from: newE.outV['@value'], to: newE.inV['@value'], title: titleForElementGraphSON3(newE), element:newE}
             if bindings['styles'] && bindings.styles[oldEID.toString()]
               styleForEdge = bindings.styles[oldEID.toString()]
               newEdge = _.extend(newEdge,styleForEdge)
@@ -2185,6 +2307,12 @@ window.updateEdgeColors = ()->
     edge.color.inherit = conf.edges.color.inherit
     window.visnetwork.edgesHandler.body.data.edges.update [edge], []
 
+window.getElementTypeFromID = (id)->
+  node = window.visnetwork.nodesHandler.body.data.nodes._data[id]
+  edge = window.visnetwork.edgesHandler.body.data.edges._data[id]
+  if node then return "vertex"
+  if edge then return "edge"
+  return null
 
 
 window.renderGraph =  () ->
@@ -2410,18 +2538,31 @@ window.setUpVis = () ->
     $('.element-copyProperty'+id).click ->
       key = this.parentNode.parentNode.parentNode.children[0].innerText.slice(0,-1)
       value = this.parentNode.parentNode.parentNode.children[1].children[0].value
-      Session.set "propCopyBuffer",{key: key,value: value}
-      console.log "copied ",key,value
+      if window.UsingGraphSON3
+        type = this.parentNode.parentNode.parentNode.children[2].children[0].value
+        Session.set "propCopyBuffer",{key: key,value: value, type: type}
+        console.log "copied ",key,value,type
+      else
+        Session.set "propCopyBuffer",{key: key,value: value}
+        console.log "copied ",key,value
 
     $('.element-pasteProperty'+id).click ->
       prop = Session.get "propCopyBuffer"
+      elementType = window.getElementTypeFromID(id)
       if prop
         key = prop.key
         value = prop.value
+        if window.UsingGraphSON3
+          type = prop.type
         $(".propTableForElementID"+id).next().show()
         deletePropButton = '<a href="#" class="btn btn-default" title="Delete property"><span class="glyphicon glyphicon-minus element-deleteProperty'+id+'"></span></a>'
         copyPropButton = '<a href="#" class="btn btn-default" title="Copy property"><span class="glyphicon glyphicon-copy element-copyProperty'+id+'"></span></a>'
-        tr = '<tr><td>'+key+':  </td><td><input type="text" class="propForElementID'+id+'" name='+key+' value="'+value+'" oninput="$(\'button.commitButtonForElementID'+id+'\').show()"></td><th style="width:50" id="'+id+'" value="'+elementType+'" name="'+key+'">'+deletePropButton+copyPropButton+'</th></tr>'
+        if window.UsingGraphSON3
+          cacheOriginalPropertyTypeGraphSON3(elementType,id,key,type)
+          typeSelector = buildTypeSelectorHTMLGraphSON3(id,key,type,elementType,'disabled')
+          tr = '<tr><td>'+key+':  </td><td style="width:100%"><input style="width:100%" type="text" class="propForElementID'+id+'" name='+key+' value="'+value+'" oninput="$(\'.commitButtonForElementID'+id+'\').show()"></td><td style="width:100%" id="'+id+'" value="'+elementType+'" name="'+key+'">'+typeSelector+deletePropButton+copyPropButton+'</td></tr>'
+        else
+          tr = '<tr><td>'+key+':  </td><td><input type="text" class="propForElementID'+id+'" name='+key+' value="'+value+'" oninput="$(\'button.commitButtonForElementID'+id+'\').show()"></td><th style="width:50" id="'+id+'" value="'+elementType+'" name="'+key+'">'+deletePropButton+copyPropButton+'</th></tr>'
         $(".propTableForElementID"+id).append(tr)
         $('.element-deleteProperty'+id).click ->
           $(".propTableForElementID"+id).next().show()

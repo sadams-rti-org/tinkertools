@@ -1396,5 +1396,225 @@
         }
       ]
     }
-  ]
+  ],
+  {
+    "verts2FindOrCreate": [],
+    "vertsJSON": [
+      {
+        "id": {
+          "@type": "g:Int64",
+          "@value": 237664
+        },
+        "label": "State",
+        "properties": {
+          "address": [
+            {
+              "@type": "g:VertexProperty",
+              "@value": {
+                "id": {
+                  "@type": "janusgraph:RelationIdentifier",
+                  "@value": {
+                    "relationId": "5szw-53ds-b2d"
+                  }
+                },
+                "value": "2415 Street Drive",
+                "label": "address"
+              }
+            }
+          ],
+          "float": [
+            {
+              "@type": "g:VertexProperty",
+              "@value": {
+                "id": {
+                  "@type": "janusgraph:RelationIdentifier",
+                  "@value": {
+                    "relationId": "5uz0-53ds-f0l"
+                  }
+                },
+                "value": {
+                  "@type": "g:Float",
+                  "@value": 0.9806173
+                },
+                "label": "float"
+              }
+            }
+          ]
+        },
+        "type": "vertex"
+      },
+      {
+        "id": {
+          "@type": "g:Int64",
+          "@value": 241760
+        },
+        "label": "Semester",
+        "properties": {
+          "name": [
+            {
+              "@type": "g:VertexProperty",
+              "@value": {
+                "id": {
+                  "@type": "janusgraph:RelationIdentifier",
+                  "@value": {
+                    "relationId": "6230-56jk-hdx"
+                  }
+                },
+                "value": "Joe",
+                "label": "name"
+              }
+            }
+          ],
+          "class": [
+            {
+              "@type": "g:VertexProperty",
+              "@value": {
+                "id": {
+                  "@type": "janusgraph:RelationIdentifier",
+                  "@value": {
+                    "relationId": "639o-56jk-jr9"
+                  }
+                },
+                "value": {
+                  "@type": "g:Class",
+                  "@value": "java.lang.Integer"
+                },
+                "label": "class"
+              }
+            }
+          ]
+        },
+        "type": "vertex"
+      }
+    ],
+    "edgesJSON": [
+      {
+        "id": {
+          "@type": "janusgraph:RelationIdentifier",
+          "@value": {
+            "relationId": "6ado-56jk-11xx-53ds"
+          }
+        },
+        "label": "_prev",
+        "inVLabel": "State",
+        "outVLabel": "Semester",
+        "inV": {
+          "@type": "g:Int64",
+          "@value": 237664
+        },
+        "outV": {
+          "@type": "g:Int64",
+          "@value": 241760
+        },
+        "properties": {
+          "cost": {
+            "@type": "g:Property",
+            "@value": {
+              "key": "cost",
+              "value": {
+                "@type": "g:Float",
+                "@value": 0.42698282
+              }
+            }
+          },
+          "name": {
+            "@type": "g:Property",
+            "@value": {
+              "key": "name",
+              "value": "The Edge"
+            }
+          },
+          "year": {
+            "@type": "g:Property",
+            "@value": {
+              "key": "year",
+              "value": {
+                "@type": "g:Int32",
+                "@value": 739
+              }
+            }
+          }
+        },
+        "type": "edge"
+      }
+    ],
+    "transactionContext": "ingesting a subgraph",
+    "locations": {
+      "237664": {
+        "x": 53,
+        "y": 20
+      },
+      "241760": {
+        "x": -54,
+        "y": -27
+      }
+    },
+    "styles": {
+      "237664": {},
+      "241760": {},
+      "6ado-56jk-11xx-53ds": {}
+    }
+  },
+  {
+    "verts2FindOrCreate": [],
+    "vertsJSON": [
+      {"@type": "g.Vertex",
+        "@value":
+        {
+          "id": {
+            "@type": "g:Int64",
+            "@value": 217176
+          },
+          "label": "QQQ",
+          "properties": {
+            "name": [
+              {
+                "@type": "g:VertexProperty",
+                "@value": {
+                  "id": {
+                    "@type": "janusgraph:RelationIdentifier",
+                    "@value": {
+                      "relationId": "4zrf-4nko-hdx"
+                    }
+                  },
+                  "value": "Sam",
+                  "label": "name"
+                }
+              }
+            ],
+            "age": [
+              {
+                "@type": "g:VertexProperty",
+                "@value": {
+                  "id": {
+                    "@type": "janusgraph:RelationIdentifier",
+                    "@value": {
+                      "relationId": "505n-4nko-1ybp"
+                    }
+                  },
+                  "value": {
+                    "@type": "g:Int32",
+                    "@value": 60
+                  },
+                  "label": "age"
+                }
+              }
+            ]
+          },
+          "type": "vertex"
+        }
+      }
+    ],
+    "edgesJSON": [],
+    "transactionContext": "ingesting a subgraph",
+    "locations": {
+      "217176": {
+        "x": 9,
+        "y": 3
+      }
+    },
+    "styles": {
+      "217176": {}
+    }
+  }
 ]
