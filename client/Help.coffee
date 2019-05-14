@@ -4,3 +4,5 @@ Template.Help.rendered = ->
 
   $(".goto-gitlab-issues").click ->
     open(Session.get('gitLabIssuesURL'))
+
+    #comment

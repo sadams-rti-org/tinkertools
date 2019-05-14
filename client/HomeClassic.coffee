@@ -15,6 +15,8 @@ Template.HomeClassic.rendered = ->
       document.getElementById('ws-status').innerHTML = "<p style='font-size:16px; background-color: white; color: green;'>connected via Websocket</p>"
       console.log("connected to", wsUri)
       window.WSURL = wsUri
+      window.detectGraphSON3()
+
     window.socketToJanus.onclose = ()->
       document.getElementById('ws-status').innerHTML = "<p style='font-size:16px; background-color: white; color: red;'>not connected</p>"
       console.log("closed to", window['WSURL'], ' attempting reconnect')
@@ -28,6 +30,50 @@ Template.HomeClassic.rendered = ->
     document.getElementById('ws-status').innerHTML = "<p style='font-size:16px; background-color: white; color: black;'>Connected via HTTP</p>"
 
 #*************** utilities
+
+window.detectGraphSON3 = ()->
+  bindings = {}
+  script = '[1]'
+  if (Session.get "usingWebSockets")
+    window.socketToJanus.onmessage = (msg) ->
+      endTime = Date.now()
+      data = msg.data
+      json = JSON.parse(data)
+      if json.status.code >= 500
+        alert "Error in processing Gremlin script: "+json.status.message
+      else
+        if json.status.code == 204
+          results = []
+        else
+          results = json.result.data
+        window.setFlagForGraphSON3(results)
+    request =
+      requestId: uuid.new(),
+      op:"eval",
+      processor:"",
+      args:{gremlin: script, bindings: bindings, language: "gremlin-groovy"}
+    startTime = Date.now()
+    window.socketToJanus.send(JSON.stringify(request))
+  else
+    Meteor.call 'runScript', Session.get('userID'), Session.get('serverURL'),(Session.get 'tinkerPopVersion'), Session.get('graphName'),'Built-in Vertex Retriever', script, bindings, (error,result)->
+      window.setFlagForGraphSON3(results.results)
+
+window.setFlagForGraphSON3 = (results)->
+  if results['@type'] == 'g:List'
+    window.UsingGraphSON3 = true
+  else
+    window.UsingGraphSON3 = false
+  resultsShouldBe =[
+    {
+      "@type": "g:List",
+      "@value": [
+        {
+          "@type": "g:Int32",
+          "@value": 1
+        }
+      ]
+    }
+  ]
 
 #********************* Widgets
 Meteor.Spinner.options =

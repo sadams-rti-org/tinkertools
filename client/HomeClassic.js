@@ -5,6 +5,7 @@
     Session.set('keyForNodeLabel', "null");
     window.wsConnect = function(wsUri) {
       console.log("connecting to ", wsUri);
+      document.getElementById('ws-status').innerHTML = "<p style='font-size:16px; background-color: yellow; color: black;'>trying Websocket connection...</p>";
       window.socketToJanus = new WebSocket(wsUri + "/gremlin");
       window.socketToJanus.onmessage = function(msg) { //example send method
         var data, json;
@@ -13,22 +14,86 @@
         return window.dispatcher(json);
       };
       window.socketToJanus.onopen = function() {
+        document.getElementById('ws-status').innerHTML = "<p style='font-size:16px; background-color: white; color: green;'>connected via Websocket</p>";
         console.log("connected to", wsUri);
-        return window.WSURL = wsUri;
+        window.WSURL = wsUri;
+        return window.detectGraphSON3();
       };
       return window.socketToJanus.onclose = function() {
+        document.getElementById('ws-status').innerHTML = "<p style='font-size:16px; background-color: white; color: red;'>not connected</p>";
         console.log("closed to", window['WSURL'], ' attempting reconnect');
         return setTimeout(window.wsConnect(window['WSURL']), 3000);
       };
     };
+    Session.set("usingWebSockets", true);
     try {
       return window.wsConnect(Session.get("serverURL"));
-    } catch (error) {
-      return ;
+    } catch (error1) {
+      Session.set("usingWebSockets", false);
+      return document.getElementById('ws-status').innerHTML = "<p style='font-size:16px; background-color: white; color: black;'>Connected via HTTP</p>";
     }
   };
 
   //*************** utilities
+  window.detectGraphSON3 = function() {
+    var bindings, request, script, startTime;
+    bindings = {};
+    script = '[1]';
+    if (Session.get("usingWebSockets")) {
+      window.socketToJanus.onmessage = function(msg) {
+        var data, endTime, json, results;
+        endTime = Date.now();
+        data = msg.data;
+        json = JSON.parse(data);
+        if (json.status.code >= 500) {
+          return alert("Error in processing Gremlin script: " + json.status.message);
+        } else {
+          if (json.status.code === 204) {
+            results = [];
+          } else {
+            results = json.result.data;
+          }
+          return window.setFlagForGraphSON3(results);
+        }
+      };
+      request = {
+        requestId: uuid.new(),
+        op: "eval",
+        processor: "",
+        args: {
+          gremlin: script,
+          bindings: bindings,
+          language: "gremlin-groovy"
+        }
+      };
+      startTime = Date.now();
+      return window.socketToJanus.send(JSON.stringify(request));
+    } else {
+      return Meteor.call('runScript', Session.get('userID'), Session.get('serverURL'), Session.get('tinkerPopVersion'), Session.get('graphName'), 'Built-in Vertex Retriever', script, bindings, function(error, result) {
+        return window.setFlagForGraphSON3(results.results);
+      });
+    }
+  };
+
+  window.setFlagForGraphSON3 = function(results) {
+    var resultsShouldBe;
+    if (results['@type'] === 'g:List') {
+      window.UsingGraphSON3 = true;
+    } else {
+      window.UsingGraphSON3 = false;
+    }
+    return resultsShouldBe = [
+      {
+        "@type": "g:List",
+        "@value": [
+          {
+            "@type": "g:Int32",
+            "@value": 1
+          }
+        ]
+      }
+    ];
+  };
 
   //********************* Widgets
   Meteor.Spinner.options = {

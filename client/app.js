@@ -47,7 +47,7 @@
 
   Session.set('usingWebSockets', false);
 
-  Session.set('versionNumber', '3.2.3');
+  Session.set('versionNumber', '3.2.4');
 
   Meteor.subscribe('scripts');
 

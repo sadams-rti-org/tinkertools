@@ -42,12 +42,12 @@
         <item url="file://$PROJECT_DIR$/client/app.js" />
         <item url="file://$PROJECT_DIR$/lib/router.js" />
         <item url="file://$PROJECT_DIR$/server/methods.js" />
+        <item url="file://$PROJECT_DIR$/test.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
       <root url="file://$PROJECT_DIR$/client/AdminTools.js" />
       <root url="file://$PROJECT_DIR$/client/BluemixGraphButtons.js" />
-      <root url="file://$PROJECT_DIR$/client/BookButtons.js" />
       <root url="file://$PROJECT_DIR$/client/DemoVideo.js" />
       <root url="file://$PROJECT_DIR$/client/DrawGraphButton.js" />
       <root url="file://$PROJECT_DIR$/client/GraphButtons.js" />
@@ -86,6 +86,7 @@
       <root url="file://$PROJECT_DIR$/client/app.js" />
       <root url="file://$PROJECT_DIR$/lib/router.js" />
       <root url="file://$PROJECT_DIR$/server/methods.js" />
+      <root url="file://$PROJECT_DIR$/test.js" />
     </CLASSES>
     <SOURCES />
   </library>

@@ -6,8 +6,8 @@
     "Help.coffee"
   ],
   "names": [],
-  "mappings": ";AAAA;EAAA,QAAQ,CAAC,IAAI,CAAC,QAAd,GAAyB,QAAA,CAAA,CAAA;IACvB,CAAA,CAAE,cAAF,CAAiB,CAAC,KAAlB,CAAwB,QAAA,CAAA,CAAA;aACtB,IAAA,CAAK,OAAO,CAAC,GAAR,CAAY,WAAZ,CAAL;IADsB,CAAxB;WAGA,CAAA,CAAE,qBAAF,CAAwB,CAAC,KAAzB,CAA+B,QAAA,CAAA,CAAA;aAC7B,IAAA,CAAK,OAAO,CAAC,GAAR,CAAY,iBAAZ,CAAL;IAD6B,CAA/B;EAJuB;AAAzB",
+  "mappings": ";AAAA;EAAA,QAAQ,CAAC,IAAI,CAAC,QAAd,GAAyB,QAAA,CAAA,CAAA;IACvB,CAAA,CAAE,cAAF,CAAiB,CAAC,KAAlB,CAAwB,QAAA,CAAA,CAAA;aACtB,IAAA,CAAK,OAAO,CAAC,GAAR,CAAY,WAAZ,CAAL;IADsB,CAAxB;WAGA,CAAA,CAAE,qBAAF,CAAwB,CAAC,KAAzB,CAA+B,QAAA,CAAA,CAAA;aAC7B,IAAA,CAAK,OAAO,CAAC,GAAR,CAAY,iBAAZ,CAAL;IAD6B,CAA/B;EAJuB;;EAAzB;AAAA",
   "sourcesContent": [
-    "Template.Help.rendered = ->\n  $(\".goto-gitlab\").click ->\n    open(Session.get('gitLabURL'))\n\n  $(\".goto-gitlab-issues\").click ->\n    open(Session.get('gitLabIssuesURL'))\n"
+    "Template.Help.rendered = ->\n  $(\".goto-gitlab\").click ->\n    open(Session.get('gitLabURL'))\n\n  $(\".goto-gitlab-issues\").click ->\n    open(Session.get('gitLabIssuesURL'))\n\n    #comment\n"
   ]
 }

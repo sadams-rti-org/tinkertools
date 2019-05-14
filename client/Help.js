@@ -9,6 +9,8 @@
     });
   };
 
+  //comment
+
 }).call(this);
 
 //# sourceMappingURL=Help.js.map
