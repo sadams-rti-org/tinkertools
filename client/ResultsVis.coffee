@@ -21,6 +21,11 @@ Template.ResultsVis.rendered = ->
       node.y = oldLoc.y
       node.physics = false   # pin it
   window.visnetwork.nodesHandler.body.data.nodes.update graph.nodes
+  window.hidden1 = if window.hidden1 then window.hidden1 else {nodes:[],edges:[], positions:{}}
+  window.hidden2 = if window.hidden2 then window.hidden2 else {nodes:[],edges:[], positions:{}}
+  window.hidden3 = if window.hidden3 then window.hidden3 else {nodes:[],edges:[], positions:{}}
+  window.hidden4 = if window.hidden4 then window.hidden4 else {nodes:[],edges:[], positions:{}}
+
 
 
 
@@ -1593,6 +1598,12 @@ dropSelections = ()->
 
 
 growSelections = ()->
+  if window.UsingGraphSON3
+    growSelectionsGraphSON3()
+  else
+    growSelectionsGraphSON1()
+
+growSelectionsGraphSON1 = ()->
 #grow means add neighboring vertices and their edges from the database into the local render
   elementIDs = window.visnetwork.getSelection()
   if elementIDs.nodes.length > 0
@@ -1646,7 +1657,7 @@ growSelections = ()->
             nodes2Select = _.initial elementIDs.nodes, 0
             edges2Select = _.initial elementIDs.edges, 0
             if allV.length > 100
-              #too many to auto insert without user permissions and selection
+#too many to auto insert without user permissions and selection
               selectNeighborsToAdd(nodes2Select,edges2Select,allV,allE)
             else
               addInTheNeighbors(nodes2Select,edges2Select,allV,allE)
@@ -1687,7 +1698,112 @@ growSelections = ()->
           nodes2Select = _.initial elementIDs.nodes, 0
           edges2Select = _.initial elementIDs.edges, 0
           if allV.length + allE.length > 20
-            #too many to auto insert without user permissions and selection
+#too many to auto insert without user permissions and selection
+            selectNeighborsToAdd(nodes2Select,edges2Select,allV,allE)
+          else
+            addInTheNeighbors(nodes2Select,edges2Select,allV,allE)
+        else
+          alert "Graph update failed.  Nothing changed.  Maybe try again?"
+
+growSelectionsGraphSON3 = ()->
+#grow means add neighboring vertices and their edges from the database into the local render
+  elementIDs = window.visnetwork.getSelection()
+  if elementIDs.nodes.length > 0
+    bindings = {vIDs: elementIDs.nodes}
+    nl = "\n"
+    script = "//answer all neighbors to these node IDs, vIDs is a binding" + nl +
+      "inVs = vIDs.collect { g.V(it).in().toList() }" + nl +
+      "inVs = inVs.flatten().unique()" + nl +
+      "outVs = vIDs.collect { g.V(it).out().toList() }" + nl +
+      "outVs = outVs.flatten().unique()" + nl +
+      "inEs = vIDs.collect { g.V(it).inE().toList() }" + nl +
+      "inEs = inEs.flatten().unique()" + nl +
+      "outEs = vIDs.collect { g.V(it).outE().toList() }" + nl +
+      "outEs = outEs.flatten().unique()" + nl +
+      "[inVs,outVs,inEs,outEs]"
+    if (Session.get "usingWebSockets")
+      window.socketToJanus.onmessage = (msg) ->
+        endTime = Date.now()
+        data = msg.data
+        json = JSON.parse(data)
+        if json.status.code >= 500
+          alert "Error in processing Gremlin script: "+json.status.message
+        else
+          if json.status.code == 204
+            results = []
+          else
+            results = arrayFromGraphSON3List(json.result.data)
+            nds = window.visnetwork.body.data.nodes.getDataSet()
+            eds = window.visnetwork.body.data.edges.getDataSet()
+            inVs = _.filter(arrayFromGraphSON3List(results[0]), (e)->
+              eID = e['@value']['id']['@value']
+              nds.get(eID) == null
+            )
+            outVs = _.filter(arrayFromGraphSON3List(results[1]), (e)->
+              eID = e['@value']['id']['@value']
+              nds.get(eID) == null
+            )
+            inEs = _.filter(arrayFromGraphSON3List(results[2]), (e)->
+              eID = e['@value']['id']['@value']['relationId']
+              eds.get(eID) == null
+            )
+            outEs = _.filter(arrayFromGraphSON3List(results[3]), (e)->
+              eID = e['@value']['id']['@value']['relationId']
+              eds.get(eID) == null
+            )
+            allV = _.uniq(_.union(inVs,outVs))
+            ahn = allHiddenNodeIDs()
+            allV = _.reject(allV, (node)->
+              _.contains(ahn,node.id+""))
+            allE = _.uniq(_.union(inEs,outEs))
+            ahe = allHiddenEdgeIDs()
+            allE = _.reject(allE, (edge)->
+              _.contains(ahe,edge.id))
+            nodes2Select = _.initial elementIDs.nodes, 0
+            edges2Select = _.initial elementIDs.edges, 0
+            if allV.length > 100
+#too many to auto insert without user permissions and selection
+              selectNeighborsToAdd(nodes2Select,edges2Select,allV,allE)
+            else
+              addInTheNeighbors(nodes2Select,edges2Select,allV,allE)
+      request =
+        requestId: uuid.new(),
+        op:"eval",
+        processor:"",
+        args:{gremlin: script, bindings: bindings, language: "gremlin-groovy"}
+      startTime = Date.now()
+      window.socketToJanus.send(JSON.stringify(request))
+    else
+      Meteor.call 'runScript', Session.get('userID'), Session.get('serverURL'),(Session.get 'tinkerPopVersion'), Session.get('graphName'),'Get neighbors', script, bindings, (error,result)->
+        if result.success == true
+          results = result.results
+          console.log results
+          nds = window.visnetwork.body.data.nodes.getDataSet()
+          eds = window.visnetwork.body.data.edges.getDataSet()
+          inVs = _.filter(results[0], (e)->
+            nds.get(e.id) == null
+          )
+          outVs = _.filter(results[1], (e)->
+            nds.get(e.id) == null
+          )
+          inEs = _.filter(results[2], (e)->
+            eds.get(e.id) == null
+          )
+          outEs = _.filter(results[3], (e)->
+            eds.get(e.id) == null
+          )
+          allV = _.uniq(_.union(inVs,outVs))
+          ahn = allHiddenNodeIDs()
+          allV = _.reject(allV, (node)->
+            _.contains(ahn,node.id+""))
+          allE = _.uniq(_.union(inEs,outEs))
+          ahe = allHiddenEdgeIDs()
+          allE = _.reject(allE, (edge)->
+            _.contains(ahe,edge.id))
+          nodes2Select = _.initial elementIDs.nodes, 0
+          edges2Select = _.initial elementIDs.edges, 0
+          if allV.length + allE.length > 20
+#too many to auto insert without user permissions and selection
             selectNeighborsToAdd(nodes2Select,edges2Select,allV,allE)
           else
             addInTheNeighbors(nodes2Select,edges2Select,allV,allE)
@@ -3173,10 +3289,10 @@ selectNeighborsToAdd = (currentSelectedNodeIDs,currentSelectedEdgeIDs,allV,allE)
           verts2Visit = Session.get('verts2Visit')
           for label in Object.keys(verts2Visit)
             labelVerts = _.reject(allV,(node)->
-              node.label != label)
+              node['@value'].label != label)
             selectedVerts = _.union(selectedVerts, _.sample(labelVerts, verts2Visit[label]))
-          currentSelectedNodeIDs = _.union currentSelectedNodeIDs,(each.id+"" for each in selectedVerts)
-          nonSelectedNodeIds = _.reject((each.id+"" for each in allV),(id)->
+          currentSelectedNodeIDs = _.union currentSelectedNodeIDs,(each['@value'].id['@value']+"" for each in selectedVerts)
+          nonSelectedNodeIds = _.reject((each['@value'].id+"" for each in allV),(id)->
             _.contains(currentSelectedNodeIDs,id)
           )
           allE = _.reject(allE, (edge)->
@@ -3194,13 +3310,21 @@ addInTheNeighbors = (nodes2Select,edges2Select,allV,allE) ->
   allV = _.reject(allV,(node)->
     _.contains ahn, node.id+""  #make sure its a string2string compare
   )
-  nodes = ({id: String(v.id),label: labelForVertex(v,Session.get 'keyForNodeLabel'), allowedToMoveX: true, allowedToMoveY: true, title: titleForElement(v), element:v} for v in allV)
+  (v['@value']['type'] = 'vertex' for v in allV)
+  if window.UsingGraphSON3
+    nodes = ({id: String(v['@value']['id']['@value']),label: labelForVertexGraphSON3(v['@value'],Session.get 'keyForNodeLabel'), allowedToMoveX: true, allowedToMoveY: true, title: titleForElementGraphSON3(v['@value']), element:v} for v in allV)
+  else
+    nodes = ({id: String(v.id),label: labelForVertex(v,Session.get 'keyForNodeLabel'), allowedToMoveX: true, allowedToMoveY: true, title: titleForElement(v), element:v['@value']} for v in allV)
   window.visnetwork.nodesHandler.body.data.nodes.update nodes
   ahe = allHiddenEdgeIDs()
   allE = _.reject(allE,(edge)->
     _.contains ahe, edge.id+""    #make sure its a string2string compare
   )
-  edges = ({id: String(e.id), label: e.label, from: String(e.outV), to: String(e.inV), title: titleForElement(e), element:e} for e in allE)
+  (e['@value']['type'] = 'edge' for e in allE)
+  if window.UsingGraphSON3
+    edges = ({id: String(e['@value']['id']['@value']['relationId']), label: e['@value'].label, from: String(e['@value'].outV['@value']), to: String(e['@value'].inV['@value']), title: titleForElementGraphSON3(e['@value']), element:e['@value']} for e in allE)
+  else
+    edges = ({id: String(e.id), label: e.label, from: String(e.outV), to: String(e.inV), title: titleForElement(e), element:e} for e in allE)
   window.visnetwork.edgesHandler.body.data.edges.update edges
   for vert in nodes
     nodes2Select.push vert.id

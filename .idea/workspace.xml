@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b1690f77-7bda-4094-8861-ecf81e0d2c21" name="Default Changelist" comment="3.2.4 upgrade to GraphSON3 - Popups working, no changing types after commit, add elements, add props, clone elements all working.">
+    <list default="true" id="b1690f77-7bda-4094-8861-ecf81e0d2c21" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.dockerignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/ResultsVis.coffee" beforeDir="false" afterPath="$PROJECT_DIR$/client/ResultsVis.coffee" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/ResultsVis.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/ResultsVis.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/ResultsVis.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/client/ResultsVis.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/VisitSelector.coffee" beforeDir="false" afterPath="$PROJECT_DIR$/client/VisitSelector.coffee" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/VisitSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/VisitSelector.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/VisitSelector.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/client/VisitSelector.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/app.coffee" beforeDir="false" afterPath="$PROJECT_DIR$/client/app.coffee" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/graphson3-example.json" beforeDir="false" afterPath="$PROJECT_DIR$/graphson3-example.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/app.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/client/app.js.map" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,14 +21,14 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.26632652">
+    <splitter split-orientation="horizontal" split-proportion="0.1">
       <split-first>
-        <leaf>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/graphson3-example.json">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1142">
-                  <caret line="1618" column="3" selection-start-line="1618" selection-start-column="3" selection-end-line="1618" selection-end-column="3" />
+                <state relative-caret-position="1111">
+                  <caret line="1619" column="1" selection-start-line="1619" selection-start-column="1" selection-end-line="1619" selection-end-column="1" />
                   <folding>
                     <element signature="e#23418#23775#0" />
                     <element signature="e#23819#23907#0" />
@@ -47,8 +52,8 @@
               <file pinned="false" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/client/ResultsVis.coffee">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state relative-caret-position="59">
-                      <caret line="1266" column="62" lean-forward="true" selection-start-line="1266" selection-start-column="62" selection-end-line="1266" selection-end-column="62" />
+                    <state relative-caret-position="156">
+                      <caret line="3313" column="9" lean-forward="true" selection-start-line="3313" selection-end-line="3314" />
                       <folding>
                         <element signature="n#style#0;n#table#0;n#!!top" expanded="true" />
                         <element signature="n#style#0;n#table#0;n#!!top" expanded="true" />
@@ -85,8 +90,8 @@
               <file pinned="false" current-in-tab="false">
                 <entry file="file://$PROJECT_DIR$/client/ResultsVis.coffee">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state relative-caret-position="426">
-                      <caret line="1960" column="30" selection-start-line="1960" selection-start-column="30" selection-end-line="1960" selection-end-column="30" />
+                    <state relative-caret-position="211">
+                      <caret line="3287" selection-start-line="3287" selection-end-line="3287" />
                       <folding>
                         <element signature="n#style#0;n#table#0;n#!!top" expanded="true" />
                         <element signature="n#style#0;n#table#0;n#!!top" expanded="true" />
@@ -119,8 +124,8 @@
               <file pinned="false" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/client/app.coffee">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state relative-caret-position="330">
-                      <caret line="22" column="35" selection-start-line="22" selection-start-column="35" selection-end-line="22" selection-end-column="35" />
+                    <state relative-caret-position="405">
+                      <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
                     </state>
                   </provider>
                 </entry>
@@ -143,12 +148,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>@relationId</find>
-      <find>Boolean</find>
-      <find>alert</find>
-      <find>nodes</find>
-      <find>changeProperty</find>
-      <find>userPro</find>
       <find>toJava</find>
       <find>Nan</find>
       <find>num === Nan</find>
@@ -167,12 +166,18 @@
       <find>element-addPropertyGraphSON3</find>
       <find>changePropertyTypeGraphSON3</find>
       <find>clone</find>
-      <find>userPropertiesForElementGraphSON3</find>
       <find>debugger</find>
       <find>popup</find>
       <find>paste</find>
       <find>getElementTypeFromID</find>
       <find>ingest</find>
+      <find>drop</find>
+      <find>Using</find>
+      <find>allHidden</find>
+      <find>window.hidden1</find>
+      <find>nodes = ({id</find>
+      <find>userPropertiesForElementGraphSON3</find>
+      <find>addIn</find>
     </findStrings>
     <replaceStrings>
       <replace>3.2.1</replace>
@@ -195,9 +200,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/../node-red-project-starter/settings.js" />
-        <option value="$PROJECT_DIR$/client/Tools.html" />
-        <option value="$PROJECT_DIR$/client/ScriptButtons.html" />
         <option value="$PROJECT_DIR$/client/ScriptButtons.coffee" />
         <option value="$PROJECT_DIR$/lib/tsconfig.json" />
         <option value="$PROJECT_DIR$/client/TopRow.coffee" />
@@ -244,6 +246,9 @@
         <option value="$PROJECT_DIR$/client/HomeClassic.coffee" />
         <option value="$PROJECT_DIR$/graphson3-example.json" />
         <option value="$PROJECT_DIR$/client/ResultsVis.js" />
+        <option value="$PROJECT_DIR$/.dockerignore" />
+        <option value="$PROJECT_DIR$/Dockerfile" />
+        <option value="$PROJECT_DIR$/client/VisitSelector.coffee" />
         <option value="$PROJECT_DIR$/client/ResultsVis.coffee" />
         <option value="$PROJECT_DIR$/client/app.coffee" />
       </list>
@@ -259,7 +264,7 @@
     <dismissed value="$PROJECT_DIR$/package.json" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="122" />
+    <option name="x" value="170" />
     <option name="y" value="23" />
     <option name="width" value="2252" />
     <option name="height" value="1525" />
@@ -272,6 +277,22 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope">
+        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
+          <expand>
+            <path>
+              <item name="tinkertools" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+            </path>
+            <path>
+              <item name="tinkertools" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="client" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -298,46 +319,7 @@
             <path>
               <item name="tinkertools" type="b2602c69:ProjectViewProjectNode" />
               <item name="tinkertools" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-              <item name="Help.coffee" type="620a8d5e:NestingTreeNode" />
-            </path>
-            <path>
-              <item name="tinkertools" type="b2602c69:ProjectViewProjectNode" />
-              <item name="tinkertools" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-              <item name="Home.coffee" type="620a8d5e:NestingTreeNode" />
-            </path>
-            <path>
-              <item name="tinkertools" type="b2602c69:ProjectViewProjectNode" />
-              <item name="tinkertools" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-              <item name="ResultsVis.coffee" type="620a8d5e:NestingTreeNode" />
-            </path>
-            <path>
-              <item name="tinkertools" type="b2602c69:ProjectViewProjectNode" />
-              <item name="tinkertools" type="462c0819:PsiDirectoryNode" />
               <item name="lib" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="tinkertools" type="b2602c69:ProjectViewProjectNode" />
-              <item name="tinkertools" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope">
-        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
-          <expand>
-            <path>
-              <item name="tinkertools" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
-            </path>
-            <path>
-              <item name="tinkertools" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="client" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
           </expand>
           <select />
@@ -367,14 +349,14 @@
     <property name="settings.editor.selected.configurable" value="reference.settings.ide.settings.web.browsers" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/client/compatibility" />
+      <recent name="$PROJECT_DIR$/client" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/public" />
       <recent name="$PROJECT_DIR$/client/compatibility" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/client/compatibility" />
-      <recent name="$PROJECT_DIR$/client" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -482,7 +464,9 @@
       <workItem from="1557491627975" duration="27000" />
       <workItem from="1557491984878" duration="44087000" />
       <workItem from="1557759408021" duration="1647000" />
-      <workItem from="1557763406774" duration="42650000" />
+      <workItem from="1557763406774" duration="42732000" />
+      <workItem from="1557861686152" duration="5789000" />
+      <workItem from="1557951456407" duration="8207000" />
     </task>
     <task id="LOCAL-00001" summary="First commit after fork.  Set up in webstorm">
       <created>1536433118360</created>
@@ -568,31 +552,38 @@
       <option name="project" value="LOCAL" />
       <updated>1557809585692</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="3.2.5 upgrade to GraphSON3 - spawn/ingest bindings working">
+      <created>1557861611445</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1557861611446</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="275599000" />
+    <option name="totallyTimeSpent" value="289677000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="122" y="23" width="2252" height="1525" extended-state="0" />
+    <frame x="170" y="23" width="2252" height="1525" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49328062" visible="true" weight="0.12147019" />
-      <window_info id="Structure" order="1" sideWeight="0.50671935" side_tool="true" visible="true" weight="0.12147019" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49253732" visible="true" weight="0.12147019" />
+      <window_info id="Structure" order="1" sideWeight="0.5074627" side_tool="true" weight="0.12147019" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info id="npm" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49753475" weight="0.32907802" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49619004" visible="true" weight="0.10283688" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4952936" visible="true" weight="0.10283688" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.4997759" weight="0.22292994" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49932766" weight="0.477707" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5038099" side_tool="true" visible="true" weight="0.10283688" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.4984312" weight="0.47730497" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5047064" side_tool="true" weight="0.10283688" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -613,12 +604,10 @@
     <MESSAGE value="3.2.2 upgrade to GaphSON3 - testing Geoshape types" />
     <MESSAGE value="3.2.3 upgrade to GaphSON3 - Geoshape generation working, moving back to popup testing" />
     <MESSAGE value="3.2.4 upgrade to GraphSON3 - Popups working, no changing types after commit, add elements, add props, clone elements all working." />
-    <option name="LAST_COMMIT_MESSAGE" value="3.2.4 upgrade to GraphSON3 - Popups working, no changing types after commit, add elements, add props, clone elements all working." />
+    <MESSAGE value="3.2.5 upgrade to GraphSON3 - spawn/ingest bindings working" />
+    <option name="LAST_COMMIT_MESSAGE" value="3.2.5 upgrade to GraphSON3 - spawn/ingest bindings working" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/Library/Caches/Cleanup At Startup/com.fetchsoftworks.Fetch/Fetch Temporary Folder 14/airflow-demo.html" />
-    <entry file="file://$USER_HOME$/Library/Caches/Cleanup At Startup/com.fetchsoftworks.Fetch/Fetch Temporary Folder 12/devops-demo.html" />
-    <entry file="file://$USER_HOME$/Library/Caches/Cleanup At Startup/com.fetchsoftworks.Fetch/Fetch Temporary Folder 6/databricks-demo.html" />
     <entry file="file://$USER_HOME$/Library/Caches/Cleanup At Startup/com.fetchsoftworks.Fetch/Fetch Temporary Folder 8/tinkertools-lite-for-opioid-demo-new.html" />
     <entry file="file://$USER_HOME$/Library/Caches/Cleanup At Startup/com.fetchsoftworks.Fetch/Fetch Temporary Folder/airflow-demo.html" />
     <entry file="file://$USER_HOME$/Library/Caches/Cleanup At Startup/com.fetchsoftworks.Fetch/Fetch Temporary Folder 3/family-tree-demo.html" />
@@ -699,13 +688,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/how to deploy tinkertools SL version">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="840">
-          <caret line="56" column="28" lean-forward="true" selection-start-line="56" selection-start-column="28" selection-end-line="56" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="http://localhost:3000/packages/blaze.js?hash=cbd85c3fe14949f2d2b9a3b76334f5f0e96d553c">
       <provider selected="true" editor-type-id="httpFileEditor" />
     </entry>
@@ -729,16 +711,8 @@
     <entry file="file://$PROJECT_DIR$/client/AdminTools.coffee">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/test.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="5" lean-forward="true" selection-start-column="5" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/test.js" />
+    <entry file="file://$PROJECT_DIR$/test.coffee" />
     <entry file="file://$PROJECT_DIR$/WKT Gemotry examples.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
@@ -816,23 +790,6 @@
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/graphson3-example.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1142">
-          <caret line="1618" column="3" selection-start-line="1618" selection-start-column="3" selection-end-line="1618" selection-end-column="3" />
-          <folding>
-            <element signature="e#23418#23775#0" />
-            <element signature="e#23819#23907#0" />
-            <element signature="e#23955#24121#0" />
-            <element signature="e#24431#27074#0" />
-            <element signature="e#27384#30017#0" />
-            <element signature="e#30330#31274#0" />
-            <element signature="e#31592#33869#0" />
-            <element signature="e#34184#40136#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="http://localhost:3000/packages/jquery.js?hash=e15504227515793c40a6a3a8ad340399cb657500">
       <provider selected="true" editor-type-id="httpFileEditor" />
     </entry>
@@ -846,10 +803,55 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.dockerignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dockerfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1133">
+          <caret line="76" column="23" selection-start-line="76" selection-start-column="23" selection-end-line="76" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/how to deploy tinkertools SL version">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="71">
+          <caret line="19" column="5" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/graphson3-example.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1111">
+          <caret line="1619" column="1" selection-start-line="1619" selection-start-column="1" selection-end-line="1619" selection-end-column="1" />
+          <folding>
+            <element signature="e#23418#23775#0" />
+            <element signature="e#23819#23907#0" />
+            <element signature="e#23955#24121#0" />
+            <element signature="e#24431#27074#0" />
+            <element signature="e#27384#30017#0" />
+            <element signature="e#30330#31274#0" />
+            <element signature="e#31592#33869#0" />
+            <element signature="e#34184#40136#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/VisitSelector.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" selection-start-line="25" selection-end-line="25" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/client/ResultsVis.coffee">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="426">
-          <caret line="1960" column="30" selection-start-line="1960" selection-start-column="30" selection-end-line="1960" selection-end-column="30" />
+        <state relative-caret-position="211">
+          <caret line="3287" selection-start-line="3287" selection-end-line="3287" />
           <folding>
             <element signature="n#style#0;n#table#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#table#0;n#!!top" expanded="true" />
@@ -880,8 +882,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/client/app.coffee">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="35" selection-start-line="22" selection-start-column="35" selection-end-line="22" selection-end-column="35" />
+        <state relative-caret-position="405">
+          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
         </state>
       </provider>
     </entry>

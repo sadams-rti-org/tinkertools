@@ -28,17 +28,22 @@
 
   Template.VisitSelector.helpers({
     options: function() {
-      var i, labels, len, ref, tot, vert;
+      var i, label, labels, len, ref, tot, vert;
       labels = {};
       ref = this.allV;
       for (i = 0, len = ref.length; i < len; i++) {
         vert = ref[i];
-        if (labels[vert.label] !== void 0) {
-          tot = labels[vert.label];
+        if (window.UsingGraphSON3) {
+          label = vert['@value'].label;
+        } else {
+          label = vert.label;
+        }
+        if (labels[label] !== void 0) {
+          tot = labels[label];
         } else {
           tot = 0;
         }
-        labels[vert.label] = tot + 1;
+        labels[label] = tot + 1;
       }
       Session.set('verts2Visit', labels);
       return _.pairs(labels);

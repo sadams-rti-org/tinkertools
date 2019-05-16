@@ -20,12 +20,19 @@ Template.VisitSelector.rendered = ->
 
 Template.VisitSelector.helpers
   options: ->
-     labels = {}
-     for vert in this.allV
-        if labels[vert.label] != undefined then tot = labels[vert.label] else tot = 0
-        labels[vert.label] = tot + 1
-     Session.set('verts2Visit',labels)
-     _.pairs labels
+    labels = {}
+    for vert in this.allV
+      if window.UsingGraphSON3
+        label = vert['@value'].label
+      else
+        label = vert.label
+      if labels[label] != undefined
+        tot = labels[label]
+      else
+        tot = 0
+      labels[label] = tot + 1
+    Session.set('verts2Visit',labels)
+    _.pairs labels
 
   label: ->
     @[0]
