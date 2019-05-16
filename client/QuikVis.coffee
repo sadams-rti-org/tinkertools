@@ -1,6 +1,5 @@
 Template.QuikVis.rendered = ->
   Session.set('keyForNodeLabel', "null")
-
   $("#scriptSelector").change ->
     scriptName = $("#scriptSelector").val()
     for each in (Session.get 'scripts')

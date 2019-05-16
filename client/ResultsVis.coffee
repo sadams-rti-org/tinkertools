@@ -1417,6 +1417,7 @@ spawnTheseToQuikVis = (subtitle, allNodes,allEdges, positions) ->
   else
     tinkertoolsServerURL = tinkertoolsServerURL + ':3000'
   url = tinkertoolsServerURL+"/quikvis?serverURL="+Session.get('serverURL')
+  url = url + "&graphSON3=" + window.UsingGraphSON3
   url = url + '&width="auto"'
   url = url + '&height="1000px"'
   url = url + "&graphName=the default graph"

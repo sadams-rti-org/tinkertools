@@ -72,6 +72,7 @@ Router.route('/quikvis', ()->
   Session.set 'serverURL',serverURL
   Session.set "usingWebSockets",(serverURL.slice(0,5) == "ws://")
   Session.set 'tinkerPopVersion',3
+  window.UsingGraphSON3 = JSON.parse(@params.query.graphSON3)
   Session.set 'scripts',JSON.parse(@params.query.scripts)
   Session.set 'positions',JSON.parse(@params.query.positions)
   Session.set 'graphName',"the default graph"
