@@ -12,6 +12,7 @@ Template.HomeClassic.rendered = ->
       json = JSON.parse(data)
       window.dispatcher(json)
     window.socketToJanus.onopen = () ->
+      window.WebsocketReonnectionCounts = 0
       document.getElementById('ws-status').innerHTML = "<p style='font-size:16px; background-color: white; color: green;'>connected via Websocket</p>"
       console.log("connected to", wsUri)
       window.WSURL = wsUri
@@ -20,7 +21,12 @@ Template.HomeClassic.rendered = ->
     window.socketToJanus.onclose = ()->
       document.getElementById('ws-status').innerHTML = "<p style='font-size:16px; background-color: white; color: red;'>not connected</p>"
       console.log("closed to", window['WSURL'], ' attempting reconnect')
-      setTimeout(window.wsConnect(window['WSURL']),3000);  #attempt to reconnect
+      window.WebsocketReonnectionCounts = window.WebsocketReonnectionCounts + 1
+      if window.WebsocketReonnectionCounts > 10
+        document.getElementById('ws-status').innerHTML = "<p style='font-size:16px; background-color: white; color: red;'>gave up reconnecting</p>"
+        console.log("failed 10 times to connect to", window['WSURL'], ' giving up')
+      else
+        setTimeout(window.wsConnect(window['WSURL']),3000);  #attempt to reconnect
 
   Session.set "usingWebSockets", true
   try

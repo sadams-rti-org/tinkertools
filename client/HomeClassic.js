@@ -14,6 +14,7 @@
         return window.dispatcher(json);
       };
       window.socketToJanus.onopen = function() {
+        window.WebsocketReonnectionCounts = 0;
         document.getElementById('ws-status').innerHTML = "<p style='font-size:16px; background-color: white; color: green;'>connected via Websocket</p>";
         console.log("connected to", wsUri);
         window.WSURL = wsUri;
@@ -22,7 +23,13 @@
       return window.socketToJanus.onclose = function() {
         document.getElementById('ws-status').innerHTML = "<p style='font-size:16px; background-color: white; color: red;'>not connected</p>";
         console.log("closed to", window['WSURL'], ' attempting reconnect');
-        return setTimeout(window.wsConnect(window['WSURL']), 3000);
+        window.WebsocketReonnectionCounts = window.WebsocketReonnectionCounts + 1;
+        if (window.WebsocketReonnectionCounts > 10) {
+          document.getElementById('ws-status').innerHTML = "<p style='font-size:16px; background-color: white; color: red;'>gave up reconnecting</p>";
+          return console.log("failed 10 times to connect to", window['WSURL'], ' giving up');
+        } else {
+          return setTimeout(window.wsConnect(window['WSURL']), 3000);
+        }
       };
     };
     Session.set("usingWebSockets", true);
