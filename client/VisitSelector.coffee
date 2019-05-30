@@ -1,5 +1,5 @@
 Template.VisitSelector.rendered = ->
-  $(".visitVert").prop('checked', true)
+  $(".visitVert").prop('checked', false)
   $(".visitVert").change ->
     checked = $(this).prop('checked')
     label2Visit = this.id
@@ -31,7 +31,7 @@ Template.VisitSelector.helpers
       else
         tot = 0
       labels[label] = tot + 1
-    Session.set('verts2Visit',labels)
+    Session.set('verts2Visit',{})
     _.pairs labels
 
   label: ->

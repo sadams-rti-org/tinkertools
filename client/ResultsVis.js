@@ -5066,8 +5066,8 @@
             })(), function(id) {
               return _.contains(currentSelectedNodeIDs, id);
             });
-            allE = _.reject(allE, function(edge) {
-              return _.contains(nonSelectedNodeIds, edge.inV + "") || _.contains(nonSelectedNodeIds, edge.outV + "");
+            allE = _.filter(allE, function(edge) {
+              return _.contains(currentSelectedNodeIDs, edge['@value']['inV']['@value'] + "") && _.contains(currentSelectedNodeIDs, edge['@value']['outV']['@value'] + "");
             });
             return addInTheNeighbors(currentSelectedNodeIDs, currentSelectedEdgeIDs, selectedVerts, allE);
           }

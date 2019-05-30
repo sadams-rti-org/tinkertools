@@ -3296,9 +3296,10 @@ selectNeighborsToAdd = (currentSelectedNodeIDs,currentSelectedEdgeIDs,allV,allE)
           nonSelectedNodeIds = _.reject((each['@value'].id+"" for each in allV),(id)->
             _.contains(currentSelectedNodeIDs,id)
           )
-          allE = _.reject(allE, (edge)->
-            _.contains(nonSelectedNodeIds,edge.inV+"") || _.contains(nonSelectedNodeIds,edge.outV+"")
+          allE = _.filter(allE, (edge)->
+            _.contains(currentSelectedNodeIDs,edge['@value']['inV']['@value']+"") && _.contains(currentSelectedNodeIDs,edge['@value']['outV']['@value']+"")
           )
+
           addInTheNeighbors(currentSelectedNodeIDs,currentSelectedEdgeIDs,selectedVerts,allE)
   box.find('.bootbox-body').remove()
   Blaze.renderWithData(Template.VisitSelector,() ->
