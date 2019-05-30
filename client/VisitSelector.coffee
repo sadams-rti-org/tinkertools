@@ -3,7 +3,8 @@ Template.VisitSelector.rendered = ->
   $(".visitVert").change ->
     checked = $(this).prop('checked')
     label2Visit = this.id
-    visitCount = JSON.parse($('input#'+label2Visit+'.visitVertCount').val())
+    id2Visit = label2Visit.replace(/[^0-9a-zA-Z]/g, '')
+    visitCount = JSON.parse($('input#'+id2Visit+'.visitVertCount').val())
     verts2Visit = Session.get('verts2Visit')
     verts2Visit[label2Visit] = visitCount
     if not checked then delete verts2Visit[label2Visit]
@@ -11,8 +12,9 @@ Template.VisitSelector.rendered = ->
 
   $(".visitVertCount").bind('input', () ->
     label2Count = this.id
+    id2Count = label2Count.replace(/[^0-9a-zA-Z]/g, '')
     verts2Visit = Session.get('verts2Visit')
-    labelChecked = $('input#'+label2Count+'.visitVert.vis-options-checkbox').prop('checked')
+    labelChecked = $('input#'+id2Count+'.visitVert.vis-options-checkbox').prop('checked')
     if labelChecked
       verts2Visit[label2Count] = JSON.parse(this.value)
       Session.set('verts2Visit',verts2Visit)
@@ -34,6 +36,8 @@ Template.VisitSelector.helpers
     Session.set('verts2Visit',{})
     _.pairs labels
 
+  labelID: ->
+    @[0].replace(/[^0-9a-zA-Z]/g, '')
   label: ->
     @[0]
   count: ->

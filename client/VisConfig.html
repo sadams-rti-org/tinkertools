@@ -2,30 +2,30 @@
     <script>
         function updateVisOptions(obj) {
             elementIDs = window.visnetwork.getSelection()
-            if ((elementIDs.nodes.length == 0)&&(elementIDs.edges.length == 0)){   //no selections, apply to all
+            if ((elementIDs.nodes.length == 0) && (elementIDs.edges.length == 0)) {   //no selections, apply to all
                 window.visnetwork.setOptions(obj)
                 window.visnetwork.redraw()
             } else {
                 if (obj.nodes) {  //we have node changes, apply to selected nodes
-                    for (var nodeID of elementIDs.nodes){
+                    for (var nodeID of elementIDs.nodes) {
                         nds = window.visnetwork.nodesHandler.body.data.nodes.getDataSet()
                         update = obj.nodes
                         incomingUpdate = JSON.parse(JSON.stringify(update))
-                        if (incomingUpdate.color && incomingUpdate.color.hover){
+                        if (incomingUpdate.color && incomingUpdate.color.hover) {
                             node = nds.get(nodeID)
-                            if(node.color && node.color.hover){
+                            if (node.color && node.color.hover) {
                                 update.color.hover = _.extend(incomingUpdate.color.hover, node.color.hover)
                             }
                             update.color = _.extend((node.color ? node.color : {}), update.color)
                         }
-                        if (incomingUpdate.color && incomingUpdate.color.highlight){
+                        if (incomingUpdate.color && incomingUpdate.color.highlight) {
                             node = nds.get(nodeID)
-                            if(node.color && node.color.highlight){
+                            if (node.color && node.color.highlight) {
                                 update.color.highlight = _.extend(incomingUpdate.color.highlight, node.color.highlight)
                             }
                             update.color = _.extend((node.color ? node.color : {}), update.color)
                         }
-                        if (incomingUpdate.color && (incomingUpdate.color.border || incomingUpdate.color.background)){
+                        if (incomingUpdate.color && (incomingUpdate.color.border || incomingUpdate.color.background)) {
                             node = nds.get(nodeID)
                             update.color = _.extend((node.color ? node.color : {}), update.color)
                         }
@@ -35,10 +35,10 @@
                     }
                 }
                 if (obj.edges) {  //we have edges changes, apply to selected edges
-                    for (var edgeID of elementIDs.edges){
+                    for (var edgeID of elementIDs.edges) {
                         eds = window.visnetwork.edgesHandler.body.data.edges.getDataSet()
                         update = obj.edges
-                        if (update.color){
+                        if (update.color) {
                             edge = eds.get(edgeID)
                             update.color = _.extend(update.color, edge.color)
                         }
@@ -50,6 +50,56 @@
             }
 
         }
+
+        function updateNodesWithComputedStyling(expressions) {
+            elementIDs = window.visnetwork.getSelection()
+            exps = JSON.parse(expressions)
+            nds = window.visnetwork.nodesHandler.body.data.nodes.getDataSet()
+            if (elementIDs.nodes.length == 0) {   //no selections, apply to all
+                theIDs = nds.getIds()
+            } else {
+                theIDs = elementIDs.nodes
+            }
+            for (var nodeID of theIDs) {
+                node = nds.get(nodeID)
+                update = {id:nodeID}
+                for (var expkey of Object.keys(exps)){
+                    try {
+                        expfunc = eval('function returnsValue(node){' + exps[expkey] + '}')
+                    }
+                    catch{debugger}
+                    update[expkey] = returnsValue(node)
+                }
+                nds.update(update)
+                window.visnetwork.redraw()
+            }
+        }
+
+        function updateEdgesWithComputedStyling(expressions) {
+            elementIDs = window.visnetwork.getSelection()
+            exps = JSON.parse(expressions)
+            eds = window.visnetwork.edgesHandler.body.data.edges.getDataSet()
+            if (elementIDs.edges.length == 0) {   //no selections, apply to all
+                theIDs = eds.getIds()
+            } else {
+                theIDs = elementIDs.edges
+            }
+            for (var edgeID of theIDs) {
+                edge = eds.get(edgeID)
+                update = {id:edgeID}
+                for (var expkey of Object.keys(exps)){
+                    try {
+                        expfunc = eval('function returnsValue(edge){' + exps[expkey] + '}')
+                    }
+                    catch{debugger}
+                    update[expkey] = returnsValue(edge)
+                }
+                eds.update(update)
+                window.visnetwork.redraw()
+            }
+        }
+
+
     </script>
     <div id="tabsRegion" class="tabsRegion">
         <ul>
@@ -59,498 +109,533 @@
             <li><a href="#Interaction">interaction</a></li>
             <li><a href="#Manipulation">Manipulation</a></li>
             <li><a href="#Physics">Physics</a></li>
+            <li><a href="#Computed">Computed</a></li>
         </ul>
 
         <fieldset id="NodeStyling">
-        <div class=" container smallText graph-styling-area">
-            <div class="row">
-                <div class="col-sm-1"><label></label></div>
-                <div class="col-sm-1">Normal</div>
-                <div class="col-sm-1">Highlight</div>
-                <div class="col-sm-1">Hover</div>
-                <div class="col-sm-1">Width</div>
-                <div class="col-sm-1">Selected</div>
-            </div>
-            <div class="row">
-                <div class="col-sm-1">Border</div>
-                <div class="col-sm-1"><input type=color placeholder="#000000" id="nodeBorderColorNormal"
-                                             oninput="updateVisOptions({nodes:{color:{border: document.querySelector('#nodeBorderColorNormal').value}}})">
+            <div class=" container smallText graph-styling-area">
+                <div class="row">
+                    <div class="col-sm-1"><label></label></div>
+                    <div class="col-sm-1">Normal</div>
+                    <div class="col-sm-1">Highlight</div>
+                    <div class="col-sm-1">Hover</div>
+                    <div class="col-sm-1">Width</div>
+                    <div class="col-sm-1">Selected</div>
                 </div>
-                <div class="col-sm-1"><input type=color placeholder="#000000" id="nodeBorderColorHighlight"
-                                             oninput="updateVisOptions({nodes:{color:{highlight:{border: document.querySelector('#nodeBorderColorHighlight').value}}}})">
+                <div class="row">
+                    <div class="col-sm-1">Border</div>
+                    <div class="col-sm-1"><input type=color placeholder="#000000" id="nodeBorderColorNormal"
+                                                 oninput="updateVisOptions({nodes:{color:{border: document.querySelector('#nodeBorderColorNormal').value}}})">
+                    </div>
+                    <div class="col-sm-1"><input type=color placeholder="#000000" id="nodeBorderColorHighlight"
+                                                 oninput="updateVisOptions({nodes:{color:{highlight:{border: document.querySelector('#nodeBorderColorHighlight').value}}}})">
+                    </div>
+                    <div class="col-sm-1"><input type=color placeholder="#000000" id="nodeBorderColorHover"
+                                                 oninput="updateVisOptions({nodes:{color:{hover:{border: document.querySelector('#nodeBorderColorHover').value}}}})">
+                    </div>
+                    <div class="col-sm-1 "><input type=number id="nodeBorderWidth" class="shortNumber" placeholder="1"
+                                                  min="1"
+                                                  oninput="updateVisOptions({nodes:{borderWidth: parseInt(document.querySelector('#nodeBorderWidth').value)}})">
+                    </div>
+                    <div class="col-sm-1 "><input type=number id="nodeBorderWidthSelected" class="shortNumber"
+                                                  placeholder="1" min="1"
+                                                  oninput="updateVisOptions({nodes:{borderWidthSelected: parseInt(document.querySelector('#nodeBorderWidthSelected').value)}})">
+                    </div>
                 </div>
-                <div class="col-sm-1"><input type=color placeholder="#000000" id="nodeBorderColorHover"
-                                             oninput="updateVisOptions({nodes:{color:{hover:{border: document.querySelector('#nodeBorderColorHover').value}}}})">
+                <div class="row">
+                    <div class="col-sm-1">Background</div>
+                    <div class="col-sm-1"><input type=color placeholder="#000000" id="nodeBackgroundColorNormal"
+                                                 oninput="updateVisOptions({nodes:{color:{background: document.querySelector('#nodeBackgroundColorNormal').value}}})">
+                    </div>
+                    <div class="col-sm-1"><input type=color placeholder="#000000" id="nodeBackgroundColorHighlight"
+                                                 oninput="updateVisOptions({nodes:{color:{highlight:{background: document.querySelector('#nodeBackgroundColorHighlight').value}}}})">
+                    </div>
+                    <div class="col-sm-1"><input type=color placeholder="#000000" id="nodeBackgroundColorHover"
+                                                 oninput="updateVisOptions({nodes:{color:{hover:{background: document.querySelector('#nodeBackgroundColorHover').value}}}})">
+                    </div>
                 </div>
-                <div class="col-sm-1 "><input type=number id="nodeBorderWidth" class="shortNumber" placeholder="1"
-                                              min="1"
-                                              oninput="updateVisOptions({nodes:{borderWidth: parseInt(document.querySelector('#nodeBorderWidth').value)}})">
-                </div>
-                <div class="col-sm-1 "><input type=number id="nodeBorderWidthSelected" class="shortNumber"
-                                              placeholder="1" min="1"
-                                              oninput="updateVisOptions({nodes:{borderWidthSelected: parseInt(document.querySelector('#nodeBorderWidthSelected').value)}})">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-1">Background</div>
-                <div class="col-sm-1"><input type=color placeholder="#000000" id="nodeBackgroundColorNormal"
-                                             oninput="updateVisOptions({nodes:{color:{background: document.querySelector('#nodeBackgroundColorNormal').value}}})">
-                </div>
-                <div class="col-sm-1"><input type=color placeholder="#000000" id="nodeBackgroundColorHighlight"
-                                             oninput="updateVisOptions({nodes:{color:{highlight:{background: document.querySelector('#nodeBackgroundColorHighlight').value}}}})">
-                </div>
-                <div class="col-sm-1"><input type=color placeholder="#000000" id="nodeBackgroundColorHover"
-                                             oninput="updateVisOptions({nodes:{color:{hover:{background: document.querySelector('#nodeBackgroundColorHover').value}}}})">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-1">Font
-                    <select id="nodeLabelFont" style="width: 60px"
-                            onchange="updateVisOptions({nodes:{font:{face: document.querySelector('#nodeLabelFont').value}}})">
-                        <option value="arial">Arial</option>
-                        <option value="tahoma">Tahoma</option>
-                        <option value="verdana">Verdana</option>
-                    </select>
-                </div>
-                <div class="col-sm-1">Size<input type=number id="nodeFontSize" class="shortNumber" value="10" min="6"
-                                                 max="256"
-                                                 oninput="updateVisOptions({nodes:{font:{size: parseInt(document.querySelector('#nodeFontSize').value)}}})">
-                </div>
+                <div class="row">
+                    <div class="col-sm-1">Font
+                        <select id="nodeLabelFont" style="width: 60px"
+                                onchange="updateVisOptions({nodes:{font:{face: document.querySelector('#nodeLabelFont').value}}})">
+                            <option value="arial">Arial</option>
+                            <option value="tahoma">Tahoma</option>
+                            <option value="verdana">Verdana</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-1">Size<input type=number id="nodeFontSize" class="shortNumber" value="10"
+                                                     min="6"
+                                                     max="256"
+                                                     oninput="updateVisOptions({nodes:{font:{size: parseInt(document.querySelector('#nodeFontSize').value)}}})">
+                    </div>
 
-                <div class="col-sm-1">Color .<input type=color placeholder="#000000" id="nodeFontColor"
-                                                    oninput="updateVisOptions({nodes:{font:{color: document.querySelector('#nodeFontColor').value}}})">
-                </div>
-                <div class="col-sm-1">Backround<input type=color placeholder="#000000" id="nodeFontBackgroundColor"
-                                                      oninput="updateVisOptions({nodes:{font:{background: document.querySelector('#nodeFontBackgroundColor').value}}})">
-                </div>
-                <div class="col-sm-1">Stroke<input type=color placeholder="#000000" id="nodeStrokeFontStrokeColor"
-                                                   oninput="updateVisOptions({nodes:{font:{strokeColor: document.querySelector('#nodeStrokeFontStrokeColor').value}}})">
-                </div>
-                <div class="col-sm-1">Stroke<input type=number class="shortNumber" placeholder="1" min="1"
-                                                   id="nodeFontStrokeWidth"
-                                                   oninput="updateVisOptions({nodes:{font:{strokeWidth: parseInt(document.querySelector('#nodeFontStrokeWidth').value)}}})">
-                </div>
-                <div class="col-sm-1">Bold Select<input type=checkbox placeholder="true" id="nodeLabelHighlightBold"
-                                                        onchange="updateVisOptions({nodes:{labelHighlightBold: $('#nodeLabelHighlightBold').prop('checked')}})">
-                </div>
-                <div class="col-sm-1">Align
-                    <select id="nodeLabelAlign" style="width: 120px"
-                            onchange="updateVisOptions({nodes:{font:{align: document.querySelector('#nodeLabelAlign').value}}})">
-                        <option value="horizontal">horizontal</option>
-                        <option value="top">top</option>
-                        <option value="middle">middle</option>
-                        <option value="bottom">bottom</option>
-                    </select>
-                </div>
-
-            </div>
-            <div class="row">
-                <div class="col-sm-1">Hide<input type=checkbox class="shortNumber" placeholder="true" id="nodeHide"
-                                                 onchange="updateVisOptions({nodes:{hidden: $('#nodeHide').prop('checked')}})">
-                </div>
-                <div class="col-sm-1">Shadow<input type=checkbox class="shortNumber" placeholder="true"
-                                                   id="nodeLabelShadow"
-                                                   onchange="updateVisOptions({nodes:{shadow:{enabled: $('#nodeLabelShadow').prop('checked')}}})">
-                </div>
-                <div class="col-sm-1">Physics<input type=checkbox class="shortNumber"
-                                                    id="nodePhysics"
-                                                    onchange="updateVisOptions({nodes:{physics: $('#nodePhysics').prop('checked')}})">
-                </div>
-                <div class="col-sm-1">Lock X<input type=checkbox class="shortNumber" placeholder="true" id="nodeXFixed"
-                                                   onchange="updateVisOptions({nodes:{fixed:{x: $('#nodeXFixed').prop('checked')}}})">
-                </div>
-                <div class="col-sm-1">Lock Y<input type=checkbox class="shortNumber" placeholder="true" id="nodeYFixed"
-                                                   onchange="updateVisOptions({nodes:{fixed:{y: $('#nodeYFixed').prop('checked')}}})">
-                </div>
-                <div class="col-sm-1">Scale Min<input type=number class="shortNumber" value="10" min="0" max="1000"
-                                                      id="nodeScaleMin"
-                                                      oninput="updateVisOptions({nodes:{scaling:{min: parseInt(document.querySelector('#nodeScaleMin').value)}}})">
-                </div>
-                <div class="col-sm-1">Scale Max<input type=number class="shortNumber" value="200" min="0" max="1000"
-                                                      id="nodeScaleMax"
-                                                      oninput="updateVisOptions({nodes:{scaling:{max: parseInt(document.querySelector('#nodeScaleMax').value)}}})">
-                </div>
-                <div class="col-sm-1">Scale Text<input type=checkbox class="shortNumber" placeholder="true"
-                                                       id="nodeScalingLabel"
-                                                       onchange="updateVisOptions({nodes:{scaling:{label:{enabled: $('#nodeScalingLabel').prop('checked')}}}})">
-                </div>
-
-
-            </div>
-            <div class="row">
-                <div class="col-sm-1">Shape
-                    <select id="nodeShape" style="width: 60px"
-                            onchange="updateVisOptions({nodes:{shape: document.querySelector('#nodeShape').value}})">
-                        <option value="ellipse">ellipse</option>
-                        <option value="box">box</option>
-                        <option value="circle">circle</option>
-                        <option value="database">database</option>
-                        <option value="diamond">diamond</option>
-                        <option value="dot">dot</option>
-                        <option value="square">square</option>
-                        <option value="star">star</option>
-                        <option value="text">text</option>
-                        <option value="triangle">triangle</option>
-                        <option value="triangleDown">triangleDown</option>
-                    </select></div>
-                <div class="col-sm-1">Radius<input type=number class="shortNumber" value="10" min="0" max="100"
-                                                   id="nodeShapeRadius"
-                                                   oninput="updateVisOptions({nodes:{shapeProperties:{borderRadius: parseInt(document.querySelector('#nodeShapeRadius').value)}}})">
-                </div>
-
-                <div class="col-sm-1">Dashed<input type=checkbox placeholder="true" id="nodeShapeDashed"
-                                                   onchange="updateVisOptions({nodes:{shapeProperties:{borderDashes: $('#nodeShapeDashed').prop('checked')}}})">
-                </div>
-                <div class="col-sm-1">Use Image Size<input type=checkbox placeholder="true" id="nodeUseImageSize"
-                                                           onchange="updateVisOptions({nodes:{shapeProperties:{useImageSize: $('#nodeUseImageSize').prop('checked')}}})">
-                </div>
-                <div class="col-sm-1">Size<input type=number class="shortNumber" value="20" min="0" max="400"
-                                                 id="nodeShapeSize"
-                                                 oninput="updateVisOptions({nodes:{size: parseInt(document.querySelector('#nodeShapeSize').value)}})">
-                </div>
-
-            </div>
-
-        </div>
-    </fieldset>
-    <fieldset  id="EdgeStyling">
-        <div class=" container smallText graph-styling-area">
-            <div class="row">
-                <div class="col-sm-1"><label> </label></div>
-                <div class="col-sm-1">Normal</div>
-                <div class="col-sm-1">Highlight</div>
-                <div class="col-sm-1">Hover</div>
-                <div class="col-sm-1">Opacity</div>
-                <div class="col-sm-1">Inherit</div>
-                <div class="col-sm-1">Width</div>
-                <div class="col-sm-2">Selected Width</div>
-                <div class="col-sm-2">Hover Width</div>
-            </div>
-            <script>
-            </script>
-            <div class="row">
-                <div class="col-sm-1">Line style</div>
-                <div class="col-sm-1"><input type=color placeholder="#000000" id="edgeColorNormal"
-                                             oninput="updateVisOptions({edges:{color:{color: document.querySelector('#edgeColorNormal').value}}})">
-                </div>
-                <div class="col-sm-1"><input type=color placeholder="#000000" id="edgeColorHighlight"
-                                             oninput="updateVisOptions({edges:{color:{highlight: document.querySelector('#edgeColorHighlight').value}}})">
-                </div>
-                <div class="col-sm-1"><input type=color placeholder="#000000" id="edgeColorHover"
-                                             oninput="updateVisOptions({edges:{color:{hover: document.querySelector('#edgeColorHover').value}}})">
-                </div>
-                <div class="col-sm-1"><input type=number class="shortNumber" value="1.0" min="0.0" max="1.0" step="0.1"
-                                            id="edgeColorOpacity"
-                                             oninput="updateVisOptions({edges:{color:{opacity: parseFloat(document.querySelector('#edgeColorOpacity').value)}}})">
-                </div>
-                <div class="col-sm-1">
-                    <select id="edgeColorInherit" style="width: 60px"
-                            onchange="updateVisOptions({edges:{color:{inherit: document.querySelector('#edgeColorInherit').value}}})">
-                        <option value="true">true</option>
-                        <option value="false">false</option>
-                        <option value="to">to</option>
-                        <option value="from">from</option>
-                        <option value="both">both (gradient)</option>
-                    </select>
+                    <div class="col-sm-1">Color .<input type=color placeholder="#000000" id="nodeFontColor"
+                                                        oninput="updateVisOptions({nodes:{font:{color: document.querySelector('#nodeFontColor').value}}})">
+                    </div>
+                    <div class="col-sm-1">Backround<input type=color placeholder="#000000" id="nodeFontBackgroundColor"
+                                                          oninput="updateVisOptions({nodes:{font:{background: document.querySelector('#nodeFontBackgroundColor').value}}})">
+                    </div>
+                    <div class="col-sm-1">Stroke<input type=color placeholder="#000000" id="nodeStrokeFontStrokeColor"
+                                                       oninput="updateVisOptions({nodes:{font:{strokeColor: document.querySelector('#nodeStrokeFontStrokeColor').value}}})">
+                    </div>
+                    <div class="col-sm-1">Stroke<input type=number class="shortNumber" placeholder="1" min="1"
+                                                       id="nodeFontStrokeWidth"
+                                                       oninput="updateVisOptions({nodes:{font:{strokeWidth: parseInt(document.querySelector('#nodeFontStrokeWidth').value)}}})">
+                    </div>
+                    <div class="col-sm-1">Bold Select<input type=checkbox placeholder="true" id="nodeLabelHighlightBold"
+                                                            onchange="updateVisOptions({nodes:{labelHighlightBold: $('#nodeLabelHighlightBold').prop('checked')}})">
+                    </div>
+                    <div class="col-sm-1">Align
+                        <select id="nodeLabelAlign" style="width: 120px"
+                                onchange="updateVisOptions({nodes:{font:{align: document.querySelector('#nodeLabelAlign').value}}})">
+                            <option value="horizontal">horizontal</option>
+                            <option value="top">top</option>
+                            <option value="middle">middle</option>
+                            <option value="bottom">bottom</option>
+                        </select>
+                    </div>
 
                 </div>
-                <div class="col-sm-1 "><input type=number id="edgeWidth" class="shortNumber" placeholder="1" min="1"
-                                              oninput="updateVisOptions({edges:{width: parseInt(document.querySelector('#edgeWidth').value)}})">
-                </div>
-                <div class="col-sm-2 "><input type=number id="edgeSelectedWidth" class="shortNumber" placeholder="1"
-                                              min="1"
-                                              oninput="updateVisOptions({edges:{selectionWidth: parseInt(document.querySelector('#edgeSelectedWidth').value)}})">
-                </div>
-                <div class="col-sm-2 "><input type=number id="edgeHoverWidth" class="shortNumber" placeholder="1"
-                                              min="1"
-                                              oninput="updateVisOptions({edges:{hoverWidth: parseInt(document.querySelector('#edgeHoverWidth').value)}})">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-1">Font
-                    <select id="edgeLabelFont" style="width: 60px"
-                            onchange="updateVisOptions({edges:{font:{face: document.querySelector('#edgeLabelFont').value}}})">
-                        <option value="arial">Arial</option>
-                        <option value="tahoma">Tahoma</option>
-                        <option value="verdana">Verdana</option>
-                    </select>
-                </div>
-                <div class="col-sm-1">Size<input type=number id="edgeFontSize" class="shortNumber" value="10" min="6"
-                                                 max="256"
-                                                 oninput="updateVisOptions({edges:{font:{size: parseInt(document.querySelector('#edgeFontSize').value)}}})">
-                </div>
+                <div class="row">
+                    <div class="col-sm-1">Hide<input type=checkbox class="shortNumber" placeholder="true" id="nodeHide"
+                                                     onchange="updateVisOptions({nodes:{hidden: $('#nodeHide').prop('checked')}})">
+                    </div>
+                    <div class="col-sm-1">Shadow<input type=checkbox class="shortNumber" placeholder="true"
+                                                       id="nodeLabelShadow"
+                                                       onchange="updateVisOptions({nodes:{shadow:{enabled: $('#nodeLabelShadow').prop('checked')}}})">
+                    </div>
+                    <div class="col-sm-1">Physics<input type=checkbox class="shortNumber"
+                                                        id="nodePhysics"
+                                                        onchange="updateVisOptions({nodes:{physics: $('#nodePhysics').prop('checked')}})">
+                    </div>
+                    <div class="col-sm-1">Lock X<input type=checkbox class="shortNumber" placeholder="true"
+                                                       id="nodeXFixed"
+                                                       onchange="updateVisOptions({nodes:{fixed:{x: $('#nodeXFixed').prop('checked')}}})">
+                    </div>
+                    <div class="col-sm-1">Lock Y<input type=checkbox class="shortNumber" placeholder="true"
+                                                       id="nodeYFixed"
+                                                       onchange="updateVisOptions({nodes:{fixed:{y: $('#nodeYFixed').prop('checked')}}})">
+                    </div>
+                    <div class="col-sm-1">Scale Min<input type=number class="shortNumber" value="10" min="0" max="1000"
+                                                          id="nodeScaleMin"
+                                                          oninput="updateVisOptions({nodes:{scaling:{min: parseInt(document.querySelector('#nodeScaleMin').value)}}})">
+                    </div>
+                    <div class="col-sm-1">Scale Max<input type=number class="shortNumber" value="200" min="0" max="1000"
+                                                          id="nodeScaleMax"
+                                                          oninput="updateVisOptions({nodes:{scaling:{max: parseInt(document.querySelector('#nodeScaleMax').value)}}})">
+                    </div>
+                    <div class="col-sm-1">Scale Text<input type=checkbox class="shortNumber" placeholder="true"
+                                                           id="nodeScalingLabel"
+                                                           onchange="updateVisOptions({nodes:{scaling:{label:{enabled: $('#nodeScalingLabel').prop('checked')}}}})">
+                    </div>
 
-                <div class="col-sm-1">Color .<input type=color placeholder="#000000" id="edgeFontColor"
-                                                    oninput="updateVisOptions({edges:{font:{color: document.querySelector('#edgeFontColor').value}}})">
+
                 </div>
-                <div class="col-sm-1">Backround<input type=color placeholder="#000000" id="edgeFontBackgroundColor"
-                                                      oninput="updateVisOptions({edges:{font:{background: document.querySelector('#edgeFontBackgroundColor').value}}})">
-                </div>
-                <div class="col-sm-1">Stroke<input type=color placeholder="#000000" id="edgeStrokeFontStrokeColor"
-                                                   oninput="updateVisOptions({edges:{font:{strokeColor: document.querySelector('#edgeStrokeFontStrokeColor').value}}})">
-                </div>
-                <div class="col-sm-1">Stroke<input type=number class="shortNumber" placeholder="1" min="1"
-                                                   id="edgeFontStrokeWidth"
-                                                   oninput="updateVisOptions({edges:{font:{strokeWidth: parseInt(document.querySelector('#edgeFontStrokeWidth').value)}}})">
-                </div>
-                <div class="col-sm-1">Bold Select<input type=checkbox placeholder="true" id="edgeLabelHighlightBold"
-                                                        onchange="updateVisOptions({edges:{labelHighlightBold: $('#edgeLabelHighlightBold').prop('checked')}})">
-                </div>
-                <div class="col-sm-1">Align
-                    <select id="edgeLabelAlign" style="width: 60px"
-                            onchange="updateVisOptions({edges:{font:{align: document.querySelector('#edgeLabelAlign').value}}})">
-                        <option value="horizontal">horizontal</option>
-                        <option value="top">top</option>
-                        <option value="middle">middle</option>
-                        <option value="bottom">bottom</option>
-                    </select>
+                <div class="row">
+                    <div class="col-sm-1">Shape
+                        <select id="nodeShape" style="width: 60px"
+                                onchange="updateVisOptions({nodes:{shape: document.querySelector('#nodeShape').value}})">
+                            <option value="ellipse">ellipse</option>
+                            <option value="box">box</option>
+                            <option value="circle">circle</option>
+                            <option value="database">database</option>
+                            <option value="diamond">diamond</option>
+                            <option value="dot">dot</option>
+                            <option value="square">square</option>
+                            <option value="star">star</option>
+                            <option value="text">text</option>
+                            <option value="triangle">triangle</option>
+                            <option value="triangleDown">triangleDown</option>
+                        </select></div>
+                    <div class="col-sm-1">Radius<input type=number class="shortNumber" value="10" min="0" max="100"
+                                                       id="nodeShapeRadius"
+                                                       oninput="updateVisOptions({nodes:{shapeProperties:{borderRadius: parseInt(document.querySelector('#nodeShapeRadius').value)}}})">
+                    </div>
+
+                    <div class="col-sm-1">Dashed<input type=checkbox placeholder="true" id="nodeShapeDashed"
+                                                       onchange="updateVisOptions({nodes:{shapeProperties:{borderDashes: $('#nodeShapeDashed').prop('checked')}}})">
+                    </div>
+                    <div class="col-sm-1">Use Image Size<input type=checkbox placeholder="true" id="nodeUseImageSize"
+                                                               onchange="updateVisOptions({nodes:{shapeProperties:{useImageSize: $('#nodeUseImageSize').prop('checked')}}})">
+                    </div>
+                    <div class="col-sm-1">Size<input type=number class="shortNumber" value="20" min="0" max="400"
+                                                     id="nodeShapeSize"
+                                                     oninput="updateVisOptions({nodes:{size: parseInt(document.querySelector('#nodeShapeSize').value)}})">
+                    </div>
+
                 </div>
 
             </div>
-            <div class="row">
-                <div class="col-sm-1">Hide<input type=checkbox class="shortNumber" placeholder="true" id="edgeHide"
-                                                 onchange="updateVisOptions({edges:{hidden: $('#edgeHide').prop('checked')}})">
+        </fieldset>
+        <fieldset id="EdgeStyling">
+            <div class=" container smallText graph-styling-area">
+                <div class="row">
+                    <div class="col-sm-1"><label> </label></div>
+                    <div class="col-sm-1">Normal</div>
+                    <div class="col-sm-1">Highlight</div>
+                    <div class="col-sm-1">Hover</div>
+                    <div class="col-sm-1">Opacity</div>
+                    <div class="col-sm-1">Inherit</div>
+                    <div class="col-sm-1">Width</div>
+                    <div class="col-sm-2">Selected Width</div>
+                    <div class="col-sm-2">Hover Width</div>
                 </div>
-                <div class="col-sm-1">Shadow<input type=checkbox class="shortNumber" placeholder="true"
-                                                   id="edgeLabelShadow"
-                                                   onchange="updateVisOptions({edges:{shadow:{enabled: $('#edgeLabelShadow').prop('checked')}}})">
+                <script>
+                </script>
+                <div class="row">
+                    <div class="col-sm-1">Line style</div>
+                    <div class="col-sm-1"><input type=color placeholder="#000000" id="edgeColorNormal"
+                                                 oninput="updateVisOptions({edges:{color:{color: document.querySelector('#edgeColorNormal').value}}})">
+                    </div>
+                    <div class="col-sm-1"><input type=color placeholder="#000000" id="edgeColorHighlight"
+                                                 oninput="updateVisOptions({edges:{color:{highlight: document.querySelector('#edgeColorHighlight').value}}})">
+                    </div>
+                    <div class="col-sm-1"><input type=color placeholder="#000000" id="edgeColorHover"
+                                                 oninput="updateVisOptions({edges:{color:{hover: document.querySelector('#edgeColorHover').value}}})">
+                    </div>
+                    <div class="col-sm-1"><input type=number class="shortNumber" value="1.0" min="0.0" max="1.0"
+                                                 step="0.1"
+                                                 id="edgeColorOpacity"
+                                                 oninput="updateVisOptions({edges:{color:{opacity: parseFloat(document.querySelector('#edgeColorOpacity').value)}}})">
+                    </div>
+                    <div class="col-sm-1">
+                        <select id="edgeColorInherit" style="width: 60px"
+                                onchange="updateVisOptions({edges:{color:{inherit: document.querySelector('#edgeColorInherit').value}}})">
+                            <option value="true">true</option>
+                            <option value="false">false</option>
+                            <option value="to">to</option>
+                            <option value="from">from</option>
+                            <option value="both">both (gradient)</option>
+                        </select>
+
+                    </div>
+                    <div class="col-sm-1 "><input type=number id="edgeWidth" class="shortNumber" placeholder="1" min="1"
+                                                  oninput="updateVisOptions({edges:{width: parseInt(document.querySelector('#edgeWidth').value)}})">
+                    </div>
+                    <div class="col-sm-2 "><input type=number id="edgeSelectedWidth" class="shortNumber" placeholder="1"
+                                                  min="1"
+                                                  oninput="updateVisOptions({edges:{selectionWidth: parseInt(document.querySelector('#edgeSelectedWidth').value)}})">
+                    </div>
+                    <div class="col-sm-2 "><input type=number id="edgeHoverWidth" class="shortNumber" placeholder="1"
+                                                  min="1"
+                                                  oninput="updateVisOptions({edges:{hoverWidth: parseInt(document.querySelector('#edgeHoverWidth').value)}})">
+                    </div>
                 </div>
-                <div class="col-sm-1">Physics<input type=checkbox class="shortNumber" placeholder="true"
-                                                    id="edgePhysics"
-                                                    onchange="updateVisOptions({edges:{physics: $('#edgePhysics').prop('checked')}})">
+                <div class="row">
+                    <div class="col-sm-1">Font
+                        <select id="edgeLabelFont" style="width: 60px"
+                                onchange="updateVisOptions({edges:{font:{face: document.querySelector('#edgeLabelFont').value}}})">
+                            <option value="arial">Arial</option>
+                            <option value="tahoma">Tahoma</option>
+                            <option value="verdana">Verdana</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-1">Size<input type=number id="edgeFontSize" class="shortNumber" value="10"
+                                                     min="6"
+                                                     max="256"
+                                                     oninput="updateVisOptions({edges:{font:{size: parseInt(document.querySelector('#edgeFontSize').value)}}})">
+                    </div>
+
+                    <div class="col-sm-1">Color .<input type=color placeholder="#000000" id="edgeFontColor"
+                                                        oninput="updateVisOptions({edges:{font:{color: document.querySelector('#edgeFontColor').value}}})">
+                    </div>
+                    <div class="col-sm-1">Backround<input type=color placeholder="#000000" id="edgeFontBackgroundColor"
+                                                          oninput="updateVisOptions({edges:{font:{background: document.querySelector('#edgeFontBackgroundColor').value}}})">
+                    </div>
+                    <div class="col-sm-1">Stroke<input type=color placeholder="#000000" id="edgeStrokeFontStrokeColor"
+                                                       oninput="updateVisOptions({edges:{font:{strokeColor: document.querySelector('#edgeStrokeFontStrokeColor').value}}})">
+                    </div>
+                    <div class="col-sm-1">Stroke<input type=number class="shortNumber" placeholder="1" min="1"
+                                                       id="edgeFontStrokeWidth"
+                                                       oninput="updateVisOptions({edges:{font:{strokeWidth: parseInt(document.querySelector('#edgeFontStrokeWidth').value)}}})">
+                    </div>
+                    <div class="col-sm-1">Bold Select<input type=checkbox placeholder="true" id="edgeLabelHighlightBold"
+                                                            onchange="updateVisOptions({edges:{labelHighlightBold: $('#edgeLabelHighlightBold').prop('checked')}})">
+                    </div>
+                    <div class="col-sm-1">Align
+                        <select id="edgeLabelAlign" style="width: 60px"
+                                onchange="updateVisOptions({edges:{font:{align: document.querySelector('#edgeLabelAlign').value}}})">
+                            <option value="horizontal">horizontal</option>
+                            <option value="top">top</option>
+                            <option value="middle">middle</option>
+                            <option value="bottom">bottom</option>
+                        </select>
+                    </div>
+
                 </div>
-                <div class="col-sm-1">Scale Min<input type=number class="shortNumber" value="10" min="0" max="1000"
-                                                      id="edgeScaleMin"
-                                                      oninput="updateVisOptions({edges:{scaling:{min: parseInt(document.querySelector('#edgeScaleMin').value)}}})">
-                </div>
-                <div class="col-sm-1">Scale Max<input type=number class="shortNumber" value="200" min="0" max="1000"
-                                                      id="edgeScaleMax"
-                                                      oninput="updateVisOptions({edges:{scaling:{max: parseInt(document.querySelector('#edgeScaleMax').value)}}})">
-                </div>
-                <div class="col-sm-1">Scale Text<input type=checkbox class="shortNumber" placeholder="true"
-                                                       id="edgeScalingLabel"
-                                                       onchange="updateVisOptions({edges:{scaling:{label:{enabled: $('#edgeScalingLabel').prop('checked')}}}})">
-                </div>
+                <div class="row">
+                    <div class="col-sm-1">Hide<input type=checkbox class="shortNumber" placeholder="true" id="edgeHide"
+                                                     onchange="updateVisOptions({edges:{hidden: $('#edgeHide').prop('checked')}})">
+                    </div>
+                    <div class="col-sm-1">Shadow<input type=checkbox class="shortNumber" placeholder="true"
+                                                       id="edgeLabelShadow"
+                                                       onchange="updateVisOptions({edges:{shadow:{enabled: $('#edgeLabelShadow').prop('checked')}}})">
+                    </div>
+                    <div class="col-sm-1">Physics<input type=checkbox class="shortNumber" placeholder="true"
+                                                        id="edgePhysics"
+                                                        onchange="updateVisOptions({edges:{physics: $('#edgePhysics').prop('checked')}})">
+                    </div>
+                    <div class="col-sm-1">Scale Min<input type=number class="shortNumber" value="10" min="0" max="1000"
+                                                          id="edgeScaleMin"
+                                                          oninput="updateVisOptions({edges:{scaling:{min: parseInt(document.querySelector('#edgeScaleMin').value)}}})">
+                    </div>
+                    <div class="col-sm-1">Scale Max<input type=number class="shortNumber" value="200" min="0" max="1000"
+                                                          id="edgeScaleMax"
+                                                          oninput="updateVisOptions({edges:{scaling:{max: parseInt(document.querySelector('#edgeScaleMax').value)}}})">
+                    </div>
+                    <div class="col-sm-1">Scale Text<input type=checkbox class="shortNumber" placeholder="true"
+                                                           id="edgeScalingLabel"
+                                                           onchange="updateVisOptions({edges:{scaling:{label:{enabled: $('#edgeScalingLabel').prop('checked')}}}})">
+                    </div>
 
 
-            </div>
-            <div class="row">
-                <div class="col-sm-1">Smoothing<input type=checkbox class="shortNumber" placeholder="true"
-                                                      id="edgeSmoothEnable"
-                                                      onchange="updateVisOptions({edges:{smooth: $('#edgeSmoothEnable').prop('checked')}})">
                 </div>
-                <div class="col-sm-2">Smoothing Type
-                    <select id="edgeSmoothType" style="width: 120px"
-                            onchange="updateVisOptions({edges:{smooth:{type: document.querySelector('#edgeSmoothType').value}}})">
-                        <option value="dynamic">dynamic</option>
-                        <option value="continuous">continuous</option>
-                        <option value="discrete">discrete</option>
-                        <option value="diagonalCross">diagonalCross</option>
-                        <option value="straightCross">straightCross</option>
-                        <option value="horizontal">horizontal</option>
-                        <option value="vertical">vertical</option>
-                        <option value="curvedCW">curvedCW</option>
-                        <option value="curvedCCW">curvedCCW</option>
-                        <option value="cubicBezier">cubicBezier</option>
-                    </select>
-                </div>
-                <div class="col-sm-2">Smoothing Force Direction
-                    <select id="edgeSmoothForceDirection" style="width: 120px"
-                            onchange="updateVisOptions({edges:{smooth:{forceDirection: document.querySelector('#edgeSmoothForceDirection').value}}})">
-                        <option value="horizontal">horizontal</option>
-                        <option value="vertical">vertical</option>
-                        <option value="none">none</option>
-                    </select>
-                </div>
-                <div class="col-sm-1">Roundness<input type=number class="shortNumber" placeholder="0" min="0"
-                                                      id="edgeSmoothRoundness"
-                                                      oninput="updateVisOptions({edges:{smooth:{roundness: parseInt(document.querySelector('#edgeSmoothRoundness').value)}}})">
-                </div>
-            </div>
-        </div>
-    </fieldset>
-    <fieldset id="HierarchicalLayout">
-        <div class=" container smallText graph-styling-area">
-            <div class="row">
-
-                <div class="col-sm-1">Enabled<input type=checkbox class="shortNumber" placeholder="true"
-                                                    id="layoutEnabled"
-                                                    onchange="updateVisOptions({layout:{hierarchical: {enabled: $('#edgeSmoothEnable').prop('checked')}}})">
-                </div>
-                <div class="col-sm-1">Level Seperation<input type=number class="shortNumber" value="150" min="20" step="50"
-                                                             id="hierachicalLevelSeparation"
-                                                             oninput="updateVisOptions({layout:{hierarchical: {levelSeparation: parseInt(document.querySelector('#hierachicalLevelSeparation').value)}}})">
-                </div>
-                <div class="col-sm-1">Node Spacing<input type=number class="shortNumber" value="100" min="0" step="50"
-                                                         id="hierachicalNodeSpacing"
-                                                         oninput="updateVisOptions({layout:{hierarchical: {nodeSpacing: parseInt(document.querySelector('#hierachicalNodeSpacing').value)}}})">
-                </div>
-                <div class="col-sm-1">Tree Spacing<input type=number class="shortNumber" value="100" min="50" step="50"
-                                                         id="hierachicalTreeSpacing"
-                                                         oninput="updateVisOptions({layout:{hierarchical: {treeSpacing: parseInt(document.querySelector('#hierachicalTreeSpacing').value)}}})">
-                </div>
-                <div class="col-sm-1">Block Shifting<input type=checkbox class="shortNumber" placeholder="true"
-                                                           id="hierarchicalBlockShifting"
-                                                           onchange="updateVisOptions({layout:{hierarchical: {blockShifting: $('#hierarchicalBlockShifting').prop('checked')}}})">
-                </div>
-                <div class="col-sm-1">Edge Minimization<input type=checkbox class="shortNumber" placeholder="true"
-                                                              id="hierarchicalEdgeMinimization"
-                                                              onchange="updateVisOptions({layout:{hierarchical: {edgeMinimization: $('#hierarchicalEdgeMinimization').prop('checked')}}})">
-                </div>
-                <div class="col-sm-1">Parent Centralization<input type=checkbox class="shortNumber" placeholder="true"
-                                                                  id="hierarchicalParentCentralization"
-                                                                  onchange="updateVisOptions({layout:{hierarchical: {parentCentralization: $('#hierarchicalParentCentralization').prop('checked')}}})">
-                </div>
-                <div class="col-sm-2">Direction
-                    <select id="hierarchicalDirection" style="width: 120px"
-                            onchange="updateVisOptions({layout:{hierarchical: {direction: document.querySelector('#hierarchicalDirection').value}}})">
-                        <option value="UD">Up-Down</option>
-                        <option value="DU">Down-Up</option>
-                        <option value="LR">Left-Right</option>
-                        <option value="RL">Right-Left</option>
-                    </select>
-                </div>
-                <div class="col-sm-2">Sort Method
-                    <select id="hierarchicalSortMethod" style="width: 120px"
-                            onchange="updateVisOptions({layout:{hierarchical: {sortMethod: document.querySelector('#hierarchicalSortMethod').value}}})">
-                        <option value="directed">directed</option>
-                        <option value="hubsize">hubsize</option>
-                    </select>
-                </div>
-
-            </div>
-        </div>
-    </fieldset>
-    <fieldset id="Interaction">
-        <div class=" container smallText graph-styling-area">
-            <div class="row">
-
-                <div class="col-sm-2">Drag Nodes<input type=checkbox class="shortNumber" placeholder="true"
-                                                       id="interactionDragNodes"
-                                                       onchange="updateVisOptions({interaction:{dragNodes: $('#interactionDragNodes').prop('checked')}})">
-                </div>
-                <div class="col-sm-2">Drag View<input type=checkbox class="shortNumber" placeholder="true"
-                                                      id="interactionDragView"
-                                                      onchange="updateVisOptions({interaction:{dragView: $('#interactionDragView').prop('checked')}})">
-                </div>
-                <div class="col-sm-2">Hide Edges on Drag<input type=checkbox class="shortNumber" placeholder="true"
-                                                               id="interactionHideEdgesOnDrag"
-                                                               onchange="updateVisOptions({interaction:{hideEdgesOnDrag: $('#interactionHideEdgesOnDrag').prop('checked')}})">
-                </div>
-                <div class="col-sm-2">Hide Nodes on Drag<input type=checkbox class="shortNumber" placeholder="true"
-                                                               id="interactionHideNodesOnDrag"
-                                                               onchange="updateVisOptions({interaction:{hideNodesOnDrag: $('#interactionHideNodesOnDrag').prop('checked')}})">
-                </div>
-                <div class="col-sm-2">Hover<input type=checkbox class="shortNumber" placeholder="true"
-                                                  id="interactionHover"
-                                                  onchange="updateVisOptions({interaction:{hover: $('#interactionHover').prop('checked')}})">
-                </div>
-                <div class="col-sm-2">Hover Connected Edges<input type=checkbox class="shortNumber" placeholder="true"
-                                                                  id="interactionHoverConnectedEdges"
-                                                                  onchange="updateVisOptions({interaction:{hoverConnectedEdges: $('#interactionHoverConnectedEdges').prop('checked')}})">
-                </div>
-                <div class="col-sm-2">Multiselect<input type=checkbox class="shortNumber" placeholder="true"
-                                                        id="interactionMultiselect"
-                                                        onchange="updateVisOptions({interaction:{multiselect: $('#interactionMultiselect').prop('checked')}})">
-                </div>
-                <div class="col-sm-2">Nav Buttons<input type=checkbox class="shortNumber" placeholder="true"
-                                                        id="interactionNavigationButtons"
-                                                        onchange="updateVisOptions({interaction:{navigationButtons: $('#interactionNavigationButtons').prop('checked')}})">
-                </div>
-                <div class="col-sm-2">Selectable<input type=checkbox class="shortNumber" placeholder="true"
-                                                       id="interactionSelectable"
-                                                       onchange="updateVisOptions({interaction:{selectable: $('#interactionSelectable').prop('checked')}})">
-                </div>
-                <div class="col-sm-2">Select Connected Edges<input type=checkbox class="shortNumber" placeholder="true"
-                                                                   id="interactionSelectConnectedEdges"
-                                                                   onchange="updateVisOptions({interaction:{selectConnectedEdges: $('#interactionSelectConnectedEdges').prop('checked')}})">
-                </div>
-                <div class="col-sm-2">Zoom View<input type=checkbox class="shortNumber" placeholder="true"
-                                                      id="interactionZoomView"
-                                                      onchange="updateVisOptions({interaction:{zoomView: $('#interactionZoomView').prop('checked')}})">
-                </div>
-                <div class="col-sm-2">Keyboard<input type=checkbox class="shortNumber" placeholder="true"
-                                                     id="interactionKeyboard"
-                                                     onchange="updateVisOptions({interaction:{keyboard: {enabled:$('#interactionKeyboard').prop('checked')}}})">
-                </div>
-                <div class="col-sm-2">Tooltip Delay<input type=number class="shortNumber" value="300" min="0" step="300"
-                                                          id="interactionToolTipDelay"
-                                                          oninput="updateVisOptions({layout:{interaction: {tooltipDelay: parseInt(document.querySelector('#interactionToolTipDelay').value)}}})">
+                <div class="row">
+                    <div class="col-sm-1">Smoothing<input type=checkbox class="shortNumber" placeholder="true"
+                                                          id="edgeSmoothEnable"
+                                                          onchange="updateVisOptions({edges:{smooth: $('#edgeSmoothEnable').prop('checked')}})">
+                    </div>
+                    <div class="col-sm-2">Smoothing Type
+                        <select id="edgeSmoothType" style="width: 120px"
+                                onchange="updateVisOptions({edges:{smooth:{type: document.querySelector('#edgeSmoothType').value}}})">
+                            <option value="dynamic">dynamic</option>
+                            <option value="continuous">continuous</option>
+                            <option value="discrete">discrete</option>
+                            <option value="diagonalCross">diagonalCross</option>
+                            <option value="straightCross">straightCross</option>
+                            <option value="horizontal">horizontal</option>
+                            <option value="vertical">vertical</option>
+                            <option value="curvedCW">curvedCW</option>
+                            <option value="curvedCCW">curvedCCW</option>
+                            <option value="cubicBezier">cubicBezier</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2">Smoothing Force Direction
+                        <select id="edgeSmoothForceDirection" style="width: 120px"
+                                onchange="updateVisOptions({edges:{smooth:{forceDirection: document.querySelector('#edgeSmoothForceDirection').value}}})">
+                            <option value="horizontal">horizontal</option>
+                            <option value="vertical">vertical</option>
+                            <option value="none">none</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-1">Roundness<input type=number class="shortNumber" placeholder="0" min="0"
+                                                          id="edgeSmoothRoundness"
+                                                          oninput="updateVisOptions({edges:{smooth:{roundness: parseInt(document.querySelector('#edgeSmoothRoundness').value)}}})">
+                    </div>
                 </div>
             </div>
-        </div>
-    </fieldset>
-    <fieldset id="Manipulation">
-        <div class=" container smallText graph-styling-area">
-            <div class="row">
-                <div class="col-sm-2">enabled<input type=checkbox class="shortNumber" placeholder="true"
-                                                    id="manipulationEnabled"
-                                                    onchange="updateVisOptions({manipulation:{enabled: $('#manipulationEnabled').prop('checked')}})">
-                </div>
-                <div class="col-sm-2">initiallyActive<input type=checkbox class="shortNumber" placeholder="true"
-                                                            id="manipulationInitiallyActive"
-                                                            onchange="updateVisOptions({manipulation:{initiallyActive: $('#manipulationInitiallyActive').prop('checked')}})">
+        </fieldset>
+        <fieldset id="HierarchicalLayout">
+            <div class=" container smallText graph-styling-area">
+                <div class="row">
+
+                    <div class="col-sm-1">Enabled<input type=checkbox class="shortNumber" placeholder="true"
+                                                        id="layoutEnabled"
+                                                        onchange="updateVisOptions({layout:{hierarchical: {enabled: $('#edgeSmoothEnable').prop('checked')}}})">
+                    </div>
+                    <div class="col-sm-1">Level Seperation<input type=number class="shortNumber" value="150" min="20"
+                                                                 step="50"
+                                                                 id="hierachicalLevelSeparation"
+                                                                 oninput="updateVisOptions({layout:{hierarchical: {levelSeparation: parseInt(document.querySelector('#hierachicalLevelSeparation').value)}}})">
+                    </div>
+                    <div class="col-sm-1">Node Spacing<input type=number class="shortNumber" value="100" min="0"
+                                                             step="50"
+                                                             id="hierachicalNodeSpacing"
+                                                             oninput="updateVisOptions({layout:{hierarchical: {nodeSpacing: parseInt(document.querySelector('#hierachicalNodeSpacing').value)}}})">
+                    </div>
+                    <div class="col-sm-1">Tree Spacing<input type=number class="shortNumber" value="100" min="50"
+                                                             step="50"
+                                                             id="hierachicalTreeSpacing"
+                                                             oninput="updateVisOptions({layout:{hierarchical: {treeSpacing: parseInt(document.querySelector('#hierachicalTreeSpacing').value)}}})">
+                    </div>
+                    <div class="col-sm-1">Block Shifting<input type=checkbox class="shortNumber" placeholder="true"
+                                                               id="hierarchicalBlockShifting"
+                                                               onchange="updateVisOptions({layout:{hierarchical: {blockShifting: $('#hierarchicalBlockShifting').prop('checked')}}})">
+                    </div>
+                    <div class="col-sm-1">Edge Minimization<input type=checkbox class="shortNumber" placeholder="true"
+                                                                  id="hierarchicalEdgeMinimization"
+                                                                  onchange="updateVisOptions({layout:{hierarchical: {edgeMinimization: $('#hierarchicalEdgeMinimization').prop('checked')}}})">
+                    </div>
+                    <div class="col-sm-1">Parent Centralization<input type=checkbox class="shortNumber"
+                                                                      placeholder="true"
+                                                                      id="hierarchicalParentCentralization"
+                                                                      onchange="updateVisOptions({layout:{hierarchical: {parentCentralization: $('#hierarchicalParentCentralization').prop('checked')}}})">
+                    </div>
+                    <div class="col-sm-2">Direction
+                        <select id="hierarchicalDirection" style="width: 120px"
+                                onchange="updateVisOptions({layout:{hierarchical: {direction: document.querySelector('#hierarchicalDirection').value}}})">
+                            <option value="UD">Up-Down</option>
+                            <option value="DU">Down-Up</option>
+                            <option value="LR">Left-Right</option>
+                            <option value="RL">Right-Left</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2">Sort Method
+                        <select id="hierarchicalSortMethod" style="width: 120px"
+                                onchange="updateVisOptions({layout:{hierarchical: {sortMethod: document.querySelector('#hierarchicalSortMethod').value}}})">
+                            <option value="directed">directed</option>
+                            <option value="hubsize">hubsize</option>
+                        </select>
+                    </div>
+
                 </div>
             </div>
-        </div>
-    </fieldset>
-    <fieldset id="Physics">
-        <div class=" container smallText graph-styling-area">
-            <div class="row">
-                <div class="col-sm-1">enabled<input type=checkbox class="shortNumber" placeholder="true"
-                                                    id="physicsEnabled"
-                                                    onchange="updateVisOptions({physics:{enabled: $('#physicsEnabled').prop('checked')}})">
-                </div>
-                <div class="col-sm-2">Physics Solver
-                    <select id="physicsSolver" style="width: 120px"
-                            onchange="updateVisOptions({physics: {solver: (document.querySelector('#physicsSolver').value)}})">
-                        <option value="forceAtlas2Based">forceAtlas2Based</option>
-                        <option value="barnesHut">barnesHut</option>
-                        <option value="repulsion">repulsion</option>
-                        <option value="hierarchicalRepulsion">hierarchicalRepulsion</option>
-                    </select>
-                </div>
-                <div class="col-sm-1">maxVelocity<input type=number class="shortNumber" placeholder="0" min="0"
-                                                        id="physicsMaxVelocity"
-                                                        oninput="updateVisOptions({physics: {maxVelocity: parseInt(document.querySelector('#physicsMaxVelocity').value)}})">
-                </div>
-                <div class="col-sm-1">minVelocity<input type=number class="shortNumber" placeholder="0" min="0"
-                                                        id="physicsMinVelocity"
-                                                        oninput="updateVisOptions({physics: {minVelocity: parseInt(document.querySelector('#physicsMinVelocity').value)}})">
-                </div>
-                <div class="col-sm-1">Stabilize<input type=checkbox class="shortNumber" placeholder="true"
-                                                    id="physicsStabilizationEnabled"
-                                                    onchange="updateVisOptions({physics:{stabilization: {enabled: $('#physicsStabilizationEnabled').prop('checked')}}})">
-                </div>
-                <div class="col-sm-1">iterations<input type=number class="shortNumber" placeholder="0" min="0" value="1000" step="100"
-                                                       id="physicsStabilizationIterations"
-                                                       oninput="updateVisOptions({physics: {stabilize: {iterations: parseInt(document.querySelector('#physicsStabilizationIterations').value)}}})">
-                </div>
-                <div class="col-sm-1">update interval<input type=number class="shortNumber" placeholder="0" min="0" value="1000" step="100"
-                                                       id="physicsStabilizationUpdateInterval"
-                                                       oninput="updateVisOptions({physics: {stabilize: {updateInterval: parseInt(document.querySelector('#physicsStabilizationUpdateInterval').value)}}})">
-                </div>
-                <div class="col-sm-1">only Dynamics Edges<input type=checkbox class="shortNumber" placeholder="true"
-                                                                id="physicsStabilizationOnlyDynamicEdges"
-                                                                onchange="updateVisOptions({physics:{stabilization: {onlyDynamicEdges: $('#physicsStabilizationOnlyDynamicEdges').prop('checked')}}})">
-                </div>
-                <div class="col-sm-1">Fit<input type=checkbox class="shortNumber" placeholder="true"
-                                                id="physicsStabilizationFit"
-                                                onchange="updateVisOptions({physics:{stabilization: {fit: $('#physicsStabilizationFit').prop('checked')}}})">
-                </div>
-                <div class="col-sm-1">Time Step<input type=number class="shortNumber" placeholder="0" min="0" value="4" step="0.1"
-                                                            id="physicsTimeStep"
-                                                            oninput="updateVisOptions({physics: {timestep: parseInt(document.querySelector('#physicsTimeStep').value)}})">
-                </div>
+        </fieldset>
+        <fieldset id="Interaction">
+            <div class=" container smallText graph-styling-area">
+                <div class="row">
 
-                <div class="col-sm-1">Adaptive Time Step<input type=checkbox class="shortNumber" placeholder="true"
-                                                id="physicsAdaptiveTimeStep"
-                                                onchange="updateVisOptions({physics:{adaptiveTimestep: $('#physicsAdaptiveTimeStep').prop('checked')}})">
+                    <div class="col-sm-2">Drag Nodes<input type=checkbox class="shortNumber" placeholder="true"
+                                                           id="interactionDragNodes"
+                                                           onchange="updateVisOptions({interaction:{dragNodes: $('#interactionDragNodes').prop('checked')}})">
+                    </div>
+                    <div class="col-sm-2">Drag View<input type=checkbox class="shortNumber" placeholder="true"
+                                                          id="interactionDragView"
+                                                          onchange="updateVisOptions({interaction:{dragView: $('#interactionDragView').prop('checked')}})">
+                    </div>
+                    <div class="col-sm-2">Hide Edges on Drag<input type=checkbox class="shortNumber" placeholder="true"
+                                                                   id="interactionHideEdgesOnDrag"
+                                                                   onchange="updateVisOptions({interaction:{hideEdgesOnDrag: $('#interactionHideEdgesOnDrag').prop('checked')}})">
+                    </div>
+                    <div class="col-sm-2">Hide Nodes on Drag<input type=checkbox class="shortNumber" placeholder="true"
+                                                                   id="interactionHideNodesOnDrag"
+                                                                   onchange="updateVisOptions({interaction:{hideNodesOnDrag: $('#interactionHideNodesOnDrag').prop('checked')}})">
+                    </div>
+                    <div class="col-sm-2">Hover<input type=checkbox class="shortNumber" placeholder="true"
+                                                      id="interactionHover"
+                                                      onchange="updateVisOptions({interaction:{hover: $('#interactionHover').prop('checked')}})">
+                    </div>
+                    <div class="col-sm-2">Hover Connected Edges<input type=checkbox class="shortNumber"
+                                                                      placeholder="true"
+                                                                      id="interactionHoverConnectedEdges"
+                                                                      onchange="updateVisOptions({interaction:{hoverConnectedEdges: $('#interactionHoverConnectedEdges').prop('checked')}})">
+                    </div>
+                    <div class="col-sm-2">Multiselect<input type=checkbox class="shortNumber" placeholder="true"
+                                                            id="interactionMultiselect"
+                                                            onchange="updateVisOptions({interaction:{multiselect: $('#interactionMultiselect').prop('checked')}})">
+                    </div>
+                    <div class="col-sm-2">Nav Buttons<input type=checkbox class="shortNumber" placeholder="true"
+                                                            id="interactionNavigationButtons"
+                                                            onchange="updateVisOptions({interaction:{navigationButtons: $('#interactionNavigationButtons').prop('checked')}})">
+                    </div>
+                    <div class="col-sm-2">Selectable<input type=checkbox class="shortNumber" placeholder="true"
+                                                           id="interactionSelectable"
+                                                           onchange="updateVisOptions({interaction:{selectable: $('#interactionSelectable').prop('checked')}})">
+                    </div>
+                    <div class="col-sm-2">Select Connected Edges<input type=checkbox class="shortNumber"
+                                                                       placeholder="true"
+                                                                       id="interactionSelectConnectedEdges"
+                                                                       onchange="updateVisOptions({interaction:{selectConnectedEdges: $('#interactionSelectConnectedEdges').prop('checked')}})">
+                    </div>
+                    <div class="col-sm-2">Zoom View<input type=checkbox class="shortNumber" placeholder="true"
+                                                          id="interactionZoomView"
+                                                          onchange="updateVisOptions({interaction:{zoomView: $('#interactionZoomView').prop('checked')}})">
+                    </div>
+                    <div class="col-sm-2">Keyboard<input type=checkbox class="shortNumber" placeholder="true"
+                                                         id="interactionKeyboard"
+                                                         onchange="updateVisOptions({interaction:{keyboard: {enabled:$('#interactionKeyboard').prop('checked')}}})">
+                    </div>
+                    <div class="col-sm-2">Tooltip Delay<input type=number class="shortNumber" value="300" min="0"
+                                                              step="300"
+                                                              id="interactionToolTipDelay"
+                                                              oninput="updateVisOptions({layout:{interaction: {tooltipDelay: parseInt(document.querySelector('#interactionToolTipDelay').value)}}})">
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset id="Manipulation">
+            <div class=" container smallText graph-styling-area">
+                <div class="row">
+                    <div class="col-sm-2">enabled<input type=checkbox class="shortNumber" placeholder="true"
+                                                        id="manipulationEnabled"
+                                                        onchange="updateVisOptions({manipulation:{enabled: $('#manipulationEnabled').prop('checked')}})">
+                    </div>
+                    <div class="col-sm-2">initiallyActive<input type=checkbox class="shortNumber" placeholder="true"
+                                                                id="manipulationInitiallyActive"
+                                                                onchange="updateVisOptions({manipulation:{initiallyActive: $('#manipulationInitiallyActive').prop('checked')}})">
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset id="Physics">
+            <div class=" container smallText graph-styling-area">
+                <div class="row">
+                    <div class="col-sm-1">enabled<input type=checkbox class="shortNumber" placeholder="true"
+                                                        id="physicsEnabled"
+                                                        onchange="updateVisOptions({physics:{enabled: $('#physicsEnabled').prop('checked')}})">
+                    </div>
+                    <div class="col-sm-2">Physics Solver
+                        <select id="physicsSolver" style="width: 120px"
+                                onchange="updateVisOptions({physics: {solver: (document.querySelector('#physicsSolver').value)}})">
+                            <option value="forceAtlas2Based">forceAtlas2Based</option>
+                            <option value="barnesHut">barnesHut</option>
+                            <option value="repulsion">repulsion</option>
+                            <option value="hierarchicalRepulsion">hierarchicalRepulsion</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-1">maxVelocity<input type=number class="shortNumber" placeholder="0" min="0"
+                                                            id="physicsMaxVelocity"
+                                                            oninput="updateVisOptions({physics: {maxVelocity: parseInt(document.querySelector('#physicsMaxVelocity').value)}})">
+                    </div>
+                    <div class="col-sm-1">minVelocity<input type=number class="shortNumber" placeholder="0" min="0"
+                                                            id="physicsMinVelocity"
+                                                            oninput="updateVisOptions({physics: {minVelocity: parseInt(document.querySelector('#physicsMinVelocity').value)}})">
+                    </div>
+                    <div class="col-sm-1">Stabilize<input type=checkbox class="shortNumber" placeholder="true"
+                                                          id="physicsStabilizationEnabled"
+                                                          onchange="updateVisOptions({physics:{stabilization: {enabled: $('#physicsStabilizationEnabled').prop('checked')}}})">
+                    </div>
+                    <div class="col-sm-1">iterations<input type=number class="shortNumber" placeholder="0" min="0"
+                                                           value="1000" step="100"
+                                                           id="physicsStabilizationIterations"
+                                                           oninput="updateVisOptions({physics: {stabilize: {iterations: parseInt(document.querySelector('#physicsStabilizationIterations').value)}}})">
+                    </div>
+                    <div class="col-sm-1">update interval<input type=number class="shortNumber" placeholder="0" min="0"
+                                                                value="1000" step="100"
+                                                                id="physicsStabilizationUpdateInterval"
+                                                                oninput="updateVisOptions({physics: {stabilize: {updateInterval: parseInt(document.querySelector('#physicsStabilizationUpdateInterval').value)}}})">
+                    </div>
+                    <div class="col-sm-1">only Dynamics Edges<input type=checkbox class="shortNumber" placeholder="true"
+                                                                    id="physicsStabilizationOnlyDynamicEdges"
+                                                                    onchange="updateVisOptions({physics:{stabilization: {onlyDynamicEdges: $('#physicsStabilizationOnlyDynamicEdges').prop('checked')}}})">
+                    </div>
+                    <div class="col-sm-1">Fit<input type=checkbox class="shortNumber" placeholder="true"
+                                                    id="physicsStabilizationFit"
+                                                    onchange="updateVisOptions({physics:{stabilization: {fit: $('#physicsStabilizationFit').prop('checked')}}})">
+                    </div>
+                    <div class="col-sm-1">Time Step<input type=number class="shortNumber" placeholder="0" min="0"
+                                                          value="4" step="0.1"
+                                                          id="physicsTimeStep"
+                                                          oninput="updateVisOptions({physics: {timestep: parseInt(document.querySelector('#physicsTimeStep').value)}})">
+                    </div>
+
+                    <div class="col-sm-1">Adaptive Time Step<input type=checkbox class="shortNumber" placeholder="true"
+                                                                   id="physicsAdaptiveTimeStep"
+                                                                   onchange="updateVisOptions({physics:{adaptiveTimestep: $('#physicsAdaptiveTimeStep').prop('checked')}})">
+                    </div>
+
+                </div>
+            </div>
+        </fieldset>
+        <fieldset id="Computed">
+            <div class=" container smallText graph-styling-area">
+                <div class="row">
+
+                    <div class="col-sm-6">Compute node styling using this expression<textarea
+                            placeholder="node.color = node.element['@value']['properties'][...."
+                            id="computed-node-styling"
+                            onchange="updateNodesWithComputedStyling(document.querySelector('#computed-node-styling').value)"></textarea>
+                    </div>
+                    <div class="col-sm-6">Compute edge styling using this expression<textarea
+                            placeholder="edge.width = edge.element['@value']['properties'][...."
+                            id="computed-edge-styling"
+                            onchange="updateEdgesWithComputedStyling(document.querySelector('#computed-edge-styling').value)"></textarea>
+                    </div>
+
                 </div>
 
             </div>
-        </div>
-    </fieldset>
+        </fieldset>
 
     </div>
 </template>

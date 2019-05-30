@@ -4,7 +4,7 @@
     <h4>There are too many neighbors to add automatically without risking a possible supernode explosion.  Please indicate what vertices (along with their connecting edges) to add to the local graph</h4>
     <ul>
         {{#each options}}
-            <li><b>Label:</b> {{label}} <b>found:</b> {{count}}, <b>visit</b><input id="{{label}}" type="checkbox" class="visitVert vis-options-checkbox"><input id="{{label}}" class="visitVertCount" type="number" min="0" max="{{count}}" value="{{count}}"></li>
+            <li><b>Label:</b> {{label}} <b>found:</b> {{count}}, <b>visit</b><input id="{{label}}" type="checkbox" class="visitVert vis-options-checkbox"><input id="{{labelID}}" class="visitVertCount" type="number" min="0" max="{{count}}" value="{{count}}"></li>
         {{/each}}
     </ul>
 

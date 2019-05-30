@@ -4,9 +4,17 @@ Template.VisConfig.rendered = ->
     $("#tabsRegion").tabs({active:0, heightStyle: "auto"})
   ,500)
 
+
+
 Template.VisConfig.helpers
   dummy: ->
     null
+
+window.updateNodesWithComputedStyling = (exp)->
+  alert exp
+
+window.updateEdgesWithComputedStyling = (exp)->
+  alert exp
 
 window.resetVisConfigControls = ()->
   conf = window.visnetwork.configurator.moduleOptions

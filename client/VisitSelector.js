@@ -3,10 +3,11 @@
   Template.VisitSelector.rendered = function() {
     $(".visitVert").prop('checked', false);
     $(".visitVert").change(function() {
-      var checked, label2Visit, verts2Visit, visitCount;
+      var checked, id2Visit, label2Visit, verts2Visit, visitCount;
       checked = $(this).prop('checked');
       label2Visit = this.id;
-      visitCount = JSON.parse($('input#' + label2Visit + '.visitVertCount').val());
+      id2Visit = label2Visit.replace(/[^0-9a-zA-Z]/g, '');
+      visitCount = JSON.parse($('input#' + id2Visit + '.visitVertCount').val());
       verts2Visit = Session.get('verts2Visit');
       verts2Visit[label2Visit] = visitCount;
       if (!checked) {
@@ -15,10 +16,11 @@
       return Session.set('verts2Visit', verts2Visit);
     });
     return $(".visitVertCount").bind('input', function() {
-      var label2Count, labelChecked, verts2Visit;
+      var id2Count, label2Count, labelChecked, verts2Visit;
       label2Count = this.id;
+      id2Count = label2Count.replace(/[^0-9a-zA-Z]/g, '');
       verts2Visit = Session.get('verts2Visit');
-      labelChecked = $('input#' + label2Count + '.visitVert.vis-options-checkbox').prop('checked');
+      labelChecked = $('input#' + id2Count + '.visitVert.vis-options-checkbox').prop('checked');
       if (labelChecked) {
         verts2Visit[label2Count] = JSON.parse(this.value);
         return Session.set('verts2Visit', verts2Visit);
@@ -47,6 +49,9 @@
       }
       Session.set('verts2Visit', {});
       return _.pairs(labels);
+    },
+    labelID: function() {
+      return this[0].replace(/[^0-9a-zA-Z]/g, '');
     },
     label: function() {
       return this[0];

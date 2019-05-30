@@ -16,6 +16,14 @@
     }
   });
 
+  window.updateNodesWithComputedStyling = function(exp) {
+    return alert(exp);
+  };
+
+  window.updateEdgesWithComputedStyling = function(exp) {
+    return alert(exp);
+  };
+
   window.resetVisConfigControls = function() {
     var conf;
     conf = window.visnetwork.configurator.moduleOptions;
