@@ -34,7 +34,9 @@ Template.VisitSelector.helpers
         tot = 0
       labels[label] = tot + 1
     Session.set('verts2Visit',{})
-    _.pairs labels
+    _.sortBy(_.pairs(labels),(it)->
+      return it[0]
+    )
 
   labelID: ->
     @[0].replace(/[^0-9a-zA-Z]/g, '')

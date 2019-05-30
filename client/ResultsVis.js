@@ -5110,7 +5110,7 @@
             allowedToMoveX: true,
             allowedToMoveY: true,
             title: titleForElementGraphSON3(v['@value']),
-            element: v
+            element: v['@value']
           });
         }
         return results1;
@@ -5127,7 +5127,7 @@
             allowedToMoveX: true,
             allowedToMoveY: true,
             title: titleForElement(v),
-            element: v['@value']
+            element: v
           });
         }
         return results1;

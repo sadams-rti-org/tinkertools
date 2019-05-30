@@ -3314,9 +3314,9 @@ addInTheNeighbors = (nodes2Select,edges2Select,allV,allE) ->
   )
   (v['@value']['type'] = 'vertex' for v in allV)
   if window.UsingGraphSON3
-    nodes = ({id: String(v['@value']['id']['@value']),label: labelForVertexGraphSON3(v['@value'],Session.get 'keyForNodeLabel'), allowedToMoveX: true, allowedToMoveY: true, title: titleForElementGraphSON3(v['@value']), element:v} for v in allV)
+    nodes = ({id: String(v['@value']['id']['@value']),label: labelForVertexGraphSON3(v['@value'],Session.get 'keyForNodeLabel'), allowedToMoveX: true, allowedToMoveY: true, title: titleForElementGraphSON3(v['@value']), element:v['@value']} for v in allV)
   else
-    nodes = ({id: String(v.id),label: labelForVertex(v,Session.get 'keyForNodeLabel'), allowedToMoveX: true, allowedToMoveY: true, title: titleForElement(v), element:v['@value']} for v in allV)
+    nodes = ({id: String(v.id),label: labelForVertex(v,Session.get 'keyForNodeLabel'), allowedToMoveX: true, allowedToMoveY: true, title: titleForElement(v), element:v} for v in allV)
   window.visnetwork.nodesHandler.body.data.nodes.update nodes
   ahe = allHiddenEdgeIDs()
   allE = _.reject(allE,(edge)->

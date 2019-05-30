@@ -48,7 +48,9 @@
         labels[label] = tot + 1;
       }
       Session.set('verts2Visit', {});
-      return _.pairs(labels);
+      return _.sortBy(_.pairs(labels), function(it) {
+        return it[0];
+      });
     },
     labelID: function() {
       return this[0].replace(/[^0-9a-zA-Z]/g, '');
